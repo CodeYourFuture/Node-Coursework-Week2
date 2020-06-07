@@ -16,6 +16,18 @@ In the optional 'React' part of this challenge, you also make a React app which 
 
 - [ ] You should have completed at least Level 1 of the Quote Server challenge before attempting this challenge.
 
+## Want to run your code on the internet?
+
+If you want to share your server with other people the easiest way to do this is to use Glitch
+
+- [ ] Make sure you're logged in to https://glitch.com/
+- [ ] Remix https://glitch.com/~cyf-chat-start
+- [ ] Name your new server `yourname-chat-server`
+- [ ] Make sure you're logged in so that it saves
+- [ ] Check that it is working by making a request to `/`
+- [ ] Take time to read the comments
+- [ ] Copy the code you've written to Glitch
+
 ## Level 1 Challenge - make the chat server
 
 At this first level, your API must allow a client to:
@@ -40,14 +52,6 @@ Each chat message is an object with the following properties:
 | `id`   | number | 17       |
 | `from` | string | "Neill"  |
 | `text` | string | "hi CYF! |
-
-## Start by remixing our example server
-
-- [ ] Make sure you're logged in to https://glitch.com/
-- [ ] Remix https://glitch.com/~cyf-chat-start
-- [ ] Name your new server `yourname-chat-server`
-- [ ] Check that it is working by making a request to `/`
-- [ ] Take time to read the comments
 
 ## Go ahead!
 
