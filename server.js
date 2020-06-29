@@ -19,5 +19,5 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-
-app.listen(process.env.PORT);
+const myport =process.env.PORT || 5000
+app.listen(myport, ()=>console.log("your app is listening ",myport));
