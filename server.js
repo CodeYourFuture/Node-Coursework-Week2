@@ -2,10 +2,9 @@ const express = require ('express');
 const cors = require ('cors');
 const bodyParser = require ('body-parser');
 
-
 const app = express ();
 
-app.use(bodyParser.json());
+app.use (bodyParser.json ());
 app.use (cors ());
 
 const welcomeMessage = {
@@ -26,7 +25,7 @@ app.get ('/', function (request, response) {
 app.post ('/messages', (req, res) => {
   const message = req.body;
   messages.push (message);
-  res.json (message).status(201);
+  res.json (message).status (201);
 });
 
 //  Read All messages
@@ -48,6 +47,21 @@ app.delete ('/messages/:id', (req, res) => {
   if (indexToDelete) {
     messages.splice (indexToDelete, 1);
     res.sendStatus (204);
+  } else {
+    res.sendStatus (404);
+  }
+});
+
+//  update a message by ID
+app.put ('/messages/:id', (req, res) => {
+  const {id} = req.params;
+
+  const updatedMessage = req.body;
+
+  const existingMessage = messages.find (msg => msg.id === Number (id));
+  if (existingMessage) {
+    existingMessage = updatedMessage;
+    res.json (existingMessage);
   } else {
     res.sendStatus (404);
   }
