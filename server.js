@@ -58,7 +58,7 @@ app.put ('/messages/:id', (req, res) => {
 
   const updatedMessage = req.body;
 
-  const existingMessage = messages.find (msg => msg.id === Number (id));
+  let existingMessage = messages.find (msg => msg.id === Number (id));
   if (existingMessage) {
     existingMessage = updatedMessage;
     res.json (existingMessage);
