@@ -38,7 +38,14 @@ res.json(messages);
 
 });
 
+//  Read one message specified by an ID
+app.get("/messages/:id",(req,res)=>{
 
+  const {id}=req.params; 
+  const message=messages.find(msg=>msg.id===Number(id));
+  message  ?  res.json(message):res.sendStatus(404);
+  
+  });
 
 const port =process.env.PORT||5000;
 app.listen(port);
