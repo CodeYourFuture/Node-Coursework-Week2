@@ -1,0 +1,83 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 1,
+    "from": "Homer",
+    "text": "Thank you!"
+  },
+  {
+    "id": 2,
+    "from": "Bart",
+    "text": "How are you today"
+  },
+  {
+    "id": 3,
+    "from": "Homer",
+    "text": "I am very well, and yourself?"
+  },
+  {
+    "id": 4,
+    "from": "Bart",
+    "text": "test 4!"
+  },
+  {
+    "id": 5,
+    "from": "Homer",
+    "text": "test 5"
+  },
+  {
+    "id": 6,
+    "from": "Bart",
+    "text": "test 6"
+  },
+  {
+    "id": 7,
+    "from": "Homer",
+    "text": "test 7"
+  },
+  {
+    "id": 8,
+    "from": "Bart",
+    "text": "test 8"
+  },
+  {
+    "id": 9,
+    "from": "Homer",
+    "text": "test 9"
+  },
+  {
+    "id": 10,
+    "from": "Bart",
+    "text": "test 10"
+  },
+  {
+    "id": 11,
+    "from": "Homer",
+    "text": "test 11?"
+  }
+  ,
+  {
+    "id": 12,
+    "from": "Bart",
+    "text": "test 12"
+  },
+  {
+    "id": 13,
+    "from": "Homer",
+    "text": "test 13"
+  },
+  {
+    "id": 14,
+    "from": "Bart",
+    "text": "test 14"
+  },
+  {
+    "id": 15,
+    "from": "Homer",
+    "text": "test 15?"
+  }
+]
