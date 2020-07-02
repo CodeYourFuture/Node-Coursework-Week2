@@ -83,7 +83,7 @@ app.delete ('/messages/delete/:id', (req, res) => {
 });
 
 // more "read" functionality
-app.get ('/messages/search', (req, resp) => {
+app.get ('/messages/search', (req, res) => {
   const searchTerm = req.query.text;
   const searchResult = messages.filter (element => {
     return element.text.toLowerCase ().includes (searchTerm.toLowerCase ());
@@ -104,8 +104,8 @@ app.put ('/messages/update/:id', (req, res) => {
 
   const existingMessage = messages.find (msg => msg.id === Number (id));
   if (existingMessage) {
-    const filteredMsg = messages.filter (msg => msg.id !== Number (id));
-    messages = filteredMsg;
+    const filteredMessages = messages.filter (msg => msg.id !== Number (id));
+    messages = filteredMessages;
     messages.push (updatedMessage);
     res.json (`Successfully, A  chat with id number ${id} is updated.`);
   } else {
