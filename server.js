@@ -1,28 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const bodyparser = require("body-parser");
-
+const messages = require("./messages.json");
 const app = express();
 app.use(cors());
 app.use(bodyparser());
-
-const messages = [
-  {
-    id: 0,
-    from: "Bart",
-    text: "Welcome to CYF chat system!",
-  },
-  {
-    id: 1,
-    from: "Mahmut",
-    text: "The server has been established by Mahmut!",
-  },
-  {
-    id: 2,
-    from: "Al ",
-    text: "Hello folks!",
-  },
-];
 
 app.get("/", (req, res) => {
   res.sendFile("/index.html", { root: __dirname });
@@ -40,7 +22,17 @@ app.post("/messages", (req, res) => {
 app.get("/messages", (req, res) => {
   res.json(messages);
 });
-
+app.get("/messages/search/", (req, res) => {
+  const searchMessage = req.query.text;
+  const filteredMessage = messages.filter((message) =>
+    message.text.toLowerCase().includes(searchMessage.toLowerCase())
+  );
+  res.send(filteredMessage);
+});
+app.get("/messages/latest", (req, res) => {
+  const latestMessages = messages.slice(messages.length - 10, messages.length);
+  res.send(latestMessages);
+});
 app.get("/messages/:id", (req, res) => {
   if (req.params.id) {
     const selectedMessage = messages.find(
