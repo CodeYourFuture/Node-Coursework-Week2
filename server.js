@@ -1,6 +1,7 @@
 const express = require("express");
 let messages = require("./messages.json");
 const cors = require("cors");
+const timestamp = require('time-stamp')
 
 const bodyParser = require("body-parser");
 
@@ -45,6 +46,7 @@ app.get("/messages/:messageId", (req, res) => {
 
 app.post("/messages", (req, res) => {
   if (req.body.from.length > 0 && req.body.text.length > 0) {
+    req.body ["timeSent"] = timestamp('YY/MM/DD - HH:mm:ss')
     messages.push(req.body);
     console.log("value: ", (req.body.from.length));
     res.json({ "message send": true });
