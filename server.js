@@ -6,22 +6,35 @@ const app = express();
 app.use(cors());
 app.use(bodyparser());
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
-
-let messages = [welcomeMessage];
+const messages = [
+  {
+    id: 0,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 1,
+    from: "Mahmut",
+    text: "The server has been established by Mahmut!",
+  },
+  {
+    id: 2,
+    from: "Al ",
+    text: "Hello folks!",
+  },
+];
 
 app.get("/", (req, res) => {
   res.sendFile("/index.html", { root: __dirname });
 });
 
 app.post("/messages", (req, res) => {
-  const newMessage = req.body;
-  messages.push(newMessage);
-  res.json({ success: true });
+  if (req.body.from !== "" && req.body.tex !== "") {
+    messages.push(req.body);
+    res.json({ success: true });
+  } else {
+    res.status(400).send("Message cannot be sent with empty form ! ");
+  }
 });
 
 app.get("/messages", (req, res) => {
