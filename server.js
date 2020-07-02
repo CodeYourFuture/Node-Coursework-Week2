@@ -18,8 +18,10 @@ app.get('/', function (request, response) {
 app.post("/messages", function (request, response) {
 
   if (request.body.text && request.body.from) {
-    messages.push(request.body);
-    response.send({ success: true });
+    const now = new Date();
+    const newMessage = { ...request.body, timeStamp: now };
+    messages.push(newMessage);
+    response.send({ success: true, newMessage });
   }
   else { response.send(400, "Message could not send !"); }
 
