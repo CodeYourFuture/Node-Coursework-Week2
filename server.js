@@ -77,6 +77,20 @@ app.delete ('/messages/delete/:id', (req, res) => {
   }
 });
 
+// more "read" functionality
+app.get ('/messages/search', (req, resp) => {
+  const searchTerm = req.query.text;
+  const searchResult = messages.filter (element => {
+    return element.text.toLowerCase ().includes (searchTerm.toLowerCase ());
+  });
+  console.log (searchResult);
+  if (!searchResult) {
+    res.sendStatus (404);
+  } else {
+    res.json (searchResult);
+  }
+});
+
 //  update a message by ID
 app.put ('/messages/update/:id', (req, res) => {
   const {id} = req.params;
