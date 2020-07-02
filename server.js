@@ -13,21 +13,25 @@ let messages = [
     id: 0,
     from: 'Bart',
     text: 'Welcome to CYF chat system!',
+    timeSent: '01/02/2006',
   },
   {
     id: 1,
     from: 'Bani',
     text: 'Gd Afternoon',
+    timeSent: '01/02/2016',
   },
   {
     id: 2,
     from: 'Nader',
     text: 'I am having an exercise',
+    timeSent: '14/09/2009',
   },
   {
     id: 3,
     from: 'Neil',
     text: 'Hello CYF!',
+    timeSent: '01/02/2020',
   },
 ];
 
@@ -45,6 +49,7 @@ app.post ('/messages/create', (req, res) => {
       res.status (400).json ('Please Fill all the form fields, thanks!');
     } else {
       req.body.id = newId;
+      req.body.timeSent = new Date ('01/05/1985');
       messages.push (req.body);
       res
         .status (201)
