@@ -55,6 +55,16 @@ app.post("/messages", (req, res) => {
   }
 });
 
+app.put("/messages/:id", (req, res) => {
+  const { id } = req.params;
+  const message = messages.find(message => message.id == id);
+  
+  message.from = req.body.from;
+  message.text = req.body.text;
+
+  res.json(messages);
+});
+
 app.delete("/messages/:id", (req, res) => {
   const messageId = req.params.id;
   messages = messages.filter(message => message.id != messageId);
