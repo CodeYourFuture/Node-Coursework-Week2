@@ -1,41 +1,3 @@
-// const express = require("express");
-// const cors = require("cors");
-// const bodyParser = require("body-parser");
-
-// const app = express();
-
-// app.use(cors());
-// app.use(bodyParser.json())
-
-// const welcomeMessage = {
-//   id: 0,
-//   from: "Bart",
-//   text: "Welcome to CYF chat system!",
-// };
-
-// //This array is our "data store".
-// //We will start with one message in the array.
-// //Note: messages will be lost when Glitch restarts our server.
-// const messages = [welcomeMessage];
-
-// app.get("/", function (request, response) {
-//   response.sendFile(__dirname + "/index.html");
-// });
-
-// app.get('/messages', (request, response)=>{
-//   response.json(messages)
-// })
-
-// app.post('/mesages/add', (request, response)=>{
-//   messages.push(request.body)
-//   response.json({
-//     "success":true
-//   })
-// })
-
-// const myport =process.env.PORT || 5000
-// app.listen(myport, ()=>console.log("your app is listening ",myport));
-
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -87,28 +49,25 @@ app.post("/messages/add", (req, res) => {
   }
 });
 
+//this is the route which updates the messages
 app.put("/messages/:id", (req, res) => {
-  if(req.params.id){
+  if (req.params.id) {
     const messageId = Number(req.params.id);
     const name = req.body.from;
-  const messageText = req.body.text;
-  const found = messages.some((message) => message.id === messageId);
-  if (found) {
-    messages.map((message) => {
-      if (message.id === messageId) {
-        name? message.from = name:null;
-        messageText? message.text = messageText:null;
-      }
-    });
-    res.send(messages);
-  }else{
-    res.send('please enter a valid id to update')
+    const messageText = req.body.text;
+    const found = messages.some((message) => message.id === messageId);
+    if (found) {
+      messages.map((message) => {
+        if (message.id === messageId) {
+          name ? (message.from = name) : null;
+          messageText ? (message.text = messageText) : null;
+        }
+      });
+      res.send(messages);
+    } else {
+      res.send("please enter a valid id to update");
+    }
   }
-  
-  }
-  // else{
-  //   res.send('please enter a valid id to update')
-  // }
 });
 
 //the route which search the messages by text
@@ -144,8 +103,6 @@ app.delete("/messages/:id", (req, res) => {
   messages = messages.filter((message) => message.id !== messageId);
   res.send(messages);
 });
-
-// app.listen(process.env.PORT);
 
 const myport = process.env.PORT || 5000;
 app.listen(myport, () => console.log("your app is listening ", myport));
