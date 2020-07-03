@@ -1,0 +1,92 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 1,
+    "from": "Mahmut",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 2,
+    "from": "Al ",
+    "text": "Hello folks!"
+  },
+  {
+    "id": 3,
+    "from": "Jacob",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 4,
+    "from": "Mert",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 5,
+    "from": "Jack",
+    "text": "Hello folks!"
+  },
+  {
+    "id": 6,
+    "from": "Nicholas",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 7,
+    "from": "Ali",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 8,
+    "from": "Emmy",
+    "text": "Hello folks!"
+  },
+  {
+    "id": 9,
+    "from": "Sergio",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 10,
+    "from": "MAriano",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 11,
+    "from": "Queen",
+    "text": "Hello folks!"
+  },
+  {
+    "id": 12,
+    "from": "King",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 13,
+    "from": "Prince",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 14,
+    "from": "Picasso",
+    "text": "Hello folks!"
+  },
+  {
+    "id": 15,
+    "from": "Mozart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 16,
+    "from": "Mehmet",
+    "text": "The server has been established by Mahmut!"
+  },
+  {
+    "id": 17,
+    "from": "Ayse",
+    "text": "Hello folks!"
+  }
+]

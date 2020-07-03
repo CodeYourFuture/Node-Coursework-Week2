@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyparser = require("body-parser");
-const messages = require("./messages.json");
+const dataMessages = require("./messages.json");
 const app = express();
 app.use(cors());
 app.use(bodyparser());
@@ -10,8 +10,11 @@ app.get("/", (req, res) => {
   res.sendFile("/index.html", { root: __dirname });
 });
 
+let messages = dataMessages;
+
 app.post("/messages", (req, res) => {
-  if (req.body.from !== "" && req.body.tex !== "") {
+  console.log(req.body);
+  if (req.body.from !== "" && req.body.text !== "") {
     messages.push(req.body);
     res.json({ success: true });
   } else {
@@ -53,7 +56,7 @@ app.delete("/messages/:id", (req, res) => {
   });
   if (filteredMessages.length !== messages.length) {
     messages = filteredMessages;
-    res.send({ message: "Object Deleted !" });
+    res.send(messages);
   } else {
     res.sendStatus(404);
   }
