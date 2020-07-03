@@ -18,8 +18,8 @@ app.get('/', function (request, response) {
 app.post("/messages", function (request, response) {
 
   if (request.body.text && request.body.from) {
-    const now = new Date();
-    const newMessage = { ...request.body, timeStamp: now };
+    const timeSent = new Date();
+    const newMessage = { ...request.body, timeStamp: timeSent };
     messages.push(newMessage);
     response.send({ success: true, newMessage });
   }
