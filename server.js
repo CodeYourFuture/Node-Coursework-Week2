@@ -29,7 +29,7 @@ app.post("/messages", function (req, res) {
     messages.push(newMessage);
     res.send({ success: true, newMessage });
   } else {
-    res.send(400, "Message could not send !");
+    res.send(400, "Message could not be send !");
   }
 });
 
