@@ -57,7 +57,7 @@ app.put("/messages/:id", (req, res) => {
     const messageText = req.body.text;
     const found = messages.some((message) => message.id === messageId);
     if (found) {
-      messages.map((message) => {
+      messages.filter((message) => {
         if (message.id === messageId) {
           name ? (message.from = name) : null;
           messageText ? (message.text = messageText) : null;
@@ -93,7 +93,7 @@ app.get("/messages/latest", (req, res) => {
 // the route which shows one massage by id
 app.get("/messages/:id", (req, res) => {
   const messageId = Number(req.params.id);
-  const message = messages.find((message) => message.id === messageId);
+  const message = messages.filter((message) => message.id === messageId);
   res.send(message);
 });
 
