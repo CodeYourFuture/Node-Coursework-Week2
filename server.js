@@ -36,11 +36,13 @@ app.get("/messages/:id", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  messages.push({
-    id: (MessageId += 1),
-    from: req.body.from,
-    text: req.body.text,
-  });
+  req.body.from === "" || req.body.text === ""
+    ? res.send("Please fill out From & Text filed").sendStatus(400)
+    : messages.push({
+        id: (MessageId += 1),
+        from: req.body.from,
+        text: req.body.text,
+      });
   res.send({ insertResult: true });
 });
 
