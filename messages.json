@@ -1,4 +1,7 @@
 [
-    {"test" : "test"}
+    {"id" :0 ,
+     "from": "Tayfun",
+     "text" : "test message"
+    }
 ]
 
