@@ -78,7 +78,6 @@ app.delete("/messages/:id", function(req, res) {
   res.send(messages);
 });
 
+let port = process.env.PORT;
 
-app.listen(3000, function () {
-  console.log("Server is listening on port 3000. Ready to accept requests!");
-});
+app.listen( port || 3000 );
