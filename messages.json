@@ -1,67 +1,7 @@
 [
   {
     "id": 0,
-    "from": "Bart",
+    "from": "Ferhat",
     "text": "Welcome to CYF chat system!"
-  },
-  {
-    "id": 1,
-    "from": "ferhat1",
-    "text": "Welcome system 1!"
-  },
-  {
-    "id": 2,
-    "from": "ferhat2",
-    "text": "Welcome system 2!"
-  },
-  {
-    "id": 3,
-    "from": "ferhat3",
-    "text": "Welcome system 3!"
-  },
-  {
-    "id": 4,
-    "from": "ferhat4",
-    "text": "Welcome to system 4!"
-  },
-  {
-    "id": 5,
-    "from": "ferhat5",
-    "text": "Welcome to system 5!"
-  },
-  {
-    "id": 6,
-    "from": "ferhat6",
-    "text": "Welcome to system 6!"
-  },
-  {
-    "id": 7,
-    "from": "ferhat7",
-    "text": "Welcome to system 7!"
-  },
-  {
-    "id": 8,
-    "from": "ferhat8",
-    "text": "Welcome to system 8!"
-  },
-  {
-    "id": 9,
-    "from": "ferhat9",
-    "text": "Welcome to system 9!"
-  },
-  {
-    "id": 10,
-    "from": "ferhat10",
-    "text": "Welcome to system 10!"
-  },
-  {
-    "id": 11,
-    "from": "ferhat11",
-    "text": "Welcome to system 11!"
-  },
-  {
-    "id": 12,
-    "from": "ferhat12",
-    "text": "Welcome to system 12!"
   }
 ]
