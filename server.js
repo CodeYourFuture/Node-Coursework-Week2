@@ -29,6 +29,7 @@ const randId = () => {
 
 // the route which add on message
 app.post("/messages/add", (req, res) => {
+  
   if (req.body.from && req.body.text) {
     const name = req.body.from;
     const messageText = req.body.text;
@@ -42,7 +43,7 @@ app.post("/messages/add", (req, res) => {
       timesent: timeSent,
     };
     messages.push(message);
-    res.send(message);
+    res.send({"success":true});
   } else {
     res.statusCode = 406;
     res.send("please write a message with your name");
@@ -57,13 +58,10 @@ app.put("/messages/:id", (req, res) => {
     const messageText = req.body.text;
     const found = messages.some((message) => message.id === messageId);
     if (found) {
-      messages.filter((message) => {
-        if (message.id === messageId) {
-          name ? (message.from = name) : null;
-          messageText ? (message.text = messageText) : null;
-        }
-      });
-      res.send(messages);
+      const message = messages.find((message) => message.id === messageId)
+      message.from = name?name:message.from;
+      message.text = messageText?messageText:message.text
+      res.send(message);
     } else {
       res.send("please enter a valid id to update");
     }
