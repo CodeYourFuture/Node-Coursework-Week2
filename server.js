@@ -25,7 +25,7 @@ app.get("/messages", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  if (req.body.id === "" || req.body.from === "" || req.body.text === "") {
+  if (req.body.from === "" || req.body.text === "") {
     res.status(400).send("Input field can't empty ");
   } else {
     const newMessage = {
