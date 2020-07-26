@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-let messages = require("./Messages");
+const mongodb = require("mongodb");
+require("dotenv").config();
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+const uri = process.env.URI;
+
 // main route
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
@@ -19,7 +22,17 @@ app.get("/", (req, res) => {
 
 // the route which shows all massages
 app.get("/messages", (req, res) => {
-  res.json(messages);
+  const client = new mongodb.MongoClient(uri);
+
+  client.connect(() => {
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+
+    collection.find().toArray((err, result) => {
+      res.send(err || result);
+      client.close();
+    });
+  });
 });
 
 //this function generate a specific random id
@@ -29,43 +42,71 @@ const randId = () => {
 
 // the route which add on message
 app.post("/messages/add", (req, res) => {
-  
-  if (req.body.from && req.body.text) {
-    const name = req.body.from;
-    const messageText = req.body.text;
-    const id = randId();
+  const client = new mongodb.MongoClient(uri);
+
+  client.connect(() => {
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+
     const timeSent = new Date();
 
-    const message = {
-      id: id,
-      from: name,
-      text: messageText,
-      timesent: timeSent,
-    };
-    messages.push(message);
-    res.send({"success":true});
-  } else {
-    res.statusCode = 406;
-    res.send("please write a message with your name");
-  }
+    if (req.body.from && req.body.text) {
+      const name = req.body.from;
+      const messageText = req.body.text;
+      const message = {
+        from: name,
+        text: messageText,
+        timesent: timeSent,
+      };
+
+      collection.insertOne(message, (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send({ success: true });
+        }
+        client.close();
+      });
+    } else {
+      res.status(406).send("please write a message with your name");
+    }
+  });
 });
 
 //this is the route which updates the messages
 app.put("/messages/:id", (req, res) => {
-  if (req.params.id) {
-    const messageId = Number(req.params.id);
-    const name = req.body.from;
-    const messageText = req.body.text;
-    const found = messages.some((message) => message.id === messageId);
-    if (found) {
-      const message = messages.find((message) => message.id === messageId)
-      message.from = name?name:message.from;
-      message.text = messageText?messageText:message.text
-      res.send(message);
+  const client = new mongodb.MongoClient(uri, { useUnifiedTopology: true });
+
+  client.connect(() => {
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+
+    const string = req.params.id;
+    const id = new mongodb.ObjectID(string);
+    if (id) {
+      const name = req.body.from;
+      const messageText = req.body.text;
+
+      const searchedObj = {
+        _id: id,
+      };
+      const message = {
+        $set: {
+          from: name,
+          text: messageText,
+        },
+      };
+      collection.findOneAndUpdate(searchedObj, message, (err, result) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(result);
+        }
+      });
     } else {
-      res.send("please enter a valid id to update");
+      res.send("please enter a valid 'id' to update");
     }
-  }
+  });
 });
 
 //the route which search the messages by text
@@ -97,10 +138,26 @@ app.get("/messages/:id", (req, res) => {
 
 // the route which delete one massage by id
 app.delete("/messages/:id", (req, res) => {
-  const messageId = Number(req.params.id);
-  messages = messages.filter((message) => message.id !== messageId);
-  res.send(messages);
+  const client = new mongodb.MongoClient(uri);
+  client.connect(() => {
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+
+    const string = req.params.id;
+    const id = new mongodb.ObjectID(string);
+    const searchedObj = {
+      _id: id,
+    };
+    collection.deleteOne(searchedObj, (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+      client.close();
+    });
+  });
 });
 
-const myport = process.env.PORT || 5000;
+const myport = process.env.PORT || 5001;
 app.listen(myport, () => console.log("your app is listening ", myport));
