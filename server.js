@@ -141,9 +141,30 @@ app.get("/messages/latest", (req, res) => {
 
 // the route which shows one massage by id
 app.get("/messages/:id", (req, res) => {
-  const messageId = Number(req.params.id);
-  const message = messages.filter((message) => message.id === messageId);
-  res.send(message);
+  const client = new mongodb.MongoClient(uri);
+  client.connect(() => {
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+    const string = req.params.id;
+    if(!mongodb.ObjectID.isValid(string)){
+      return res.status(400).send('The id is not correct!')
+    }
+    const id = new mongodb.ObjectID(string);
+    const searchedObj = {
+      _id: id,
+    };
+    collection.findOne(searchedObj, (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(result);
+      }
+      client.close();
+    });
+  });
+  // const messageId = Number(req.params.id);
+  // const message = messages.filter((message) => message.id === messageId);
+  // res.send(message);
 });
 
 // the route which delete one massage by id
