@@ -153,7 +153,7 @@ app.get("/messages/:id", (req, res) => {
     const searchedObj = {
       _id: id,
     };
-    collection.findOne(searchedObj, (err, result) => {
+    collection.find(searchedObj).toArray((err, result) => {
       if (err) {
         res.status(500).send(err);
       } else {
