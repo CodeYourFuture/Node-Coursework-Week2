@@ -81,9 +81,11 @@ app.put("/messages/:id", (req, res) => {
     const db = client.db("chat");
     const collection = db.collection("messages");
 
-    const string = req.params.id;
-    const id = new mongodb.ObjectID(string);
-    if (id) {
+    if(!mongodb.ObjectID.isValid(req.params.id)){
+      res.status(400).send("Please enter a correct 'id'!")
+    }
+  
+    const id = new mongodb.ObjectID(req.params.id);
       const name = req.body.from;
       const messageText = req.body.text;
 
@@ -98,14 +100,11 @@ app.put("/messages/:id", (req, res) => {
       };
       collection.findOneAndUpdate(searchedObj, message, (err, result) => {
         if (err) {
-          res.send(err);
+          res.status(500).send(err);
         } else {
-          res.send(result);
+          res.status(200).send(result);
         }
       });
-    } else {
-      res.send("please enter a valid 'id' to update");
-    }
   });
 });
 
