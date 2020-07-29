@@ -125,7 +125,18 @@ app.get("/messages/search", (req, res) => {
 
 //this route shows the most recent 1 messages
 app.get("/messages/latest", (req, res) => {
-  res.send(messages.slice(messages.length - 10, messages.length));
+  const client = new mongodb.MongoClient(uri);
+  client.connect(()=>{
+    const db = client.db("chat");
+    const collection = db.collection("messages");
+    collection.find().toArray((err, results)=>{
+      if(err){
+        return res.status(500).send(err)
+      }else{
+        res.send(results.slice(results.length - 10, results.length));
+      }
+    })
+  })
 });
 
 // the route which shows one massage by id
