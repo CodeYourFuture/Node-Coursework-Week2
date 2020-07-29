@@ -81,30 +81,30 @@ app.put("/messages/:id", (req, res) => {
     const db = client.db("chat");
     const collection = db.collection("messages");
 
-    if(!mongodb.ObjectID.isValid(req.params.id)){
-      res.status(400).send("Please enter a correct 'id'!")
+    if (!mongodb.ObjectID.isValid(req.params.id)) {
+      res.status(400).send("Please enter a correct 'id'!");
     }
-  
-    const id = new mongodb.ObjectID(req.params.id);
-      const name = req.body.from;
-      const messageText = req.body.text;
 
-      const searchedObj = {
-        _id: id,
-      };
-      const message = {
-        $set: {
-          from: name,
-          text: messageText,
-        },
-      };
-      collection.findOneAndUpdate(searchedObj, message, (err, result) => {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.status(200).send(result);
-        }
-      });
+    const id = new mongodb.ObjectID(req.params.id);
+    const name = req.body.from;
+    const messageText = req.body.text;
+
+    const searchedObj = {
+      _id: id,
+    };
+    const message = {
+      $set: {
+        from: name,
+        text: messageText,
+      },
+    };
+    collection.findOneAndUpdate(searchedObj, message, (err, result) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(result);
+      }
+    });
   });
 });
 
