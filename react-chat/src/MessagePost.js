@@ -20,6 +20,7 @@ const MessagePost = () => {
       from: nickname,
       text: messageInput,
     };
+
     fetch("https://roxana-chat-server.herokuapp.com/messages/", {
       method: "POST",
       headers: {
@@ -27,6 +28,9 @@ const MessagePost = () => {
       },
       body: JSON.stringify(data),
     });
+
+    setNickname("")
+    setMessageInput("")
   }
 
   return (
@@ -41,7 +45,7 @@ const MessagePost = () => {
           value={messageInput}
           onChange={handleMessage}
         />
-        <button type="submit" onClick={handlePost}>
+        <button type="submit" onClick={handlePost} >
           Send
         </button>
       </form>

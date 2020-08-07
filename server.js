@@ -36,7 +36,7 @@ client.connect(function () {
     const collection = db.collection("chat-server");
     const addMessage = req.body;
     addMessage.timeSent = new Date();
-    console.log(addMessage)
+    console.log(addMessage);
     !addMessage.from || !addMessage.text
       ? res.send(404)
       : collection.insertOne(addMessage, function (error, result) {
@@ -45,7 +45,7 @@ client.connect(function () {
   });
 
   app.get("/messages/search", function (req, res) {
-    let searchText = { text: req.query.text};
+    let searchText = { text: req.query.text };
     const collection = db.collection("chat-server");
     client.connect(function () {
       collection.findOne(searchText, function (error, messages) {
@@ -54,44 +54,44 @@ client.connect(function () {
     });
   });
 
-  // app.get("/messages/latest", function (req, res) {
-  //   let latest = messages.slice(-10);
-  //   res.send(latest);
-  // });
+  app.get("/messages/latest", function (req, res) {
+    const collection = db.collection("chat-server");
+    client.connect(function () {
+      collection.find().toArray(function (error, messages) {
+        res.send(error || messages.slice(-10));
+      });
+    });
+  });
 
-  // app.get("/messages/:id", function (req, res) {
-  //   let messageId = req.params.id;
-  //   res.send(messages.find((message) => message.id == messageId));
-  // });
-
-  // app.get("/", function (request, response) {
-  //   response.sendFile(__dirname + "/index.html");
-  // });
+  app.get("/messages/:id", function (req, res) {
+    let messageId = { _id: mongodb.ObjectId(req.params.id) };
+    const collection = db.collection("chat-server");
+    client.connect(function () {
+      collection.findOne(messageId, function (error, messages) {
+        res.send(error || messages);
+      });
+    });
+  });
 
   // app.put("/messages/:id", function (req, res) {
-  //   let messageId = req.params.id;
-  //   messages = messages.map((message) => {
-  //     if (message.id.toString() == messageId) {
-  //       if (req.body.from) {
-  //         message.from = req.body.from;
-  //       }
-  //       if (req.body.text) {
-  //         message.text = req.body.text;
-  //       }
-  //     }
-  //     return message;
+  //   let messageId = { _id: mongodb.ObjectId(req.params.id) };
+  //   const collection = db.collection("chat-server");
+  //   client.connect(function () {
+  //     collection.findOneAndUpdate(messageId, function (error, messages) {
+  //       res.send(error || messages);
+  //     });
   //   });
-
-  //   res.send(messages);
   // });
 
-  // app.delete("/messages/:id", function (req, res) {
-  //   let messageId = req.params.id;
-  //   messages = messages.filter(
-  //     (message) => message.id.toString() !== messageId
-  //   );
-  //   res.send(messages);
-  // });
+  app.delete("/messages/:id", function (req, res) {
+    let messageId = { _id: req.params.id };
+    const collection = db.collection("chat-server");
+    client.connect(function () {
+      collection.findOne(messageId, function (error, messages) {
+        res.send(error || messages);
+      });
+    });
+  });
 
   let port = process.env.PORT;
 

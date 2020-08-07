@@ -8,11 +8,11 @@ useEffect( ()=>{
     fetch("https://roxana-chat-server.herokuapp.com/messages/")
     .then(data => data.json())
     .then(data => setMessages(data))
-}, []
+}, [messages]
 )
 
 return (
-    <div>
+    <div className="messages">
        {messages.map(message => <MessageBox message={message} /> )} 
         
     </div>
