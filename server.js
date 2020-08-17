@@ -90,7 +90,6 @@ app.use(express.urlencoded({ extended: false }));
 // });
 //---------------- get the last 10 messages-----------------
 app.get("/messages/last", (request, response) => {
-  // let last = request.quer
   let lastM = messages.slice(-10);
   response.json(lastM);
 });
