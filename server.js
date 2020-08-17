@@ -5,10 +5,21 @@ const app = express();
 
 app.use(cors());
 
+const today = new Date();
+const minutes = String(today.getMinutes()).padStart(2, "0");
+const seconds = String(today.getSeconds()).padStart(2, "0");
+const time = today.getHours() + ":" + minutes + ":" + seconds;
+const dd = String(today.getDate()).padStart(2, "0");
+const mm = String(today.getMonth() + 1).padStart(2, "0"); // Jan = 0
+const yyyy = today.getFullYear();
+const date = dd + "/" + mm + "/" + yyyy;
+const dateTime = time + " " + date;
+
 const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+  timeSent: dateTime,
 };
 
 //This array is our "data store".
@@ -19,5 +30,45 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+app.get("/messages", (request, response) => {
+  response.json(messages);
+});
 
-app.listen(process.env.PORT);
+app.use(express.urlencoded({ extended: false }));
+app.post("/messages", (request, response) => {
+  let lastMessage = messages.length - 1;
+  let newId = messages[lastMessage].id + 1;
+  console.log(newId);
+  let newPost = {
+    id: newId,
+    from: request.body.from,
+    text: request.body.text,
+    timeSent: dateTime,
+  };
+  messages.push(newPost);
+  response.json(messages);
+});
+
+app.get("/messages/:id", (request, response) => {
+  let id = parseInt(request.params.id);
+  let found = messages.find((item) => item.id === id);
+  if (found) {
+    response.json(found);
+  } else {
+    response.status(404).json({ message: "Not Found" });
+  }
+});
+
+// app.delete("/message/:id", (request, response) => {
+//   let id = Number(request.params.id);
+//   let deletedPostIndex = messages.findIndex((item) => item.id === id);
+//   if (deletedPostIndex) {
+//     let deletedMessage = messages.splice(deletedPostIndex, 1);
+//     response.json(messages);
+//   } else {
+//     response.status(404).json({ message: "Error" });
+//   }
+// });
+// app.listen(process.env.PORT);
+const myPort = process.env.PORT || 9000;
+app.listen(myPort, () => console.log(`Your app is listening to ${myPort}`));
