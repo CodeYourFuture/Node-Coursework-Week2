@@ -81,6 +81,19 @@ app.use(express.urlencoded({ extended: false }));
 //   }
 // });
 // ---------------- read functionality----------------
+// app.get("/messages/search", (request, response) => {
+//   let term = request.query.term;
+//   let foundTerm = messages.filter((item) =>
+//     item.text.toLowerCase().includes(term.toLowerCase())
+//   );
+//   response.json(foundTerm);
+// });
+//---------------- get the last 10 messages-----------------
+app.get("/messages/last", (request, response) => {
+  // let last = request.quer
+  let lastM = messages.slice(-10);
+  response.json(lastM);
+});
 // app.listen(process.env.PORT);
 const myPort = process.env.PORT || 9000;
 app.listen(myPort, () => console.log(`Your app is listening to ${myPort}`));
