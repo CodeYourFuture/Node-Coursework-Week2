@@ -15,17 +15,19 @@ const yyyy = today.getFullYear();
 const date = dd + "/" + mm + "/" + yyyy;
 const dateTime = time + " " + date;
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-  timeSent: dateTime,
-};
+// const welcomeMessage = {
+//   id: 0,
+//   from: "Bart",
+//   text: "Welcome to CYF chat system!",
+//   timeSent: dateTime,
+// };
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+// const messages = [welcomeMessage];
+
+const messages = require("./messages");
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -35,35 +37,42 @@ app.get("/messages", (request, response) => {
 });
 
 app.use(express.urlencoded({ extended: false }));
-app.post("/messages", (request, response) => {
-  let lastMessage = messages.length - 1;
-  let newId = messages[lastMessage].id + 1;
-  console.log(newId);
-  let newPost = {
-    id: newId,
-    from: request.body.from,
-    text: request.body.text,
-    timeSent: dateTime,
-  };
-  messages.push(newPost);
-  response.json(messages);
-});
 
-app.get("/messages/:id", (request, response) => {
-  let id = parseInt(request.params.id);
-  let found = messages.find((item) => item.id === id);
-  if (found) {
-    response.json(found);
-  } else {
-    response.status(404).json({ message: "Not Found" });
-  }
-});
+// app.post("/messages", (request, response) => {
+//   let lastMessage = messages.length - 1;
+//   let newId = messages[lastMessage].id + 1;
+//   console.log(newId);
+//   let newPost = {
+//     id: newId,
+//     from: request.body.from,
+//     text: request.body.text,
+//     timeSent: dateTime,
+//   };
+//   if (!newPost.from || !newPost.text) {
+//     response.status(400).json({ message: "Invalid Request" });
+//   } else {
+//     messages.push(newPost);
+//     response.json(messages);
+//   }
+// });
+
+// app.get("/messages/:id", (request, response) => {
+//   let id = parseInt(request.params.id);
+//   let found = messages.find((item) => item.id === id);
+//   if (found) {
+//     response.json(found);
+//   } else {
+//     response.status(404).json({ message: "Not Found" });
+//   }
+// });
 
 // app.delete("/message/:id", (request, response) => {
 //   let id = Number(request.params.id);
 //   let deletedPostIndex = messages.findIndex((item) => item.id === id);
-//   if (deletedPostIndex) {
-//     let deletedMessage = messages.splice(deletedPostIndex, 1);
+//   console.log(deletedPostIndex);
+//   if (deletedPostIndex >= 0) {
+//     messages.splice(deletedPostIndex, 1);
+//     console.log(messages);
 //     response.json(messages);
 //   } else {
 //     response.status(404).json({ message: "Error" });
