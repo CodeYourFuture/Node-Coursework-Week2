@@ -32,12 +32,14 @@ const messages = require("./messages");
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+//--------- get all posts -----------
 app.get("/messages", (request, response) => {
   response.json(messages);
 });
 
 app.use(express.urlencoded({ extended: false }));
 
+// ---------create post--------------
 // app.post("/messages", (request, response) => {
 //   let lastMessage = messages.length - 1;
 //   let newId = messages[lastMessage].id + 1;
@@ -55,7 +57,7 @@ app.use(express.urlencoded({ extended: false }));
 //     response.json(messages);
 //   }
 // });
-
+/// ----------get a post with specific id----------------
 // app.get("/messages/:id", (request, response) => {
 //   let id = parseInt(request.params.id);
 //   let found = messages.find((item) => item.id === id);
@@ -65,7 +67,7 @@ app.use(express.urlencoded({ extended: false }));
 //     response.status(404).json({ message: "Not Found" });
 //   }
 // });
-
+// -------------delete a post with a specific id --------------------
 // app.delete("/message/:id", (request, response) => {
 //   let id = Number(request.params.id);
 //   let deletedPostIndex = messages.findIndex((item) => item.id === id);
@@ -78,6 +80,7 @@ app.use(express.urlencoded({ extended: false }));
 //     response.status(404).json({ message: "Error" });
 //   }
 // });
+// ---------------- read functionality----------------
 // app.listen(process.env.PORT);
 const myPort = process.env.PORT || 9000;
 app.listen(myPort, () => console.log(`Your app is listening to ${myPort}`));
