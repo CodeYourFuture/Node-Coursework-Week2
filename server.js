@@ -98,6 +98,7 @@ app.delete('/messages/:id', (req, res) => {
   res.send(message);
 });
 
+//search functionality
 app.get('/messages/search', function (req, res) {
   const {text, latest} = req.query;
   let foundMessages = messages;
@@ -111,6 +112,33 @@ app.get('/messages/search', function (req, res) {
   }
 
   res.send(foundMessages);
+});
+
+//update functionality
+app.put('/messages/:id', (req, res) => {
+  //look up the message if message does not exist return 404.
+  const message = messages.find(
+    (message) => message.id === parseInt(req.params.id)
+  );
+  if (!message)
+    res.status(404).send('The message with given id does not exist');
+
+  //validate course make sure if its in good shape
+  const schema = {
+    from: Joi.string().min(3).required(),
+    text: Joi.string().min(3).required(),
+  };
+  //if invalid we return 400 bad request
+  const result = Joi.validate(req.body, schema);
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+  //update the course.
+  message.text = req.body.text;
+  message.from = req.body.from;
+  //return the updated course to the client.
+  res.send(message);
 });
 
 const port = process.env.PORT || 3000;
