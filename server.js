@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+var bodyParser = require("body-parser");
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.get("/messages", (request, response) => {
 });
 
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // ---------create post--------------
 // app.post("/messages", (request, response) => {
@@ -70,15 +73,20 @@ app.use(express.urlencoded({ extended: false }));
 // -------------delete a post with a specific id --------------------
 // app.delete("/message/:id", (request, response) => {
 //   let id = Number(request.params.id);
-//   let deletedPostIndex = messages.findIndex((item) => item.id === id);
-//   console.log(deletedPostIndex);
-//   if (deletedPostIndex >= 0) {
-//     messages.splice(deletedPostIndex, 1);
-//     console.log(messages);
-//     response.json(messages);
-//   } else {
-//     response.status(404).json({ message: "Error" });
-//   }
+//   let remianedPosts = messages.filter((item) => item.id !== id);
+//   console.log(id);
+//   console.log(remianedPosts);
+//   response.json(remianedPosts);
+// or
+// let deletedPostIndex = messages.findIndex((item) => item.id === id);
+// console.log(deletedPostIndex);
+// if (deletedPostIndex >= 0) {
+//   messages.splice(deletedPostIndex, 1);
+//   console.log(messages);
+//   response.json(messages);
+// } else {
+//   response.status(404).json({ message: "Error" });
+// }
 // });
 // ---------------- read functionality----------------
 // app.get("/messages/search", (request, response) => {
@@ -89,9 +97,36 @@ app.use(express.urlencoded({ extended: false }));
 //   response.json(foundTerm);
 // });
 //---------------- get the last 10 messages-----------------
-app.get("/messages/last", (request, response) => {
-  let lastM = messages.slice(-10);
-  response.json(lastM);
+// app.get("/messages/last", (request, response) => {
+//   let lastM = messages.slice(-10);
+//   response.json(lastM);
+// });
+//---------- put request -----------------
+// find the id of given user,
+// if exist, update that particular user info
+// else send a message back, user doens't exist
+app.put("/messages/:id", (request, response) => {
+  let id = Number(request.params.id);
+  let name = request.body.from;
+  let message = request.body.text;
+  let foudnUser = messages.find((item) => item.id === id);
+  if (foudnUser) {
+    console.log(foudnUser.id);
+    messages.map(
+      (item) => {
+        if (item.id === foudnUser.id) {
+          foudnUser.from = name;
+          foudnUser.text = message;
+        } else {
+          item;
+        }
+      }
+      // item.id === foudnUser.id ? (foudnUser.from = name) : item
+    );
+    // foudnUser.from = name;
+    // foudnUser.text = message;
+  }
+  response.json(messages);
 });
 // app.listen(process.env.PORT);
 const myPort = process.env.PORT || 9000;
