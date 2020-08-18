@@ -11,6 +11,7 @@ const welcomeMessage = {
   id: 0,
   from: 'Bart',
   text: 'Welcome to CYF chat system!',
+  timeStamp: new Date().toLocaleString(),
 };
 
 //This array is our "data store".
@@ -18,9 +19,24 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [
   welcomeMessage,
-  {id: 1, from: 'Taslima', text: 'Welcome to our code your future'},
-  {id: 2, from: 'Aysha', text: 'Welcome to my nursery!!!'},
-  {id: 3, from: 'Khadijah', text: 'Welcome to my school!!!'},
+  {
+    id: 1,
+    from: 'Taslima',
+    text: 'Welcome to our code your future',
+    timestamp: new Date().toLocaleString(),
+  },
+  {
+    id: 2,
+    from: 'Aysha',
+    text: 'Welcome to my nursery!!!',
+    timestamp: new Date().toLocaleString(),
+  },
+  {
+    id: 3,
+    from: 'Khadijah',
+    text: 'Welcome to my school!!!',
+    timestamp: new Date().toLocaleString(),
+  },
 ];
 
 app.get('/', function (request, response) {
@@ -48,6 +64,7 @@ app.post('/messages', (request, response) => {
     id: messages.length + 1,
     from: request.body.from,
     text: request.body.text,
+    timestamp: new Date().toLocaleString(),
   };
   messages.push(message);
   response.send(message);
