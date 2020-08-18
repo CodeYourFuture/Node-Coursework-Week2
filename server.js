@@ -43,64 +43,64 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ---------create post--------------
-// app.post("/messages", (request, response) => {
-//   let lastMessage = messages.length - 1;
-//   let newId = messages[lastMessage].id + 1;
-//   console.log(newId);
-//   let newPost = {
-//     id: newId,
-//     from: request.body.from,
-//     text: request.body.text,
-//     timeSent: dateTime,
-//   };
-//   if (!newPost.from || !newPost.text) {
-//     response.status(400).json({ message: "Invalid Request" });
-//   } else {
-//     messages.push(newPost);
-//     response.json(messages);
-//   }
-// });
+app.post("/messages", (request, response) => {
+  let lastMessage = messages.length - 1;
+  let newId = messages[lastMessage].id + 1;
+  console.log(newId);
+  let newPost = {
+    id: newId,
+    from: request.body.from,
+    text: request.body.text,
+    timeSent: dateTime,
+  };
+  if (!newPost.from || !newPost.text) {
+    response.status(400).json({ message: "Invalid Request" });
+  } else {
+    messages.push(newPost);
+    response.json(messages);
+  }
+});
 /// ----------get a post with specific id----------------
-// app.get("/messages/:id", (request, response) => {
-//   let id = parseInt(request.params.id);
-//   let found = messages.find((item) => item.id === id);
-//   if (found) {
-//     response.json(found);
-//   } else {
-//     response.status(404).json({ message: "Not Found" });
-//   }
-// });
+app.get("/messages/:id", (request, response) => {
+  let id = parseInt(request.params.id);
+  let found = messages.find((item) => item.id === id);
+  if (found) {
+    response.json(found);
+  } else {
+    response.status(404).json({ message: "Not Found" });
+  }
+});
 // -------------delete a post with a specific id --------------------
-// app.delete("/message/:id", (request, response) => {
-//   let id = Number(request.params.id);
-//   let remianedPosts = messages.filter((item) => item.id !== id);
-//   console.log(id);
-//   console.log(remianedPosts);
-//   response.json(remianedPosts);
-// or
-// let deletedPostIndex = messages.findIndex((item) => item.id === id);
-// console.log(deletedPostIndex);
-// if (deletedPostIndex >= 0) {
-//   messages.splice(deletedPostIndex, 1);
-//   console.log(messages);
-//   response.json(messages);
-// } else {
-//   response.status(404).json({ message: "Error" });
-// }
-// });
+app.delete("/message/:id", (request, response) => {
+  let id = Number(request.params.id);
+  let remianedPosts = messages.filter((item) => item.id !== id);
+  console.log(id);
+  console.log(remianedPosts);
+  response.json(remianedPosts);
+  // or
+  // let deletedPostIndex = messages.findIndex((item) => item.id === id);
+  // console.log(deletedPostIndex);
+  // if (deletedPostIndex >= 0) {
+  //   messages.splice(deletedPostIndex, 1);
+  //   console.log(messages);
+  //   response.json(messages);
+  // } else {
+  //   response.status(404).json({ message: "Error" });
+  // }
+});
 // ---------------- read functionality----------------
-// app.get("/messages/search", (request, response) => {
-//   let term = request.query.term;
-//   let foundTerm = messages.filter((item) =>
-//     item.text.toLowerCase().includes(term.toLowerCase())
-//   );
-//   response.json(foundTerm);
-// });
+app.get("/messages/search", (request, response) => {
+  let term = request.query.term;
+  let foundTerm = messages.filter((item) =>
+    item.text.toLowerCase().includes(term.toLowerCase())
+  );
+  response.json(foundTerm);
+});
 //---------------- get the last 10 messages-----------------
-// app.get("/messages/last", (request, response) => {
-//   let lastM = messages.slice(-10);
-//   response.json(lastM);
-// });
+app.get("/messages/last", (request, response) => {
+  let lastM = messages.slice(-10);
+  response.json(lastM);
+});
 //---------- put request -----------------
 // find the id of given user,
 // if exist, update that particular user info
