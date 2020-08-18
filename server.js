@@ -1,5 +1,4 @@
 const express = require("express");
-// const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
@@ -8,7 +7,7 @@ app.use(cors());
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 
 const welcomeMessage = {
   id: 0,
