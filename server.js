@@ -27,11 +27,13 @@ app.get("/", function(request, response) {
 // }
 // create message
 app.post("/messages", (req, res) => {
+  const timeNow= new Date(); // timestamp
   let newId = messages.length + 1;
   if (!req.body.from || !req.body.text) {
     res.status(422).json("Field cannot be empty ");
   } else {
     let newPost = {
+      timeSent:timeNow,
       id: newId,
       from: req.body.from,
       text: req.body.text
