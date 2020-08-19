@@ -31,17 +31,46 @@ app.get("/messages", (req, res) => {
 
 //Send a new message
 app.post("/messages", (req, res) => {
-  const newMessage = {
-    id: messages.length,
-    from: req.body.from,
-    text: req.body.text,
-  };
-  console.log(req.body);
-  messages.push(newMessage);
-  res.json(messages);
+  if (!req.body.from || !req.body.text) {
+    res
+      .status(400)
+      .send("Please enter a value to both 'name' and 'message' sections");
+  } else {
+    const newMessage = {
+      id: messages.length,
+      from: req.body.from,
+      text: req.body.text,
+    };
+    messages.push(newMessage);
+    res.json(messages);
+  }
+});
+
+// Delete a message by id
+
+app.delete("/messages/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const index = messages.findIndex((message) => message.id === id);
+  console.log(index);
+  if (index) {
+    messages.splice(index, 1);
+    res.json({ msg: `Message with id ${id} deleted`, messages });
+  } else {
+    res.status(400).send("Enter an Id number to delete a message");
+  }
 });
 
 //Read one message by id
+
+app.get("/messages/:messageId", (req, res) => {
+  const messageId = Number(req.params.messageId);
+  const chosenMsg = messages.find((message) => message.id === messageId);
+  if (chosenMsg !== undefined) {
+    res.json(chosenMsg);
+  } else {
+    res.status(400).send("Sorry, no message for that...");
+  }
+});
 
 const PORT = 8080;
 app.listen(process.env.PORT || PORT);
