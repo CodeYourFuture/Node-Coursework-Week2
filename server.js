@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { check, validationResult } = require("express-validator");
+//const { check, validationResult } = require("express-validator");
 
 const app = express();
 app.use(express.json());
@@ -25,49 +25,67 @@ app.get("/", function(request, response) {
 // const randomId = (){
 //   return Math.floor(Math.random() * 1000000000);
 // }
-//create a new message
-// app.post("/messages", (req, res) => {
-
-//   if (req.body.from !== "" && req.body.tex !== "") {
-//    id:messages.length
-//     messages.push(req.body);
-//     res.json({ success: 200});
-//   } else {
-//     res.status(400).send("message incomplete, please fill in all fields");
-//   }
-// });
-
-//create a new message
-app.post(
-  "/messages",
-  [
-    check("from")
-      .not()
-      .isEmpty()
-      .withMessage("Name cannot be empty."),
-    check("text")
-      .not()
-      .isEmpty()
-      .withMessage("message cannot be empty.")
-  ],
-  (req, res) => {
+// create message
+app.post("/messages", (req, res) => {
+  let newId = messages.length + 1;
+  if (!req.body.from || !req.body.text) {
+    res.status(422).json("Field cannot be empty ");
+  } else {
     let newPost = {
-      id: messages.length + 1,
+      id: newId,
       from: req.body.from,
       text: req.body.text
     };
-
-    const errors = validationResult(req);
-    console.log(req.body);
-
-    if (!errors.isEmpty()) {
-      return res.status(422).json(errors.array());
-    } else {
-      messages.push(newPost);
-      res.json(messages);
-    }
+    messages.push(newPost);
+    res.json(messages);
   }
-);
+});// create message
+app.post("/messages", (req, res) => {
+  let newId = messages.length + 1;
+  if (!req.body.from || !req.body.text) {
+    res.status(422).json("Field cannot be empty ");
+  } else {
+    let newPost = {
+      id: newId,
+      from: req.body.from,
+      text: req.body.text
+    };
+    messages.push(newPost);
+    res.json(messages);
+  }
+});
+
+// //create a new message
+// app.post(
+//   "/messages",
+//   [
+//     check("from")
+//       .not()
+//       .isEmpty()
+//       .withMessage("Name cannot be empty."),
+//     check("text")
+//       .not()
+//       .isEmpty()
+//       .withMessage("message cannot be empty.")
+//   ],
+//   (req, res) => {
+//     let newPost = {
+//       id: messages.length + 1,
+//       from: req.body.from,
+//       text: req.body.text
+//     };
+
+//     const errors = validationResult(req);
+//     console.log(req.body);
+
+//     if (!errors.isEmpty()) {
+//       return res.status(422).json(errors.array());
+//     } else {
+//       messages.push(newPost);
+//       res.json(messages);
+//     }
+//   }
+// );
 
 //read  messages
 
