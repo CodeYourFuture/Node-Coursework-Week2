@@ -55,6 +55,31 @@ app.post("/messages", (req, res) => {
   }
 });
 
+//Read only messages whose text contains a given substring: /messages/search?text=express
+app.get("/messages/search", (req, res) => {
+  let searchText = req.query.text;
+  if (searchText !== undefined) {
+    let searchResult = messages.filter(message =>
+      message.text.toLowerCase().includes(searchText.toLowerCase())
+    );
+    if (searchResult.length < 1) {
+      res.status(400).json(`This "${searchText}" search  word is invalid `);
+    } else {
+      res.json(searchResult );
+    }
+  }
+});
+
+//Read only the most recent 10 messages: /messages/latest
+
+app.get("/messages/latest", (req, res) => {
+  let latestMessages = messages.slice(-10);
+  res.json({message:`You are seeing ${latestMessages.length} messages`,latestMessages});
+});
+
+
+//
+
 // //create a new message
 // app.post(
 //   "/messages",
