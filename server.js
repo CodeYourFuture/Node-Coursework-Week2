@@ -32,9 +32,7 @@ app.get("/messages", (req, res) => {
 //Send a new message
 app.post("/messages", (req, res) => {
   if (!req.body.from || !req.body.text) {
-    res
-      .status(400)
-      .send("Please enter a value to both 'name' and 'message' sections");
+    res.status(400).send("Please fill out both 'name' and 'message' sections");
   } else {
     const newMessage = {
       id: messages.length,
@@ -48,23 +46,17 @@ app.post("/messages", (req, res) => {
 
 // Read one message by id
 
-// app.get("/messages/:messageId", (req, res) => {
-//   const messageId = Number(req.params.messageId);
-//   const chosenMsg = messages.find((message) => message.id === messageId);
-//   if (chosenMsg !== undefined) {
-//     res.json(chosenMsg);
-//   } else {
-//     res.status(400).send("Sorry, no message for that...");
-//   }
-// });
+app.get("/messages/:messageId", (req, res) => {
+  const messageId = Number(req.params.messageId);
+  const chosenMsg = messages.find((message) => message.id === messageId);
+  if (chosenMsg !== undefined) {
+    res.json(chosenMsg);
+  } else {
+    res.status(400).send("Sorry, no message for that...");
+  }
+});
 
 // Delete a message by id
-
-// app.delete("/messages/delete/:id", (req, res) => {
-//   const messageId = Number(req.params.id);
-//   messages = messages.filter((message) => message.id != messageId);
-//   res.json({ "Message deleted": true });
-// });
 
 app.delete("/messages/:id", (req, res) => {
   const id = Number(req.params.id);
@@ -77,7 +69,13 @@ app.delete("/messages/:id", (req, res) => {
   }
 });
 
-// see most reent 3 messages
+// app.delete("/messages/delete/:id", (req, res) => {
+//   const messageId = Number(req.params.id);
+//   messages = messages.filter((message) => message.id != messageId);
+//   res.json({ "Message deleted": true });
+// });
+
+// see most recent 3 messages
 
 app.get("/messages/latest", (req, res) => {
   messages.slice(-3);
