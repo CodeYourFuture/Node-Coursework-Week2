@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const cors = require("cors");
 
 const app = express();
@@ -49,14 +50,13 @@ app.post("/messages", (req, res) => {
 // Delete a message by id
 
 app.delete("/messages/delete/:id", (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const index = messages.findIndex((message) => message.id === id);
-  console.log(index);
   if (index) {
     messages.splice(index, 1);
-    res.json({ msg: `Message with id ${id} deleted`, messages });
+    res.json(`Message with id ${id} deleted`);
   } else {
-    res.status(400).send("Enter an Id number to delete a message");
+    res.status(404).send("Enter an Id number to delete a message");
   }
 });
 
