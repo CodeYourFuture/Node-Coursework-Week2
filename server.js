@@ -62,14 +62,24 @@ app.delete("/messages/delete/:id", (req, res) => {
 
 //Read one message by id
 
-app.get("/messages/:messageId", (req, res) => {
-  const messageId = Number(req.params.messageId);
-  const chosenMsg = messages.find((message) => message.id === messageId);
-  if (chosenMsg !== undefined) {
-    res.json(chosenMsg);
-  } else {
-    res.status(400).send("Sorry, no message for that...");
-  }
+// app.get("/messages/:messageId", (req, res) => {
+//   const messageId = Number(req.params.messageId);
+//   const chosenMsg = messages.find((message) => message.id === messageId);
+//   if (chosenMsg !== undefined) {
+//     res.json(chosenMsg);
+//   } else {
+//     res.status(400).send("Sorry, no message for that...");
+//   }
+// });
+
+// see most reent 3 messages
+
+app.get("/messages/latest", (req, res) => {
+  const recentMessages = messages.slice(-3);
+  res.json({
+    msg: `you are seing most recent${recentMessages.length} messages`,
+    recentMessages,
+  });
 });
 
 const PORT = 8080;
