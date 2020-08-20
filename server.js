@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const cors = require("cors");
 
 const app = express();
@@ -47,20 +46,7 @@ app.post("/messages", (req, res) => {
   }
 });
 
-// Delete a message by id
-
-app.delete("/messages/delete/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const index = messages.findIndex((message) => message.id === id);
-  if (index) {
-    messages.splice(index, 1);
-    res.json(`Message with id ${id} deleted`);
-  } else {
-    res.status(404).send("Enter an Id number to delete a message");
-  }
-});
-
-//Read one message by id
+// Read one message by id
 
 // app.get("/messages/:messageId", (req, res) => {
 //   const messageId = Number(req.params.messageId);
@@ -72,13 +58,32 @@ app.delete("/messages/delete/:id", (req, res) => {
 //   }
 // });
 
+// Delete a message by id
+
+// app.delete("/messages/delete/:id", (req, res) => {
+//   const messageId = Number(req.params.id);
+//   messages = messages.filter((message) => message.id != messageId);
+//   res.json({ "Message deleted": true });
+// });
+
+app.delete("/messages/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = messages.findIndex((message) => message.id === id);
+  if (index) {
+    messages.splice(index, 1);
+    res.json(`Message with id ${id} deleted`);
+  } else {
+    res.status(404).send("Enter an Id number to delete a message");
+  }
+});
+
 // see most reent 3 messages
 
 app.get("/messages/latest", (req, res) => {
-  const recentMessages = messages.slice(-3);
+  messages.slice(-3);
   res.json({
-    msg: `you are seing most recent${recentMessages.length} messages`,
-    recentMessages,
+    msg: `you are seing most recent ${messages.length} messages`,
+    messages,
   });
 });
 
