@@ -25,15 +25,27 @@ app.get("/", function(request, response) {
 // const randomId = (){
 //   return Math.floor(Math.random() * 1000000000);
 // }
+
+//read  all messages
+
+app.get("/messages", (req, res) => {
+  res.json(messages);
+}); 
+
 // create message
 app.post("/messages", (req, res) => {
-  const timeNow= new Date(); // timestamp
+  let today = new Date()
+  let date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let time =
+    today.getHours() + 1 + ":" + today.getMinutes() + ":" + today.getSeconds();
+  let dateTime = date + " " + time;
   let newId = messages.length + 1;
   if (!req.body.from || !req.body.text) {
     res.status(422).json("Field cannot be empty ");
   } else {
     let newPost = {
-      timeSent:timeNow,
+      timeSent:dateTime,
       id: newId,
       from: req.body.from,
       text: req.body.text
@@ -41,19 +53,31 @@ app.post("/messages", (req, res) => {
     messages.push(newPost);
     res.json(messages);
   }
-});// create message
-app.post("/messages", (req, res) => {
-  let newId = messages.length + 1;
-  if (!req.body.from || !req.body.text) {
-    res.status(422).json("Field cannot be empty ");
+});
+
+
+//read one message specified by an ID
+
+app.get("/messages/:id", (req, res)=>{
+  let id = Number(req.params.id);
+  let result = messages.find(message => message.id === id);
+  if(result){
+    res.json(result)
+  }else{
+    res.status(400).json(`Id ${id} is not valid`);
+  }
+})
+
+// Delete a message, by ID
+
+app.delete("/messages/delete/:id", (req, res) => {
+  let id = Number(req.params.id);
+  let index = messages.findIndex(message => message.id === id);
+  if (index) {
+    messages.splice(index, 1);
+    res.json(`message with id: ${id} has been deleted`);
   } else {
-    let newPost = {
-      id: newId,
-      from: req.body.from,
-      text: req.body.text
-    };
-    messages.push(newPost);
-    res.json(messages);
+    res.status(404).json("Please enter valid id to delete");
   }
 });
 
@@ -79,8 +103,26 @@ app.get("/messages/latest", (req, res) => {
   res.json({message:`You are seeing ${latestMessages.length} messages`,latestMessages});
 });
 
+// update msg
 
-//
+app.put("/messages/:id", (req, res) => {
+  let id = Number(req.params.id);
+
+  let newText = req.body.text;
+  let found = messages.find(message => message.id == id);
+  console.log(found);
+  let updatedMsg = [];
+  messages.forEach(message => {
+    if (message.id === found.id) {
+      message.text = newText;
+      updatedMsg.push(message);
+    } else {
+      updatedMsg.push(message);
+    }
+  });
+  res.json({ message: "Your message has been updated successfully" });
+});
+
 
 // //create a new message
 // app.post(
@@ -114,35 +156,9 @@ app.get("/messages/latest", (req, res) => {
 //   }
 // );
 
-//read  messages
 
-app.get("/messages", (req, res) => {
-  res.json(messages);
-});
 
-//read one message specified by an ID
-app.get("/messages/:id", (req, res)=>{
-  let id = Number(req.params.id);
-  let result = messages.find(message => message.id === id);
-  if(result){
-    res.json(result)
-  }else{
-    res.status(400).json(`Id ${id} is not valid`);
-  }
-})
 
-// Delete a message, by ID
-
-// app.delete("/messages/delete/:id", (req, res) => {
-//   let id = Number(req.params.id);
-//   let index = messages.findIndex(message => message.id === id);
-//   if (index) {
-//     messages.splice(index, 1);
-//     res.json(`message with id: ${id} has been deleted`);
-//   } else {
-//     res.status(404).json("Please enter valid id to delete");
-//   }
-// });
 
 const listener = app.listen(process.env.PORT || 3005, function() {
   console.log("Your app is listening on port " + listener.address().port);
