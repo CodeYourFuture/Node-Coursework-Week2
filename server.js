@@ -46,32 +46,32 @@ app.post("/messages", (req, res) => {
 
 // Read one message by id
 
-app.get("/messages/:messageId", (req, res) => {
+app.get("/messages/:messageId", (req, res, next) => {
   const messageId = Number(req.params.messageId);
   const chosenMsg = messages.find((message) => message.id === messageId);
   if (chosenMsg !== undefined) {
     res.json(chosenMsg);
   } else {
-    res.status(400).send("Sorry, no message for that...");
+    next();
   }
 });
 
 // Delete a message by id
 
-app.delete("/messages/:id", (req, res) => {
+app.delete("/messages/delete/:id", (req, res) => {
   const id = Number(req.params.id);
   const index = messages.findIndex((message) => message.id === id);
-  if (index) {
+  if (index !== undefined) {
     messages.splice(index, 1);
-    res.json(`Message with id ${id} deleted`);
+    res.json({ msg: `Message with id ${id} deleted`, messages });
   } else {
     res.status(404).send("Enter an Id number to delete a message");
   }
 });
 
 // app.delete("/messages/delete/:id", (req, res) => {
-//   const messageId = Number(req.params.id);
-//   messages = messages.filter((message) => message.id != messageId);
+//   const msgId = Number(req.params.id);
+//   messages = messages.filter((message) => message.id !== msgId);
 //   res.json({ "Message deleted": true });
 // });
 
