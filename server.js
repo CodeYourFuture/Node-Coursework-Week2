@@ -75,7 +75,14 @@ app.delete("/messages/delete/:id", (req, res) => {
 //   res.json({ "Message deleted": true });
 // });
 
-// see most recent 3 messages
+// Read searched messages only
+
+app.get("/messages/search", (req, res) => {
+  const searchText = req.query.text;
+  res.json(messages.filter((message) => message.text.includes(searchText)));
+});
+
+// Read most recent 3 messages
 
 app.get("/messages/latest", (req, res) => {
   messages.slice(-3);
