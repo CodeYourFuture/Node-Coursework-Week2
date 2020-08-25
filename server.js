@@ -31,6 +31,7 @@ app.get("/messages", (req, res) => {
 
 //Send a new message
 app.post("/messages", (req, res) => {
+  messageTime = new Date();
   if (!req.body.from || !req.body.text) {
     res.status(400).send("Please fill out both 'name' and 'message' sections");
   } else {
@@ -38,6 +39,7 @@ app.post("/messages", (req, res) => {
       id: messages.length,
       from: req.body.from,
       text: req.body.text,
+      timeSent: messageTime,
     };
     messages.push(newMessage);
     res.json(messages);
