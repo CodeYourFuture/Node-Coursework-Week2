@@ -62,20 +62,9 @@ app.get("/messages/:messageId", (req, res, next) => {
 
 app.delete("/messages/delete/:id", (req, res) => {
   const id = Number(req.params.id);
-  const index = messages.findIndex((message) => message.id === id);
-  if (index !== undefined) {
-    messages.splice(index, 1);
-    res.json({ msg: `Message with id ${id} deleted`, messages });
-  } else {
-    res.status(404).send("Enter an Id number to delete a message");
-  }
+  newMessages = messages.filter((message) => message.id !== id);
+  res.json({ msg: `Message with id ${id} deleted`, newMessages });
 });
-
-// app.delete("/messages/delete/:id", (req, res) => {
-//   const msgId = Number(req.params.id);
-//   messages = messages.filter((message) => message.id !== msgId);
-//   res.json({ "Message deleted": true });
-// });
 
 // Read searched messages only
 
@@ -99,7 +88,7 @@ app.get("/messages/latest", (req, res) => {
 app.put("/messages/id", (req, res) => {
   const updMessage = req.body;
   messages.forEach((message) => {
-    if (message.id === parseInt(req.params.is)) {
+    if (message.id === parseInt(req.params.id)) {
       message.from = updMessage.from ? updMessage.from : message.from;
       message.text = updMessage.text ? updMessage.text : message.text;
 
