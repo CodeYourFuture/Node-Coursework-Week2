@@ -16,7 +16,25 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = [  welcomeMessage,
+  {
+    id: 1,
+    from: "Joanna",
+    text: "Hey, how are you?"
+  },
+  {
+    id: 2,
+    from: "Tas",
+    text: "Are you going us today"
+  },
+  
+  {
+    id: 3,
+    from: "Altom",
+    text: "Are you going us today"
+  }
+  
+];
 
 app.get("/", function(request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -30,11 +48,11 @@ app.get("/", function(request, response) {
 
 app.get("/messages", (req, res) => {
   res.json(messages);
-}); 
+});
 
 // create message
 app.post("/messages", (req, res) => {
-  let today = new Date()
+  let today = new Date();
   let date =
     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
   let time =
@@ -45,7 +63,7 @@ app.post("/messages", (req, res) => {
     res.status(422).json("Field cannot be empty ");
   } else {
     let newPost = {
-      timeSent:dateTime,
+      timeSent: dateTime,
       id: newId,
       from: req.body.from,
       text: req.body.text
@@ -55,24 +73,22 @@ app.post("/messages", (req, res) => {
   }
 });
 
-
 //read one message specified by an ID
 
-app.get("/messages/:id", (req, res)=>{
-  let id = Number(req.params.id);
-  let result = messages.find(message => message.id === id);
-  if(result){
-    res.json(result)
-  }else{
-    res.status(400).json(`Id ${id} is not valid`);
-  }
-})
+// app.get("/messages/:id", (req, res) => {
+//   let id = req.params.id;
+//   let found = messages.find(message => message.id == id);
+//   console.log(found);
+//   res.json(found);
+// });
 
-// Delete a message, by ID
+//Delete a message, by ID
 
-app.delete("/messages/delete/:id", (req, res) => {
+app.delete("/messages/:id", (req, res) => {
   let id = Number(req.params.id);
+  console.log(id);
   let index = messages.findIndex(message => message.id === id);
+
   if (index) {
     messages.splice(index, 1);
     res.json(`message with id: ${id} has been deleted`);
@@ -81,33 +97,11 @@ app.delete("/messages/delete/:id", (req, res) => {
   }
 });
 
-//Read only messages whose text contains a given substring: /messages/search?text=express
-app.get("/messages/search", (req, res) => {
-  let searchText = req.query.text;
-  if (searchText !== undefined) {
-    let searchResult = messages.filter(message =>
-      message.text.toLowerCase().includes(searchText.toLowerCase())
-    );
-    if (searchResult.length < 1) {
-      res.status(400).json(`This "${searchText}" search  word is invalid `);
-    } else {
-      res.json(searchResult );
-    }
-  }
-});
-
-//Read only the most recent 10 messages: /messages/latest
-
-app.get("/messages/latest", (req, res) => {
-  let latestMessages = messages.slice(-10);
-  res.json({message:`You are seeing ${latestMessages.length} messages`,latestMessages});
-});
-
-// update msg
+// // update msg
 
 app.put("/messages/:id", (req, res) => {
   let id = Number(req.params.id);
-
+  console.log(id);
   let newText = req.body.text;
   let found = messages.find(message => message.id == id);
   console.log(found);
@@ -123,6 +117,34 @@ app.put("/messages/:id", (req, res) => {
   res.json({ message: "Your message has been updated successfully" });
 });
 
+//Read only the most recent 10 messages: /messages/latest
+
+app.get("/messages/latest", (req, res) => {
+  let latestMessages = messages.slice(-2);
+  res.json({
+    message: `You are seeing ${latestMessages.length} messages`,
+    latestMessages
+  });
+});
+
+//Read only messages whose text contains a given substring: /messages/search?text=express
+
+app.get("/messages/search", (req, res) => {
+  let searchText = req.query.text;
+  console.log(searchText);
+  if (searchText !== undefined) {
+    console.log(messages);
+    let searchResult = messages.filter(message =>
+      message.text.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    if (searchResult.length < 1) {
+      res.status(400).json(`This "${searchText}" search  word is invalid `);
+    } else {
+      res.json(searchResult);
+    }
+  }
+});
 
 // //create a new message
 // app.post(
