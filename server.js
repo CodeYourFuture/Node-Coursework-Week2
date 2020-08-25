@@ -46,22 +46,6 @@ app.post("/messages", (req, res) => {
   }
 });
 
-app.put("/messages/id", (req, res) => {
-  const updMessage = req.body;
-  messages.forEach((message) => {
-    if (message.id === parseInt(req.params.is)) {
-      message.from = updMessage.from ? updMessage.from : message.from;
-      message.text = updMessage.text ? updMessage.text : message.text;
-
-      res.json({ msg: `message with id ${message.id} updated`, message });
-    } else {
-      res
-        .status(400)
-        .json({ msg: `No member with the id of ${req.params.id}` });
-    }
-  });
-});
-
 // Read one message by id
 
 app.get("/messages/:messageId", (req, res, next) => {
@@ -110,17 +94,23 @@ app.get("/messages/latest", (req, res) => {
   });
 });
 
-// app.put("/messages/id", (req, res) => {
-//   const updMessage = req.body;
-//   messages.forEach((message) => {
-//     if (message.id === parseInt(req.params.is)) {
-//       message.from = updMessage.from ? updMessage.from : message.from;
-//       message.text = updMessage.text ? updMessage.text : message.text;
+// Update a message
 
-//       res.json({ msg: `message with id ${message.id} updated`, message });
-//     }
-//   });
-// });
+app.put("/messages/id", (req, res) => {
+  const updMessage = req.body;
+  messages.forEach((message) => {
+    if (message.id === parseInt(req.params.is)) {
+      message.from = updMessage.from ? updMessage.from : message.from;
+      message.text = updMessage.text ? updMessage.text : message.text;
+
+      res.json({ msg: `message with id ${message.id} updated`, message });
+    } else {
+      res
+        .status(400)
+        .json({ msg: `No member with the id of ${req.params.id}` });
+    }
+  });
+});
 
 const PORT = 8080;
 app.listen(process.env.PORT || PORT);
