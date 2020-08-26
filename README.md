@@ -32,9 +32,9 @@ If you want to share your server with other people the easiest way to do this is
 
 At this first level, your API must allow a client to:
 
-- [ ] Create a new message
-- [ ] Read all messages
-- [ ] Read one message specified by an ID
+- [x] Create a new message
+- [x] Read all messages
+- [x] Read one message specified by an ID
 - [ ] Delete a message, by ID
 
 * [ ] All message content should be passed as JSON.
