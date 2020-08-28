@@ -6,16 +6,18 @@ const app = express();
 
 app.use(cors());
 
-const today = new Date();
-const minutes = String(today.getMinutes()).padStart(2, "0");
-const seconds = String(today.getSeconds()).padStart(2, "0");
-const time = today.getHours() + ":" + minutes + ":" + seconds;
-const dd = String(today.getDate()).padStart(2, "0");
-const mm = String(today.getMonth() + 1).padStart(2, "0"); // Jan = 0
-const yyyy = today.getFullYear();
-const date = dd + "/" + mm + "/" + yyyy;
-const dateTime = time + " " + date;
-
+const dayTime = () => {
+  const today = new Date();
+  const minutes = String(today.getMinutes()).padStart(2, "0");
+  const seconds = String(today.getSeconds()).padStart(2, "0");
+  const time = today.getHours() + ":" + minutes + ":" + seconds;
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); // Jan = 0
+  const yyyy = today.getFullYear();
+  const date = dd + "/" + mm + "/" + yyyy;
+  const dateTime = time + " " + date;
+  return dateTime;
+};
 // const welcomeMessage = {
 //   id: 0,
 //   from: "Bart",
@@ -51,7 +53,7 @@ app.post("/messages", (request, response) => {
     id: newId,
     from: request.body.from,
     text: request.body.text,
-    timeSent: dateTime,
+    timeSent: dayTime(),
   };
   if (!newPost.from || !newPost.text) {
     response.status(400).json({ message: "Invalid Request" });
@@ -73,20 +75,20 @@ app.get("/messages/:id", (request, response) => {
 // -------------delete a post with a specific id --------------------
 app.delete("/message/:id", (request, response) => {
   let id = Number(request.params.id);
-  let remianedPosts = messages.filter((item) => item.id !== id);
-  console.log(id);
-  console.log(remianedPosts);
-  response.json(remianedPosts);
-  // or
-  // let deletedPostIndex = messages.findIndex((item) => item.id === id);
-  // console.log(deletedPostIndex);
-  // if (deletedPostIndex >= 0) {
-  //   messages.splice(deletedPostIndex, 1);
-  //   console.log(messages);
-  //   response.json(messages);
-  // } else {
-  //   response.status(404).json({ message: "Error" });
-  // }
+  // let remianedPosts = messages.filter((item) => item.id !== id);
+  // console.log(id);
+  // console.log(remianedPosts);
+  // response.json(remianedPosts);
+  // // or
+  let deletedPostIndex = messages.findIndex((item) => item.id === id);
+  console.log(deletedPostIndex);
+  if (deletedPostIndex > -1) {
+    messages.splice(deletedPostIndex, 1);
+    console.log(messages);
+    response.json(messages);
+  } else {
+    response.status(404).json({ message: "Error" });
+  }
 });
 // ---------------- read functionality----------------
 app.get("/messages/search", (request, response) => {
@@ -115,8 +117,8 @@ app.put("/messages/:id", (request, response) => {
     messages.map(
       (item) => {
         if (item.id === foudnUser.id) {
-          foudnUser.from = name;
-          foudnUser.text = message;
+          item.from = name;
+          item.text = message;
         } else {
           item;
         }
