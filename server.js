@@ -1,23 +1,20 @@
 const express = require("express");
 const cors = require("cors");
-
+const path = require("path")
 const app = express();
 
 app.use(cors());
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
+//Body parser middleware (Form)
+app.use(express.urlencoded({ extended: false }))
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
-});
+//Static Folder
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.listen(process.env.PORT);
+
+//Routes
+app.use('/messages', require('./routes/messages'))
+
+
+const listener = app.listen(process.env.PORT || 8080, () => { console.log("listening on", listener.address().port) });
