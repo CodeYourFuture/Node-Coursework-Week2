@@ -65,6 +65,7 @@ app.post("/messages", function(request, response) {
 
 //Get all messages
 app.get("/messages", function(request, response) {
+  console.log(messages);
   response.json(messages);
 });
 
@@ -90,4 +91,15 @@ app.delete("/messages/:messageId", (request, response) => {
   }
 });
 
-app.listen(process.env.PORT);
+app.get("/messages/search", function(request, response){
+  const term = request.query.text;
+  const searchTerm = term.toLowerCase();
+  console.log(searchTerm,"searchTerm");
+  const foundMessages = messages.filter(message => message.text.toLowerCase().includes(searchTerm));
+  response.json(foundMessages);
+  
+})
+// app.listen(process.env.PORT);
+ const listener = app.listen(process.env.PORT, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
