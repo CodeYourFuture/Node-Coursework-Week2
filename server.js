@@ -35,7 +35,70 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+// const messages = [welcomeMessage];
+const messages =[
+  {
+      id: 0,
+      from: "Bart",
+      text: "Welcome to CYF chat system!"
+    },
+    {
+      id: 1,
+      from: "Bart",
+      text: "I hope you enjoy this course"
+    },
+    {id:2,
+    from:"farhana",
+    text:"hello"},
+    {id:3,
+    from:"humail",
+    text:"bye"},
+    {
+      id: 4,
+      from: "Bart",
+      text: "Welcome to CYF chat system!"
+    },
+    {
+      id: 5,
+      from: "Bart",
+      text: "I hope you enjoy this course"
+    },
+    {id:6,
+    from:"farhana",
+    text:"hello"},
+    {id:7,
+    from:"humail",
+    text:"bye"},
+    {
+      id: 8,
+      from: "Bart",
+      text: "Welcome to CYF chat system!"
+    },
+    {
+      id: 9,
+      from: "Bart",
+      text: "I hope you enjoy this course"
+    },
+    {id:10,
+    from:"farhana",
+    text:"hello"},
+    {id:11,
+    from:"humail",
+    text:"bye"},
+    {
+      id:12,
+      from: "dania",
+      text: "call back"
+    },
+    {
+      id:13,
+      from:"fatima",
+      text:"sorry busy rn!"
+    },
+
+]
+    
+
 
 app.get("/", function(request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -63,10 +126,19 @@ app.post("/messages", function(request, response) {
   }
 });
 
-//Get all messages
+//Get all messages and check for order and limit
 app.get("/messages", function(request, response) {
-  console.log(messages);
-  response.json(messages);
+  
+  const order = request.query.order;
+  const limit = request.query.limit;
+  if(order === 'desc' && limit == 10){
+    const descOrder = messages.reverse();
+    const orderedAndLimited = descOrder.slice(0,10);
+    response.json(orderedAndLimited);
+  }else{
+    response.json(messages);    
+  }
+  
 });
 
 //get message by Id
@@ -92,14 +164,17 @@ app.delete("/messages/:messageId", (request, response) => {
 });
 
 app.get("/messages/search", function(request, response){
-  const term = request.query.text;
+  const term = request.query.term;
+  console.log(term);
   const searchTerm = term.toLowerCase();
   console.log(searchTerm,"searchTerm");
   const foundMessages = messages.filter(message => message.text.toLowerCase().includes(searchTerm));
   response.json(foundMessages);
   
-})
-// app.listen(process.env.PORT);
+});
+
+
+
  const listener = app.listen(process.env.PORT, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
