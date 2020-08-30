@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const { v4: uuidv4 } = require("uuid");
 const app = express();
 
 app.use(cors());
@@ -11,24 +11,25 @@ app.use(express.urlencoded({ extended: true }));
 //Create a new message
 app.post("/messages", (req, res) => {
   let newPost = {
-    id: messages.length,
+    id: uuidv4(),
     from: req.body.from,
     text: req.body.text,
-    timeSent: dateTime,
+    timeSent: getTime(),
   };
-  if (newPost.from !== "" && newPost.text !== "") {
+
+  if (newPost.from !== undefined && newPost.text !== undefined) {
     messages.push(newPost);
-    res.json(messages);
+    res.json(newPost);
   } else {
     res.status(400).json(`Please fill all the fields`);
   }
 });
 
 // Delete a message, by ID
-app.delete("/messages/delete/:id", (req, res) => {
+app.delete("/messages/:id", (req, res) => {
   let id = Number(req.params.id);
   let index = messages.findIndex((message) => message.id === id);
-  if (index) {
+  if (index > -1) {
     messages.splice(index, 1);
     res.json(`message with id: ${id} has been deleted`);
   } else {
@@ -44,32 +45,28 @@ app.get("/messages", (req, res) => {
 app.put("/messages/:id", (req, res) => {
   let id = Number(req.params.id);
   let newText = req.body.text;
+  let newFrom = req.body.from;
   let found = messages.find((message) => message.id == id);
-  let updatedMsg = [];
-  messages.forEach((message) => {
-    if (message.id === found.id) {
-      message.text = newText;
-      updatedMsg.push(message);
-    } else {
-      updatedMsg.push(message);
-    }
-  });
-  res.json({ updatedMsg });
+  if (found) {
+    found.text = newText;
+    found.from = newFrom;
+    res.json(found);
+  } else {
+    res.json("message not found");
+  }
 });
 
 //Read only messages whose text contains a given substring
 app.get("/messages/search", (req, res) => {
   let text = req.query.text;
-  if (text !== undefined) {
+  if (text) {
+    text = text.toLowerCase();
     let result = messages.filter((message) =>
-      message.text.toLowerCase().includes(text.toLowerCase())
+      message.text.toLowerCase().includes(text)
     );
-
-    if (result.length < 1) {
-      res.status(400).json(`Please enter a valid search term`);
-    } else {
-      res.json(result);
-    }
+    res.json(result);
+  } else {
+    res.json("please enter a valid term");
   }
 });
 
@@ -92,13 +89,15 @@ app.get("/messages/:id", (req, res) => {
     res.status(400).json("There isn't any match ID");
   }
 });
-
-var today = new Date();
-var date =
-  today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-var time =
-  today.getHours() + 1 + ":" + today.getMinutes() + ":" + today.getSeconds();
-var dateTime = date + " " + time;
+function getTime() {
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date + " " + time;
+  return dateTime;
+}
 
 const welcomeMessage = {
   id: 0,
