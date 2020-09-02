@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const welcomeMessage = {
   id: 0,
-  from: "Bart",
+  from: "Halit",
   text: "Welcome to CYF chat system!",
 };
 
