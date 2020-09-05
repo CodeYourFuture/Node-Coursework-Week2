@@ -69,13 +69,13 @@ app.delete('/messages/:id', function (request, response) {
   let id = parseInt(request.params.id),
     result = messages.find(item => item.id === id),
     index = messages.indexOf(result);
-    if (index > -1){
-  messages.splice(index, 1)
-  response.json(messages)
-}  else {
-  response.status(404).json("not found")
-}
+  if (index > -1) {
+    messages.splice(index, 1)
+    response.json(messages)
+  } else {
+    response.status(404).json("not found")
+  }
 })
 
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
