@@ -4,8 +4,8 @@ const bodyParser = require("body-parser");
 const _ = require("lodash");
 const app = express();
 let messages = require("./messages.json");
-app.use(cors());
 
+app.use(cors());
 app.use(bodyParser.json());
 
 //This array is our "data store".
@@ -23,13 +23,11 @@ app.get("/messages", (req, res) => {
 
 //POST message
 app.post("/messages", function (req, res) {
-  if (req.body.text && req.body.from) {
-    const messageTime = new Date();
-    const newMessage = { ...req.body, timeSent: messageTime };
-    messages.push(newMessage);
-    res.send({ success: true, newMessage });
+  if (req.body.text.lenght && req.body.from.length) {
+    messages.push(req.body);
+    res.send({ success: true, messages });
   } else {
-    res.send(400, "Message could not be send !");
+    res.status(400).send("Message could not be send!");
   }
 });
 
