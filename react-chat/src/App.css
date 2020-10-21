@@ -9,3 +9,21 @@ form {
 .messages {
   background-color: blue;
 }
+
+.App{
+  background-color: aqua;
+}
+
+.App-header{
+  background-color: brown;
+}
+
+.greeting{
+  text-align: center;
+  background-color: #084C61;
+  color: #E3B505;
+  font-weight: bolder;
+  font-size: larger;
+  height: 6rem;
+  padding-top: 3rem;
+}

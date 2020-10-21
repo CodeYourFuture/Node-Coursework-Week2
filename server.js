@@ -73,15 +73,15 @@ client.connect(function () {
     });
   });
 
-  // app.put("/messages/:id", function (req, res) {
-  //   let messageId = { _id: mongodb.ObjectId(req.params.id) };
-  //   const collection = db.collection("chat-server");
-  //   client.connect(function () {
-  //     collection.findOneAndUpdate(messageId, function (error, messages) {
-  //       res.send(error || messages);
-  //     });
-  //   });
-  // });
+  app.put("/messages/:id", function (req, res) {
+    let messageId = { _id: mongodb.ObjectId(req.params.id) };
+    const collection = db.collection("chat-server");
+    client.connect(function () {
+      collection.findOneAndUpdate(messageId, function (error, messages) {
+        res.send(error || messages);
+      });
+    });
+  });
 
   app.delete("/messages/:id", function (req, res) {
     let messageId = { _id: req.params.id };
