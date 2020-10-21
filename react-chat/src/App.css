@@ -1,3 +1,6 @@
+.App-header{
+top:0;
+}
 
 form {
   display: flex;
@@ -63,11 +66,16 @@ margin-top: 0;
 }
 
 footer{
+  position: fixed;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   text-align: center;
   background-color: #084C61;
-  height: 8rem;
+  
+  bottom: 0px;
+  
 }
+
