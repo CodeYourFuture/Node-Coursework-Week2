@@ -35,13 +35,14 @@ const MessagePost = () => {
 
   return (
     <div>
-      <form>
+      <form className="submit-form"> 
         <label for="name">Nickname</label>
         <input type="text" id="name" value={nickname} onChange={handleName} />
         <label for="message">Your message</label>
-        <input
+        <textarea
           type="text"
           id="message"
+          rows="10" cols="40"
           value={messageInput}
           onChange={handleMessage}
         />

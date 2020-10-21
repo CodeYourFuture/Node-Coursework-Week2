@@ -11,14 +11,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-// const welcomeMessage = {
-//   id: 0,
-//   from: "Bart",
-//   text: "Welcome to CYF chat system!",
-//   timeSent: new Date(),
-// };
 
-// let messages = [welcomeMessage];
 
 client.connect(function () {
   const db = client.db("node-project");

@@ -2,9 +2,9 @@ import React from "react";
 
 const MessageBox = (props) => {
   return (
-    <div>
-      <p>{props.message.from}</p>
-      <p>{props.message.text}</p>
+    <div className="one-message">
+      <p className="message-from">{props.message.from}</p>
+      <p >{props.message.text}</p>
     </div>
   );
 };

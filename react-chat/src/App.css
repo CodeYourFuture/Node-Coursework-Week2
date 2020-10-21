@@ -4,18 +4,52 @@ form {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10%;
 }
 
-.messages {
-  background-color: blue;
+.chat-box{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1%;
+  border: 3px solid #084C61;
+  width: 90%;
+  padding: 3%;
+  margin: 3%;
 }
 
-.App{
-  background-color: aqua;
+.one-message{
+  border-radius: 2%;
+  border: 1px solid #084C61;
+  width: 100%;
+  
+}
+.message-from{
+color: black;
+font-weight: bolder;
+text-indent: 2%;
+background-color: #56A3A6;
+margin-top: 0;
+
+}
+.text-message{
+  border-radius: 2%;
+  background-color: white;
+  padding-right: 2%;
+  text-indent: 5%;
+}
+.submit-form{
+  display: flex;
+  border-radius: 5%;
+  border: 3px solid #084C61;
+  padding: 6%;
+  background-color: #56A3A6;
 }
 
-.App-header{
-  background-color: brown;
+.messages{
+  width: 70%;
+  margin-left: 5%;
 }
 
 .greeting{
@@ -26,4 +60,14 @@ form {
   font-size: larger;
   height: 6rem;
   padding-top: 3rem;
+}
+
+footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  background-color: #084C61;
+  height: 8rem;
 }
