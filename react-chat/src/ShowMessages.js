@@ -6,6 +6,7 @@ const [messages, setMessages] = useState([])
 
 useEffect( ()=>{
     fetch("https://roxana-chat-server.herokuapp.com/messages/")
+    
     .then(data => data.json())
     .then(data => setMessages(data))
 }, [messages]

@@ -18,12 +18,27 @@ client.connect(function () {
 
   app.get("/messages", function (req, res) {
     const collection = db.collection("chat-server");
-    client.connect(function () {
+   
       collection.find().toArray(function (error, messages) {
         res.send(error || messages);
-      });
+        client.close()
+     
     });
+
+   
   });
+
+  app.get("/", function (req, res) {
+    const collection = db.collection("chat-server");
+    client.connect(function () {
+      
+        res.send("Hello World");
+
+    });
+
+    client.close()
+  });
+
 
   app.post("/messages", function (req, res) {
     const collection = db.collection("chat-server");
