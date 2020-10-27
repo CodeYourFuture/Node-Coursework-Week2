@@ -88,9 +88,9 @@ app.post('/messages', function(request, response) {
     let time = today.getHours() + 1 + ":" + today.getMinutes() + ":" + today.getSeconds();
     let timeSend = date  + " " + time;
     let newMessage = {
-    id: messages.length,
+    id: new Date().getTime(), // or messages.length
     from: request.body.from,
-    text: request.body.text,
+    text: request.body.text
      }
      if(newMessage.from && newMessage.text){
      messages.push(newMessage)
