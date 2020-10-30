@@ -85,6 +85,23 @@ app.post('/messages',(req,res)=>{
           }
         });
 
+      // Message Update using ID 
+        app.put ('/messages/update/:id', (req, res) => {
+      const {id} = req.params;
+
+      const msgUpdate = req.body;
+
+      const message = messages.find (msg => msg.id == id);
+      if (message) {
+        const filteredMsg = messages.filter (msg => msg.id !== id);
+        messages = filteredMsg;
+        messages.push (msgUpdate);
+        res.json (`Message with id ${id} is updated.`);
+      } else {
+        res.sendStatus (404);
+      }
+    });
+
   
 
 
