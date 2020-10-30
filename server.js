@@ -91,8 +91,8 @@ app.post('/messages', function(request, response) {
     let timeSend = date  + " " + time;
     let newMessage = {
     id: new Date().getTime(), // or messages.length
-    name: request.body.name,
-    message: request.body.message
+    from: request.body.from,
+    text: request.body.text
      }
      if(newMessage.from && newMessage.text){
      messages.push(newMessage)
