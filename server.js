@@ -10,22 +10,30 @@ app.use(cors())
 const welcomeMessage = {
   id: 0,
   from: "Bart",
-  text: "Welcome to CYF chat system!"
+  text: "Welcome to CYF chat system!",
+  timeSent: req.body.timeSent 
 }
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
+
+
+//Read all messages
 const messages = [welcomeMessage]
 app.get('/messages',(req,res)=>{
   res.send(messages)
 })
+
+//Read message by id
 app.get('/messages/:id',(req,res)=>{
   const id=req.params.id;
   const found = messages.find(e=>e.id == id)
   found ? res.json (found) : res.sendStatus (404);
   res.json(found)
 })
+
+// Post new messages with time stamps
 app.post('/messages',(req,res)=>{
   
    if(req.body.from || req.body.text){
@@ -45,7 +53,9 @@ app.post('/messages',(req,res)=>{
     res.status(400).send("Bad Request")
   }     
      });
-    app.post("/message", (req,res)=>{
+
+    // Delete message by ID
+     app.post("/message", (req,res)=>{
         const id = req.body.id;
 
         let arr = []
@@ -61,19 +71,19 @@ app.post('/messages',(req,res)=>{
         res.send(arr)
 
     })
-//   app.delete ('/messages/:id', (req, res) => {
-//     const {id} = req.params;
-
-//   const indexToDelete = messages.findIndex (msg => msg.id === Number (id));
-  
-//   if (indexToDelete) {
-//     messages.splice (indexToDelete, 1);
-//     res.sendStatus (204);
-//   } else {
-//     res.sendStatus (404);
-//   }
-// });
-
+//Message Search
+    app.get ('/messages/search', (req, res) => {
+      const searchMessage = req.query.text;
+      const result = messages.filter (e => {
+       return e.text.toLowerCase ().includes (searchMessage.toLowerCase ());
+      });
+      console.log (result);
+      if (result) {
+        res.json (result);
+      } else {
+        res.sendStatus (404);
+          }
+        });
 
   
 
