@@ -65,7 +65,7 @@ app.get('/messages/:id', function(req, res) {
  if(message){
      res.send(message)
  }else{
-     res.send(404, {
+     res.send({
          "message" : "Data Did Not Find"
      })
  }
