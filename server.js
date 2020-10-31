@@ -17,7 +17,7 @@ let anotherMessage = {
 }
 let one = {
   id: 2,
-  from: "Bart",
+  from: "Bart",var port = process.env.PORT || 8080;
   text: "Welcome to CYF chat system!"
 }
 let two = {
@@ -180,6 +180,11 @@ app.patch("/updateMessages/:id", function (req, res) {
 
 
 //---------------------------------------------------------
-app.listen(8000, ()=> {
-  console.log("server started on port 8000")
-});
+// app.listen(8000, ()=> {
+//   console.log("server started on port 8000")
+// });
+
+
+const listener = app.listen(process.env.PORT, function () { 
+	console.log("Your app is listening on port " + listener.address().port); 
+}); 
