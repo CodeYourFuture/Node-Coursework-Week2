@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 
-const port = process.env.PORT || 4444;
+const port = process.env.PORT || 2222;
 
 const bodyParser = require("body-parser");
 
@@ -21,10 +21,10 @@ const save = () => {
     }
   );
 };
-app.use(express.static(".index.html"));
+// app.use(express.static(".index.html"));
 
 app.use(cors());
-
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // const welcomeMessage = {
 //   id: 0,
@@ -43,7 +43,6 @@ app.get("/", function (request, response) {
 
 app.get("/messages", function (request, response) {
   response.json(messages);
-  response.send(`All messages are ${messages.length}`);
 });
 
 app.get("/messages/latest", function (request, response) {
@@ -52,16 +51,16 @@ app.get("/messages/latest", function (request, response) {
 });
 
 //Create/update = POST
+let Id = 1;
 app.post("/message", (request, response) => {
   // const message = request.body;
-  // const message = {};
+  const message = {};
   message.id = Id;
-  message.from = req.body.from;
-  message.text = req.body.text;
+  message.from = request.body.from;
+  message.text = request.body.text;
   if (message.from != "" && message.text != "") {
     messages.push(message);
-    console.log(message);
-    Id++;
+    Id = Id + 1;
     save();
     response.json({
       status: "success",
@@ -81,20 +80,21 @@ app.get("/message/:id", function (request, response) {
 });
 
 app.delete("/messages/:id", (request, response) => {
-  const { id } = req.params;
-  messages.forEach((msg) => {
-    if (msg.id == id) {
-      messages.splice(msg, 1);
-    }
-  });
-  // // const id = request.params.id;
-  // messages = messages.filter((def) => {
-  //   if (def.id !== request.params.id) {
-  //     return true;
+  // const { id } = request.params;
+  // messages.forEach((msg) => {
+  //   if (msg.id == id) {
+  //     messages.splice(msg, 1);
   //   }
-  //   return false;
   // });
-  response.json({
+
+  // const id = request.params.id;
+  messages = messages.filter((def) => {
+    if (def.id !== request.params.id) {
+      return true;
+    }
+    return false;
+  });
+   response.json({
     status: "success",
     removed: request.params.id,
     newLength: messages.length,
@@ -115,8 +115,8 @@ app.get("/messages/search", (request, response) => {
     response.end();
   }
 
-  // let term = req.query.search;
-  // res.send(`${searchQuery}`);
+//   // let term = req.query.search;
+//   // res.send(`${searchQuery}`);
 });
 
 app.listen(port);

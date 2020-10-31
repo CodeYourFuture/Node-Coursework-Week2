@@ -1,27 +1,17 @@
 [
   {
-    "id": 1,
-    "from": "Billy",
-    "text": "Welcome to another CYF chat system!"
-  },
-  {
-    "id": 1,
-    "from": "Billy",
-    "text": "Welcome to another CYF chat system!"
-  },
-  {
-    "id": 2,
-    "from": "Osagie",
-    "text": "Welcome to another CYF chat system!"
+    "id": 3,
+    "from": "Peter",
+    "text": "Hello again to another CYF chat system!"
   },
   {
     "id": 4,
-    "from": "Harry",
-    "text": "Welcome to another CYF chat system!"
+    "from": "Goat",
+    "text": "Hello again to another CYF chat system!"
   },
   {
     "id": 5,
-    "from": "Peter",
+    "from": "Goat",
     "text": "Hello again to another CYF chat system!"
   },
   {
@@ -45,13 +35,33 @@
     "text": "Hello again to another CYF chat system!"
   },
   {
-    "id": 10,
-    "from": "Goat",
-    "text": "Hello again to another CYF chat system!"
+    "id": 1,
+    "from": "John",
+    "text": "Welcome to another CYF chat system!"
   },
   {
-    "id": 11,
-    "from": "Goat",
-    "text": "Hello again to another CYF chat system!"
+    "id": 1,
+    "from": "Eben",
+    "text": "Yo There! How are you doing?"
+  },
+  {
+    "id": 1,
+    "from": "Eben",
+    "text": "Yo There! How are you doing?"
+  },
+  {
+    "id": 1,
+    "from": "Eben",
+    "text": "Yo There! How are you doing?"
+  },
+  {
+    "id": 1,
+    "from": "Eben",
+    "text": "Yo There! How are you doing?"
+  },
+  {
+    "id": 1,
+    "from": "Eben",
+    "text": "Yo There! How are you doing?"
   }
- ]
+]
