@@ -12,7 +12,8 @@ const welcomeMessage = {
   from: "Bart",
   text: "Welcome to CYF chat system!",
   timeSent: req.body.timeSent 
-}
+
+  }
 
 //This array is our "data store".
 //We will start with one message in the array.
@@ -48,6 +49,24 @@ app.post('/messages',(req,res)=>{
         .status (201)
         .json (` Successfully A new chat with Id number ${newMessage.id}  is created.`);
  
+}})
+
+app.get('/messages/:id',(req,res)=>{
+  const id=req.params.id;
+  const found = messages.find(e=>e.id == id)
+  // if(found){
+  res.json(found)
+})
+app.post('/messages',(req,res)=>{
+  
+   if(req.body.from || req.body.text){
+  messages.id = messages.length
+
+  const newMessage = req.body
+  newMessage.id=messages.length
+  console.log(newMessage)
+   messages.push(newMessage);
+     res.json(messages)
    }
   else{
     res.status(400).send("Bad Request")
