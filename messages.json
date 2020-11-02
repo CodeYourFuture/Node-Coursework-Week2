@@ -1,7 +1,17 @@
 [
   {
-    "id": 3,
+    "id": 1,
     "from": "Peter",
+    "text": "Hello again to another CYF chat system!"
+  },
+  {
+    "id": 2,
+    "from": "Goat",
+    "text": "Hello again to another CYF chat system!"
+  },
+  {
+    "id": 5,
+    "from": "Goat",
     "text": "Hello again to another CYF chat system!"
   },
   {
@@ -26,42 +36,7 @@
   },
   {
     "id": 8,
-    "from": "Goat",
-    "text": "Hello again to another CYF chat system!"
-  },
-  {
-    "id": 9,
-    "from": "Goat",
-    "text": "Hello again to another CYF chat system!"
-  },
-  {
-    "id": 1,
-    "from": "John",
-    "text": "Welcome to another CYF chat system!"
-  },
-  {
-    "id": 1,
-    "from": "Eben",
-    "text": "Yo There! How are you doing?"
-  },
-  {
-    "id": 1,
-    "from": "Eben",
-    "text": "Yo There! How are you doing?"
-  },
-  {
-    "id": 1,
-    "from": "Eben",
-    "text": "Yo There! How are you doing?"
-  },
-  {
-    "id": 1,
-    "from": "Eben",
-    "text": "Yo There! How are you doing?"
-  },
-  {
-    "id": 1,
-    "from": "Eben",
-    "text": "Yo There! How are you doing?"
+    "from": "Lokko",
+    "text": "Hello Mr Lokko. You good?"
   }
 ]

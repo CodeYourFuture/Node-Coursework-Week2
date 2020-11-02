@@ -46,55 +46,50 @@ app.get("/messages", function (request, response) {
 });
 
 app.get("/messages/latest", function (request, response) {
-  response.json(messages.slice(-10));
+  response.json(messages.slice(-5));
   response.send("Latest Found");
 });
 
 //Create/update = POST
-let Id = 1;
-app.post("/message", (request, response) => {
+app.post("/messages", (request, response) => {
   // const message = request.body;
-  const message = {};
-  message.id = Id;
-  message.from = request.body.from;
-  message.text = request.body.text;
+  const message = {
+    id: messages.length + 1,
+    from: request.body.from,
+    text: request.body.text,
+  };
   if (message.from != "" && message.text != "") {
     messages.push(message);
-    Id = Id + 1;
     save();
     response.json({
       status: "success",
       message: request.body,
     });
   } else {
-    res.sendStatus(400);
+    response.sendStatus(400);
   }
 });
 app.get("/message/:id", function (request, response) {
   let { id } = request.params;
 
-  const messages = messages.find((msg) => msg.id == id);
-  response.json(id);
+  const message = messages.find((msg) => msg.id === parseInt(id));
+  response.json(message);
   // req.params.albumId will match the value in the url after /albums/
   console.log(request.params.id);
 });
 
 app.delete("/messages/:id", (request, response) => {
-  // const { id } = request.params;
-  // messages.forEach((msg) => {
-  //   if (msg.id == id) {
-  //     messages.splice(msg, 1);
-  //   }
-  // });
-
   // const id = request.params.id;
-  messages = messages.filter((def) => {
-    if (def.id !== request.params.id) {
-      return true;
-    }
-    return false;
-  });
-   response.json({
+  const message = messages.find(
+    (def) => def.id === parseInt(request.params.id)
+  );
+  if (!message)
+    return res.status(404).send("The booking with the given ID not found");
+
+  const index = messages.indexOf(message);
+  messages.splice(index, 1);
+  response.json(message);
+  response.json({
     status: "success",
     removed: request.params.id,
     newLength: messages.length,
@@ -115,12 +110,9 @@ app.get("/messages/search", (request, response) => {
     response.end();
   }
 
-//   // let term = req.query.search;
-//   // res.send(`${searchQuery}`);
+  //   // let term = req.query.search;
+  //   // res.send(`${searchQuery}`);
 });
 
 //Port
 app.listen(port);
-
-
-
