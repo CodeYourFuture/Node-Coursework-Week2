@@ -1,9 +1,15 @@
 const express = require("express");
-const cors = require("cors");
-
+//const cors = require("cors");
 const app = express();
 
-app.use(cors());
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+const PORT = 5000;
+//app.use(cors());
 
 const welcomeMessage = {
   id: 0,
@@ -20,4 +26,5 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+//app.listen(process.env.PORT);
+app.listen(PORT);
