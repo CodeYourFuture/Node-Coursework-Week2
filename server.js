@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
 app.use(cors());
@@ -20,4 +19,64 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+/**** LEVEL 1 AND LEVEL 2 SOLUTION CODE ****/
+// get all messages
+app.get("/messages", (req, res) => {
+  res.status(200).json(messages);
+});
+
+// get a single message, given a valid id
+app.get("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id); // (req.params.id is a string)
+  const message = messages.find((msg) => msg.id === id);
+
+  message
+    ? res.status(200).json(message)
+    : res.status(404).json({ msg: "Message not found." });
+});
+
+// create a single chat message
+app.use(express.json()); // restrict the received data format to JSON
+app.post("/messages", (req, res) => {
+  const message = req.body;
+  // validate chat form data
+  const errors = validateChatForm(message);
+
+  if (errors[0]) {
+    // if form validation fails, respond with error message(s)
+    return res.status(200).json(errors);
+  }
+  // otherwise...
+  messages.push({ id: messages.length, ...message }); // add chat message to list (i.e. messages);
+  res
+    .status(201)
+    // send the updated chat messages collection to the client for confirmation
+    .json(messages);
+});
+
+// delete a chat message
+app.delete("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id); // (req.params.id is a string)
+  const index = messages.findIndex((msg) => msg.id === id); // check if requested chat message exists
+  console.log({ msg: "Message not found." });
+  if (index !== -1) {
+    // if id does,...
+    messages.splice(index); // remove it from the list (i.e. messages), and
+    res.sendStatus(204); // send a success status code
+  }
+});
+
+// CHAT FORM VALIDATOR
+function validateChatForm(chatInfo) {
+  const errors = [];
+  if (!chatInfo.from) {
+    errors.push({ msg: "Error: Missing chat information (Name)" });
+  }
+  if (!chatInfo.text) {
+    errors.push({ msg: "Error: Missing chat information (Message)" });
+  }
+  return errors;
+}
+/**** END OF LEVEL 1 AND LEVEL 2 SOLUTION CODE****/
+
+app.listen(process.env.PORT || 3000);
