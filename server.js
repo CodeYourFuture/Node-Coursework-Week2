@@ -85,4 +85,36 @@ function validateChatForm(chatInfo) {
 }
 /**** END OF LEVEL 1 AND LEVEL 2 SOLUTION CODE****/
 
+/**** LEVEL 3 SOLUTION CODE ****/
+// get messages whose text contains a given substring
+app.get("/messages/search", (req, res) => {
+  let text = req.query.text;
+  if (!text) {
+    // if there's no "text" property in the request query, or if no key and/or value is specified
+    return res.sendStatus(400);
+  }
+  // if the request satisfies the route's format, make a case-insensitive search for chat messages
+  text = text.toLowerCase();
+  const filteredMessages = messages.filter((msg) =>
+    msg.text.toLowerCase().includes(text)
+  );
+  // send a success status code along with the search results(s)
+  res.status(200).json(filteredMessages);
+});
+
+// get the latest 10 messages
+app.get("/messages/latest", (req, res) => {
+  const numMessages = messages.length; //get the number of chat messages
+  let latestMessages = [];
+  if (numMessages > 10) {
+    latestMessages = messages.filter(
+      (msg) => messages.indexOf(msg) >= messages.length - 10
+    );
+  } else {
+    latestMessages = messages;
+  }
+  res.status(200).json(latestMessages);
+});
+/**** END OF LEVEL 3 SOLUTION CODE****/
+
 app.listen(process.env.PORT || 3000);
