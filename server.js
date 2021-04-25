@@ -26,7 +26,7 @@ app.get("/messages", (req, res) => {
 });
 
 // get a single message, given a valid id
-app.get("/messages/:id", (req, res) => {
+app.get("/message/:id", (req, res) => {
   const id = parseInt(req.params.id); // (req.params.id is a string)
   const message = messages.find((msg) => msg.id === id);
 
@@ -37,7 +37,7 @@ app.get("/messages/:id", (req, res) => {
 
 // create a single chat message
 app.use(express.json()); // restrict the received data format to JSON
-app.post("/messages", (req, res) => {
+app.post("/message", (req, res) => {
   const message = req.body;
   // validate chat form data
   const errors = validateChatForm(message);
@@ -47,7 +47,13 @@ app.post("/messages", (req, res) => {
     return res.status(200).json(errors);
   }
   // otherwise...
-  messages.push({ id: messages.length, ...message }); // add chat message to list (i.e. messages);
+  const newMessage = {
+    // organize a the new message before posting
+    id: messages.length,
+    from: message.from,
+    text: message.text,
+  }; // set chat message id
+  messages.push(newMessage); // add chat message to list (i.e. messages);
   res
     .status(201)
     // send the updated chat messages collection to the client for confirmation
@@ -55,10 +61,10 @@ app.post("/messages", (req, res) => {
 });
 
 // delete a chat message
-app.delete("/messages/:id", (req, res) => {
+app.delete("/message/:id", (req, res) => {
   const id = parseInt(req.params.id); // (req.params.id is a string)
   const index = messages.findIndex((msg) => msg.id === id); // check if requested chat message exists
-  console.log({ msg: "Message not found." });
+  
   if (index !== -1) {
     // if id does,...
     messages.splice(index); // remove it from the list (i.e. messages), and
