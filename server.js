@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(cors());
 
 const welcomeMessage = {
-  id: 0,
+  id: "0",
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
@@ -39,7 +39,39 @@ app.post("/messages", function (req, res) {
 
 //showing/reading all the messages  all the messages in the server
 app.get("/messages", function (request, response) {
-  response.send(messageLists);
+  response.json(messageLists);
+});
+
+// Read one message specified by an ID
+
+app.get("/messages/:id", function (req, res) {
+  let id = req.params.id;
+
+  let filteredMessages = messageLists.find(
+    (singleMessage) => singleMessage.id === id
+  );
+
+  if (!filteredMessages) {
+    res.sendStatus(404);
+  }
+  res.send(filteredMessages);
+});
+
+//deleting message by id
+app.delete("/messages/:id", (req, res) => {
+  let id = req.params.id;
+  let deletedMessageIndex = messageLists.findIndex(
+    (message) => message.id === id
+  );
+  if (deletedMessageIndex > -1) {
+    messageLists.slice(deletedMessageIndex, 1);
+    res.send("Album Successfully deleted").status(204);
+    // res.status(204);
+
+    res.end();
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 const port = process.env.PORT || 3000;
