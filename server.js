@@ -27,8 +27,51 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-app.post("/messages", (request, response) => {
-  response.sendFile(__dirname + "/messages.html");
+
+// get all messages
+
+app.get("/messages", (request, response) => {
+  response.status(200).json(messages);
 });
+
+// get one message by id
+app.get("/messages/:id", (request, response) => {
+  const messageId = parseInt(request.params.id);
+  const message = messages.find((item) => item.id === messageId);
+  if (message) {
+    response.status(200).json(message);
+  } else {
+    response
+      .status(404)
+      .json({ msg: `message with this ${messageId} not found` });
+  }
+});
+
+// create new chat message
+app.post("/messages", (request, response) => {
+  const newMessage = request.body;
+  const index = messages.findIndex((message) => message.id === newMessage.id);
+
+  if (newMessage.id && newMessage.from && newMessage.text && index <= 0) {
+    messages.push(newMessage);
+    response.status(201).json(newMessage);
+  } else if (index >= 0) {
+    response.status(400).json({ msg: "message with this id already exists" });
+  } else {
+    response.status(400).json({ msg: "please fill all details" });
+  }
+});
+
+// delete a message
+
+app.delete("/messages/:id", (request, response) => {
+  const messageId = parseInt(request.params.id);
+  const index = messages.findIndex((message) => message.id === messageId);
+  if (index !== -1) {
+    messages.splice(index);
+    response.status(204).send("success");
+  }
+});
+
 //app.listen(process.env.PORT);
 app.listen(PORT);
