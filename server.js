@@ -1,5 +1,7 @@
+const { request, response } = require("express");
 const express = require("express");
 //const cors = require("cors");
+
 const app = express();
 
 app.use(express.json());
@@ -25,6 +27,8 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-
+app.post("/messages", (request, response) => {
+  response.sendFile(__dirname + "/messages.html");
+});
 //app.listen(process.env.PORT);
 app.listen(PORT);
