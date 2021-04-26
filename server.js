@@ -1,5 +1,5 @@
-const { json } = require("body-parser");
-const { request, response } = require("express");
+//const { json } = require("body-parser");
+//const { request, response } = require("express");
 const express = require("express");
 //const cors = require("cors");
 
@@ -50,12 +50,14 @@ app.get("/messages/:id", (request, response) => {
 });
 
 // create new chat message
+
 app.post("/messages", (request, response) => {
   const newMessage = request.body;
   const index = messages.findIndex((message) => message.id === newMessage.id);
 
   if (newMessage.id && newMessage.from && newMessage.text && index <= 0) {
     messages.push(newMessage);
+    newMessage["timeSent"] = `${new Date()}`;
     response.status(201).json(newMessage);
   } else if (index >= 0) {
     response.status(400).json({ msg: "message with this id already exists" });
@@ -64,7 +66,7 @@ app.post("/messages", (request, response) => {
   }
 });
 
-// delete a message
+// delete a message by id
 
 app.delete("/messages/:id", (request, response) => {
   const messageId = parseInt(request.params.id);
@@ -75,7 +77,7 @@ app.delete("/messages/:id", (request, response) => {
   }
 });
 
-// level 3 read functionality
+// search for a message with a matching text
 
 app.get("/messages/search", (request, response) => {
   const searchTerm = request.query.text;
@@ -90,9 +92,9 @@ app.get("/messages/search", (request, response) => {
   response.end();
 });
 
-// latest functionality
+// get 10 latest messages
 
-app.get("messages/latest", (request, response) => {
+app.get("/messages/latest", (request, response) => {
   const numberOfMessages = messages.length;
   let numberOfLatestMessages = [];
   if (numberOfMessages > 10) {
@@ -104,6 +106,8 @@ app.get("messages/latest", (request, response) => {
     response.status(200), json(numberOfMessages); // number of latest messages is the same a number of messages
   }
 });
+
+// update a message
 
 //app.listen(process.env.PORT);
 app.listen(PORT);
