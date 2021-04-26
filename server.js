@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const { request, response } = require("express");
 const express = require("express");
 //const cors = require("cors");
@@ -35,6 +36,7 @@ app.get("/messages", (request, response) => {
 });
 
 // get one message by id
+
 app.get("/messages/:id", (request, response) => {
   const messageId = parseInt(request.params.id);
   const message = messages.find((item) => item.id === messageId);
@@ -70,6 +72,36 @@ app.delete("/messages/:id", (request, response) => {
   if (index !== -1) {
     messages.splice(index);
     response.status(204).send("success");
+  }
+});
+
+// level 3 read functionality
+
+app.get("/messages/search", (request, response) => {
+  const searchTerm = request.query.text;
+  const filteredMessage = messages.filter((el) =>
+    el.text.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (searchTerm) {
+    response.status(200).json(filteredMessage);
+  }
+  response.status(404).send("failed");
+  response.end();
+});
+
+// latest functionality
+
+app.get("messages/latest", (request, response) => {
+  const numberOfMessages = messages.length;
+  let numberOfLatestMessages = [];
+  if (numberOfMessages > 10) {
+    numberOfLatestMessages = numberOfMessages.slice(
+      Math.max(numberOfMessages.length - 10, 1)
+    );
+    response.status(200).json(numberOfLatestMessages);
+  } else {
+    response.status(200), json(numberOfMessages); // number of latest messages is the same a number of messages
   }
 });
 
