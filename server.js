@@ -103,7 +103,7 @@ app.get("/messages/latest", (request, response) => {
     );
     response.status(200).json(numberOfLatestMessages);
   } else {
-    response.status(200).json(numberOfMessages); // number of latest messages is the same a number of messages
+    response.status(200).json(numberOfMessages); // number of latest messages is the same as number of messages
   }
 });
 
