@@ -47,7 +47,7 @@ app.get("/messages/:id", function (request, response) {
   if (newMessage.length > 0) {
     response.json(newMessage);
   } else {
-    response.status("404").json({ error: "Message not found" });
+    response.status(404).json({ error: "Message not found" });
   }
 });
 
@@ -61,9 +61,9 @@ app.post("/messages", function (request, response) {
     };
     counter++;
     selectedMessages = [...selectedMessages, newMessage];
-    response.status("201").json({ message: "message sent successfully." });
+    response.status(201).json({ message: "message sent successfully." });
   } else {
-    response.status("400").json({ error: "Invalid input" });
+    response.status(400).json({ error: "Invalid input" });
   }
 });
 
@@ -84,9 +84,9 @@ app.put("/messages/:id", function (request, response) {
         return el;
       }
     });
-    response.status("200").json({ message: "Item successfully updated" });
+    response.status(200).json({ message: "Item successfully updated" });
   } else {
-    response.status("404").json({ message: "Message not found" });
+    response.status(404).json({ message: "Message not found" });
   }
 });
 
@@ -94,7 +94,7 @@ app.delete("/messages/:id", function (request, response) {
   selectedMessages = selectedMessages.filter(
     (el) => el.id !== parseInt(request.params.id)
   );
-  response.status("200").json({ message: "Item successfully deleted" });
+  response.status(200).json({ message: "Item successfully deleted" });
 });
 
 const PORT = process.env.PORT || 3000;
