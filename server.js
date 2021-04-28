@@ -35,6 +35,35 @@ app.get("/messages", (request, response) => {
   response.status(200).json(messages);
 });
 
+// search for a message with a matching text
+
+app.get("/messages/search", (request, response) => {
+  const searchTerm = request.query.text;
+  const filteredMessage = messages.filter((el) =>
+    el.text.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (searchTerm) {
+    response.status(200).json(filteredMessage);
+  }
+  response.status(404).send("failed");
+});
+
+// get 10 latest messages
+
+app.get("/messages/latest", (request, response) => {
+  const numberOfMessages = messages.length;
+  let latestMessages = [];
+  if (numberOfMessages > 10) {
+    latestMessages = messages.filter(
+      (message) => messages.indexOf(message) >= messages.length - 10
+    );
+    response.status(200).json(latestMessages);
+  } else {
+    response.status(200).json(messages); // number of latest messages is the same as number of messages
+  }
+});
+
 // get one message by id
 
 app.get("/messages/:id", (request, response) => {
@@ -50,19 +79,21 @@ app.get("/messages/:id", (request, response) => {
 });
 
 // create new chat message
-
+let idCounter = 1;
 app.post("/messages", (request, response) => {
-  const newMessage = request.body;
-  const index = messages.findIndex((message) => message.id === newMessage.id);
+  const message = request.body;
 
-  if (newMessage.id && newMessage.from && newMessage.text && index <= 0) {
+  if (message.from && message.text) {
+    const newMessage = {
+      id: idCounter++,
+      from: message.from,
+      text: message.text,
+    };
+
     messages.push(newMessage);
-    newMessage["timeSent"] = `${new Date()}`;
-    response.status(201).json(newMessage);
-  } else if (index >= 0) {
-    response.status(400).json({ msg: "message with this id already exists" });
+    response.status(200).json(messages);
   } else {
-    response.status(400).json({ msg: "please fill all details" });
+    response.status(400).json({ msg: "please fill in all fields " });
   }
 });
 
@@ -74,36 +105,6 @@ app.delete("/messages/:id", (request, response) => {
   if (index !== -1) {
     messages.splice(index);
     response.status(204).send("success");
-  }
-});
-
-// search for a message with a matching text
-
-app.get("/messages/search", (request, response) => {
-  const searchTerm = request.query.text;
-  const filteredMessage = messages.filter((el) =>
-    el.text.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  if (searchTerm) {
-    response.status(200).json(filteredMessage);
-  }
-  response.status(404).send("failed");
-  response.end();
-});
-
-// get 10 latest messages
-
-app.get("/messages/latest", (request, response) => {
-  const numberOfMessages = messages.length;
-  let numberOfLatestMessages = [];
-  if (numberOfMessages > 10) {
-    numberOfLatestMessages = numberOfMessages.slice(
-      Math.max(numberOfMessages.length - 10, 1)
-    );
-    response.status(200).json(numberOfLatestMessages);
-  } else {
-    response.status(200).json(numberOfMessages); // number of latest messages is the same as number of messages
   }
 });
 
