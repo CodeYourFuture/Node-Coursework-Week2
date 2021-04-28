@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.json())
 app.use(cors());
 
 const welcomeMessage = {
@@ -33,7 +34,7 @@ app.get("/messages", (req, res) => {
 });
 
 //read one message as specified by id
-app.get("/messages/:id", (req, res) => {
+app.get("/message/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const message = messages.find((msg) => msg.id === id);
 
@@ -43,9 +44,21 @@ app.get("/messages/:id", (req, res) => {
 //create a message
 app.use(express.json());
 app.post("/message", (req, res) => {
-  const newMessage = req.body;
+  let newMessage = req.body;
+  messages.push(newMessage);//pushes new message to the list of messages
+  res.status(201).json(messages);
 
+});
 
-})
+//delete a message
+app.delete("/message/:id", (request, response) => {
+  const messageId = parseInt(request.params.id);
+  const index = messages.findIndex((message) => message.id === messageId);
+  if (index !== -1) {
+    messages.splice(index);
+    response.status(204).send("success");
+  }
+});
+
 
 app.listen(process.env.PORT || 3000);
