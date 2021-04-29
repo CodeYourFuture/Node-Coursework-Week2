@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+// changing string to json the body
 app.use(express.json());
 
 app.use(cors());
 
 const welcomeMessage = {
-  id: "0",
+  id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
@@ -26,7 +27,9 @@ app.post("/messages", function (req, res) {
   if (!newMessage.id) {
     res.status(400);
     res.send("Message Id required");
-  } else if (messageLists.find((message) => message.id === newMessage.id)) {
+  } else if (
+    messageLists.find((message) => message.id == parseInt(newMessage.id))
+  ) {
     res.status(400);
     res.send("Message already exists");
   } else {
@@ -45,7 +48,7 @@ app.get("/messages", function (request, response) {
 // Read one message specified by an ID
 
 app.get("/messages/:id", function (req, res) {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
 
   let filteredMessages = messageLists.find(
     (singleMessage) => singleMessage.id === id
@@ -74,5 +77,5 @@ app.delete("/messages/:id", (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`listening on ${port}`));
