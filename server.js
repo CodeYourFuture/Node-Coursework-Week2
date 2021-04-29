@@ -7,18 +7,32 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-  timeSent: new Date(),
-};
+const welcomeMessage = [
+  {
+    id: 0,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+    timeSent: new Date(),
+  },
+  {
+    id: 1,
+    from: "Chris",
+    text: "How are you today?",
+    timeSent: new Date(),
+  },
+  {
+    id: 2,
+    from: "James",
+    text: "I'm fine and doing okay?",
+    timeSent: new Date(),
+  },
+];
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-let newId = 1;
-const messages = [welcomeMessage];
+let newId = 3;
+const messages = welcomeMessage;
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -44,13 +58,12 @@ app.post("/messages", (req, res) => {
     newId++;
     res.sendStatus(201);
   } else {
-    res.sendStatus(400);
+    res.sendStatus(400).json("Name and (or) message field must not be empty");
   }
 });
 
 // Read one message specified by an ID
 app.get("/messages/:id", (req, res) => {
-
   const findMessage = messages.filter(
     (message) => message.id === parseInt(req.params.id)
   );
@@ -59,34 +72,18 @@ app.get("/messages/:id", (req, res) => {
   } else {
     res.sendStatus(404).json({ error: "Message not found" });
   }
-
-  // const findMessage = messages.find((message) => message.id === req.params.id);
-
-  // if (findMessage === undefined) {
-  //   res.sendStatus(404);
-  //   res.send({ message: "Message not found" });
-  // } else {
-  //   res.json(findMessage);
-  // }
 });
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-  // const {id} = req.params;
-  // messages.forEach(message => {
-  //   if(message.id === id){
-  //     messages.splice(message, 1);
-  //   }
-  // })
-  //  res.sendStatus(204);
-  //  res.send(messages);
-
-  const deleteMessage = messages.findIndex((message) => message.id === req.params.id);
+ 
+  const deleteMessage = messages.findIndex(
+    (message) => message.id === parseInt(req.params.id)
+  );
   if (deleteMessage > 0) {
     messages.splice(deleteMessage, 1);
   }
-  res.sendStatus(204);
-  res.send(messages);
+  res.sendStatus(204).json("Message deleted successfully");
 });
 
 //Check that port 4040 is not in use otherwise set it to a different port
