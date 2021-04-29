@@ -58,7 +58,7 @@ app.post("/messages", (req, res) => {
     newId++;
     res.sendStatus(201);
   } else {
-    res.sendStatus(400).json("Name and (or) message field must not be empty");
+    res.sendStatus(400);
   }
 });
 
@@ -70,20 +70,37 @@ app.get("/messages/:id", (req, res) => {
   if (findMessage.length > 0) {
     res.json(findMessage);
   } else {
-    res.sendStatus(404).json({ error: "Message not found" });
+    res.sendStatus(404);
   }
+});
+
+// search for messages based on inputs
+app.get("/messages/search", (req, res) => {
+  const searchInput = messages.filter((message) =>
+    message.text.toLowerCase().includes(req.query.text.toLowerCase())
+  );
+  if (searchInput !== "") {
+    res.json(searchInput);
+  } else {
+    res.send("invalid search");
+  }
+});
+
+// Read only the most recent 10 messages
+app.get("/messages/latest", (req, res) => {
+  const lastTenMessages = messages.slice(-10);
+  res.json(lastTenMessages);
 });
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
- 
   const deleteMessage = messages.findIndex(
     (message) => message.id === parseInt(req.params.id)
   );
   if (deleteMessage > 0) {
     messages.splice(deleteMessage, 1);
   }
-  res.sendStatus(204).json("Message deleted successfully");
+  res.sendStatus(204);
 });
 
 //Check that port 4040 is not in use otherwise set it to a different port
