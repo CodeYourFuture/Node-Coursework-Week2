@@ -41,7 +41,7 @@ app.get("/message/:id", (req, res) => {
   message ? res.status(200).send(message) : res.status(404).send('Message not found');
 });
 
-//create a message
+//create 1 message
 app.use(express.json());
 app.post("/message", (req, res) => {
   let newMessage = req.body;
@@ -50,16 +50,24 @@ app.post("/message", (req, res) => {
 
 });
 
+
+
+
+//get latest 10 messages
+app.get("/messages/latest", (req, res) => {
+  const recentMessages = messages.slice(Math.max(messages.length - 10, 0));
+  if (messages.length < 10) res.json(messages);
+  else res.json(recentMessages);
+});
+
+
+
 //delete a message
 app.delete("/messages/:id", (req, res) => {
-
-  const deleteMessage = messages.findIndex(
-    (message) => message.id === parseInt(req.params.id)
-  );
-  if (deleteMessage > 0) {
-    messages.splice(deleteMessage, 1);
-  }
-  res.sendStatus(204).json("Message deleted successfully");
+  const id = req.params.id;
+  const messageIndex = messages.findIndex(message => message.id.toString() === id);
+  messages.splice(messageIndex, 1);
+  res.json({ message: `Message ${id} is deleted from the database.` });
 });
 
 
