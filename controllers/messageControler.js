@@ -5,7 +5,55 @@ exports.getAllMessages = async (req, res, next) => {
     status: "success",
     results: messagesData.length,
     data: {
-      messagesData,
+      msg: messagesData.messages,
     },
+  });
+};
+
+exports.createMessage = async (req, res, next) => {
+  const { from, text } = req.body;
+  const id = messagesData.messages[messagesData.messages.length - 1].id + 1;
+  const newMessage = { id, from, text };
+  try {
+    if (!newMessage.from || !newMessage.text) {
+      next(new Error("Empty field: from or text or both"));
+    }
+  } catch (err) {}
+  next(err);
+  messagesData.messages.push(newMessage);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      msg: newMessage,
+    },
+  });
+};
+
+exports.getMessage = async (req, res, next) => {
+  console.log(+req.params.id);
+  const query = +req.params.id;
+  const msg = messagesData.messages.find((item) => item.id === query);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      msg,
+    },
+  });
+};
+
+exports.deleteMessage = async (req, res, next) => {
+  const query = +req.params.id;
+  const index = messagesData.messages.findIndex((item) => item.id === query);
+  const newArray = [...messagesData.messages];
+  console.log(newArray);
+  newArray.splice(index, 1);
+  messagesData.messages = [...newArray];
+
+  console.log(messagesData.messages);
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 };

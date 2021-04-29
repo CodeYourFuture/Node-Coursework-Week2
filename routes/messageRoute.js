@@ -3,11 +3,14 @@ const messageController = require("../controllers/messageControler");
 
 const router = express.Router();
 
-router.route("").get(messageController.getAllMessages);
-//   .post(messageController.createMessage);
+router
+  .route("")
+  .get(messageController.getAllMessages)
+  .post(messageController.createMessage);
 
-router.route("/:id");
-// .get(messageController.getMessage);
-//   .delete(messageController.deleteMessage);
+router
+  .route("/:id")
+  .get(messageController.getMessage)
+  .delete(messageController.deleteMessage);
 
 module.exports = router;
