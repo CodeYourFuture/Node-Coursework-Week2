@@ -13,21 +13,31 @@ exports.getAllMessages = async (req, res, next) => {
 exports.createMessage = async (req, res, next) => {
   const { from, text } = req.body;
   const id = messagesData.messages[messagesData.messages.length - 1].id + 1;
-  const newMessage = { id, from, text };
+  const requestTime = new Date().toISOString();
+  const newMessage = { id, from, text, requestTime };
   try {
-    if (!newMessage.from || !newMessage.text) {
-      next(new Error("Empty field: from or text or both"));
+    console.log("lol?");
+    if (
+      !newMessage.from ||
+      newMessage.from === "" ||
+      !newMessage.text ||
+      newMessage.text === ""
+    ) {
+      console.log("lol??");
+      throw new Error("Empty field: from or text or both");
     }
-  } catch (err) {}
-  next(err);
-  messagesData.messages.push(newMessage);
 
-  res.status(201).json({
-    status: "success",
-    data: {
-      msg: newMessage,
-    },
-  });
+    messagesData.messages.push(newMessage);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        msg: newMessage,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getMessage = async (req, res, next) => {
