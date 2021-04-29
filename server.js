@@ -24,13 +24,13 @@ app.get("/", function (request, response) {
 
 // send a message confirming the server works
 app.get("/test", (req, res) => {
-  res.status(200).send('Hello from the server');
+  res.status(200).json('Hello from the server');
 });
 
 
 //sends the messages back as stored in messages object.
 app.get("/messages", (req, res) => {
-  res.status(200).send(messages);
+  res.status(200).json(messages);
 });
 
 //read one message as specified by id
@@ -51,13 +51,15 @@ app.post("/message", (req, res) => {
 });
 
 //delete a message
-app.delete("/message/:id", (request, response) => {
-  const messageId = parseInt(request.params.id);
-  const index = messages.findIndex((message) => message.id === messageId);
-  if (index !== -1) {
-    messages.splice(index);
-    response.status(204).send("success");
+app.delete("/messages/:id", (req, res) => {
+
+  const deleteMessage = messages.findIndex(
+    (message) => message.id === parseInt(req.params.id)
+  );
+  if (deleteMessage > 0) {
+    messages.splice(deleteMessage, 1);
   }
+  res.sendStatus(204).json("Message deleted successfully");
 });
 
 
