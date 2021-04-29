@@ -31,7 +31,7 @@ const welcomeMessage = [
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-let newId = 3;
+
 const messages = welcomeMessage;
 
 app.get("/", function (request, response) {
@@ -46,16 +46,14 @@ app.get("/messages", (req, res) => {
 // retrieve created the message from frontend
 app.post("/messages", (req, res) => {
   const newMessage = {
-    id: newId,
-    from: req.body.from,
-    text: req.body.text,
+    id: messages[messages.length - 1].id + 1,
+    ...req.body,
     timeSent: new Date(),
   };
 
   // check for empty or missing text from property
   if (newMessage.from !== "" && newMessage.text !== "") {
     messages.push(newMessage);
-    newId++;
     res.sendStatus(201);
   } else {
     res.sendStatus(400);
@@ -63,12 +61,10 @@ app.post("/messages", (req, res) => {
 });
 
 // Read one message specified by an ID
-app.get("/messages/:id", (req, res) => {
-  const findMessage = messages.filter(
-    (message) => message.id === parseInt(req.params.id)
-  );
-  if (findMessage.length > 0) {
-    res.json(findMessage);
+app.get("/messages/:id(\\d+)?", (req, res) => {
+  const findMessage = req.params.id;
+  if (findMessage > 0 && findMessage < messages.length) {
+    res.json(messages[findMessage]);
   } else {
     res.sendStatus(404);
   }
@@ -94,12 +90,9 @@ app.get("/messages/latest", (req, res) => {
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-  const deleteMessage = messages.findIndex(
-    (message) => message.id === parseInt(req.params.id)
-  );
-  if (deleteMessage > 0) {
-    messages.splice(deleteMessage, 1);
-  }
+  const id = parseInt(req.params.id);
+  deleteMessage = messages.filter((message) => message.id !== id);
+  res.json(deleteMessage);
   res.sendStatus(204);
 });
 
