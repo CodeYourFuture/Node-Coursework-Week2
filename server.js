@@ -86,7 +86,7 @@ app.get("/messages/search", (req, res) => {
 
 app.get("/messages/latest", (req, res) => {
   const recentMessages = messages.slice(Math.max(messages.length - 10, 0));
-  if (search && messages.length < 10) res.json(messages);
+  if (messages.length < 10) res.json(messages);
   else res.json(recentMessages);
 });
 
