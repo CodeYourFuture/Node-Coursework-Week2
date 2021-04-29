@@ -1,26 +1,21 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
+//load the Message
+const messageLists = require("./MessageData.js");
+
 // changing string to json the body
 app.use(express.json());
 
 app.use(cors());
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
-
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messageLists = [welcomeMessage];
-
+// Our first server page
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+// adding  new messages
 app.post("/messages", function (req, res) {
   let newMessage = req.body;
   //  this will check if id is provide, exists already, if all false it will add to the message array.
@@ -46,7 +41,6 @@ app.get("/messages", function (request, response) {
 });
 
 // Read one message specified by an ID
-
 app.get("/messages/:id", function (req, res) {
   let id = parseInt(req.params.id);
 
@@ -70,7 +64,6 @@ app.delete("/messages/:id", (req, res) => {
     messageLists.slice(deletedMessageIndex, 1);
     res.send("Album Successfully deleted").status(204);
     // res.status(204);
-
     res.end();
   } else {
     res.sendStatus(404);
@@ -92,9 +85,14 @@ app.get("/messages/search", function (request, response) {
   response.json(filteredMessage);
 });
 
-//Latest messages
+//Latest 10 messages messages
 app.get("/messages/latest", function (request, response) {
-  response.json(messageLists);
+  if (messageLists.length <= 10) {
+    response.json(messageLists);
+  } else {
+    latestMsgArr = messageLists.slice(-10);
+    response.json(latestMsgArr);
+  }
 });
 
 const port = process.env.PORT || 3001;
