@@ -8,6 +8,8 @@ router
   .get(messageController.getAllMessages)
   .post(messageController.createMessage);
 
+router.route("/search").get(messageController.searchMessages);
+
 router
   .route("/:id")
   .get(messageController.getMessage)

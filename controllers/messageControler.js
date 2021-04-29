@@ -67,3 +67,17 @@ exports.deleteMessage = async (req, res, next) => {
     data: null,
   });
 };
+
+exports.searchMessages = async (req, res, next) => {
+  const query = req.query.text.toLowerCase();
+  const queryArray = messagesData.messages.filter((item) =>
+    item.text.toLowerCase().includes(query)
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      msg: queryArray,
+    },
+  });
+};
