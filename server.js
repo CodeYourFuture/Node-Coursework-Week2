@@ -24,9 +24,9 @@ app.get("/", function (request, response) {
 app.post("/messages", function (req, res) {
   let newMessage = req.body;
   //  this will check if id is provide, exists already, if all false it will add to the message array.
-  if (!newMessage.id) {
+  if (!newMessage.text) {
     res.status(400);
-    res.send("Message Id required");
+    res.send("Message Text required");
   } else if (
     messageLists.find((message) => message.id == parseInt(newMessage.id))
   ) {
@@ -75,6 +75,26 @@ app.delete("/messages/:id", (req, res) => {
   } else {
     res.sendStatus(404);
   }
+});
+
+//searching messages
+app.get("/messages/search", function (request, response) {
+  let text = request.query.text;
+  console.log(request.query.text);
+
+  if (!text) {
+    return response.sendStatus(404);
+  }
+  text = text.toLowerCase();
+  let filteredMessage = messageLists.filter((message) =>
+    message.text.toLowerCase().includes(text)
+  );
+  response.json(filteredMessage);
+});
+
+//Latest messages
+app.get("/messages/latest", function (request, response) {
+  response.json(messageLists);
 });
 
 const port = process.env.PORT || 3001;
