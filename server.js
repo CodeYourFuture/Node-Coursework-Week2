@@ -74,7 +74,7 @@ app.get("/messages/:id", (request, response) => {
   } else {
     response
       .status(404)
-      .json({ msg: `message with this ${messageId} not found` });
+      .json({ msg: `message with id  ${messageId} not found` });
   }
 });
 
