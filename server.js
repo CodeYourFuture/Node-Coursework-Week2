@@ -30,19 +30,24 @@ app.get("/test", (req, res) => {
 
 //sends the messages back as stored in messages object.
 app.get("/messages", (req, res) => {
+
   res.status(200).json(messages);
 });
 
 //read one message as specified by id
 app.get("/message/:id", (req, res) => {
+
   const id = parseInt(req.params.id);
+
   const message = messages.find((msg) => msg.id === id);
 
   message ? res.status(200).send(message) : res.status(404).send('Message not found');
 });
 
 //create 1 message
-app.use(express.json());
+
+
+
 app.post("/message", (req, res) => {
   let newMessage = req.body;
   messages.push(newMessage);//pushes new message to the list of messages
@@ -62,7 +67,7 @@ app.get("/messages/latest", (req, res) => {
 
 
 
-//delete a message
+//delete 1 message by id
 app.delete("/messages/:id", (req, res) => {
   const id = req.params.id;
   const messageIndex = messages.findIndex(message => message.id.toString() === id);
