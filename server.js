@@ -41,4 +41,23 @@ app.get("/messages/:id", function (request, response) {
   }
 });
 
+// POST new message
+app.post("/messages", function (request, response) {
+  const newMessage = request.body;
+
+  messages.push(newMessage);
+})
+
+// DELETE a message by ID
+app.delete("/messages/:id", function (request, response) {
+  const messageIndex = messages.findIndex(
+    (message) => message.id === parseInt(request.params.id)
+  );
+  if (messageIndex >= 0) {
+    messages.splice(messageIndex, 1);
+    response.status(204); // No data
+    response.end(); // response body is empty
+  }
+});
+
 app.listen(PORT);
