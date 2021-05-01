@@ -1,7 +1,8 @@
-//const { json } = require("body-parser");
-//const { request, response } = require("express");
+const { json } = require("body-parser");
+const { request, response } = require("express");
 const express = require("express");
 //const cors = require("cors");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.use(
     extended: true,
   })
 );
-const PORT = 5000;
+
 //app.use(cors());
 
 const welcomeMessage = {
@@ -108,7 +109,4 @@ app.delete("/messages/:id", (request, response) => {
   }
 });
 
-// update a message
-
-//app.listen(process.env.PORT);
 app.listen(PORT);
