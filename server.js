@@ -46,6 +46,8 @@ app.post("/messages", function (request, response) {
   const newMessage = request.body;
 
   messages.push(newMessage);
+
+  response.status(201);
 })
 
 // DELETE a message by ID
