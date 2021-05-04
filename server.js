@@ -40,12 +40,17 @@ app.get("/messages/:id", function(req, res) {
 app.post("/messages", (req, res) => {
   const newMessage = req.body;
   newMessage.id = messages.length;
-  messages.push(newMessage);
-  res.send("Created");
+  
+  if(newMessage.from && newMessage.text){
+    messages.push(newMessage);
+    res.send("Created");
+  } else {
+     res.sendStatus(400);
+  }
 })
 
 app.delete("/messages/:id", function(req, res){
-   messagesData = messages.filter(message => message.id !== req.params.id);
+   messages = messages.filter(message => message.id !== req.params.id);
     res.status(204); 
     res.end();
 })
