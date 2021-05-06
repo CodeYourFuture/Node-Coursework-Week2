@@ -52,7 +52,7 @@ app.post("/messages", (req, res) => {
   };
 
   // check for empty or missing text from property
-  if (newMessage.from !== "" && newMessage.text !== "") {
+  if (newMessage.from && newMessage.text) {
     messages.push(newMessage);
     res.sendStatus(201);
   } else {
@@ -90,10 +90,14 @@ app.get("/messages/latest", (req, res) => {
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  deleteMessage = messages.filter((message) => message.id !== id);
-  res.json(deleteMessage);
-  res.sendStatus(204);
+  const deleteMessageById = messages.findIndex((message) => message.id === parseInt(req.params.id));
+  if (deleteMessageById >= 0) {
+    messages.splice(deleteMessageById, 1);
+    res.status(204);
+  } else {
+    res.status(404).json({ message: "Message Id not found" });
+  }
+  
 });
 
 //Check that port 4040 is not in use otherwise set it to a different port
