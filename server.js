@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-const date = new Date(); 
+// const date = new Date(); 
 
 
 const welcomeMessage = {
@@ -19,8 +19,8 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
-messages.timeSent = date;
+let messages = [welcomeMessage];
+// messages.timeSent = date;
 
 
 //homepage
@@ -86,7 +86,7 @@ app.post("/messages", (req, res) => {
 //Delete a message by ID
 app.delete("/messages/:id", function(req, res){
    messages = messages.filter(message => message.id !== req.params.id);
-    res.status(204); 
+    res.status(204).send("Message Deleted"); 
     res.end();
 })
 
