@@ -35,7 +35,7 @@ app.post("/messages", function (req, res) {
   }
 });
 
-//showing/reading all the messages  all the messages in the server
+//showing/reading   all the messages in the server
 app.get("/messages", function (request, response) {
   response.json(messageLists);
 });
@@ -56,15 +56,14 @@ app.get("/messages/:id", function (req, res) {
 
 //deleting message by id
 app.delete("/messages/:id", (req, res) => {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
   let deletedMessageIndex = messageLists.findIndex(
     (message) => message.id === id
   );
   if (deletedMessageIndex > -1) {
-    messageLists.slice(deletedMessageIndex, 1);
-    res.send("Album Successfully deleted").status(204);
-    // res.status(204);
-    res.end();
+    messageLists.splice(deletedMessageIndex, 1);
+    // res.send("Album Successfully deleted");
+    res.status(204);
   } else {
     res.sendStatus(404);
   }
