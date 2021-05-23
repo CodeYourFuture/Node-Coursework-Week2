@@ -53,7 +53,7 @@ router.post("/messages", (req, res) => {
 })
 
 
-// Delete message
+// Delete message by id
 router.delete("/messages/:id", (req,res) => {
     const found = messages.some(message => message.id === parseInt(req.params.id));
     if(found){
@@ -66,7 +66,23 @@ router.delete("/messages/:id", (req,res) => {
     } 
 });
 
+//  level 5 update Message by id
+router.put("/messages/:id", (req,res) => {
+    const found = messages.some(message => message.id === parseInt(req.params.id));
+    if(found){
+        const upMessage = req.body;
+        messages.forEach((message) => {
+            if(message.id === parseInt(req.params.id)) {
+                message.text = upMessage.text ? upMessage.text : message.text;
+                message.from = upMessage.from ? upMessage.from : message.from;
 
+                res.json({ msg: "message updated", message })
+            }
+        })
+    }else {
+        res.status(400).json({ msg: `No message with the id of ${req.params.id}`});
+    } 
+})
 
 
 
