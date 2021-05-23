@@ -1,8 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const uuid = require("uuid"); 
+const { includes } = require("../Messages");
 const messages = require("../Messages");
+const lodash = require('lodash'); 
 
+//  level 3 
+// search route
+router.get("/messages/search",(req,res) => {
+    let text = req.query.text;
+    const found = messages.some(message => message.text.toLocaleLowerCase().includes(text));
+    if(found){
+        res.json(messages.filter(message => message.text.toLocaleLowerCase().includes(text)))
+    }else{
+            res.status(400).json({ msg: `No message with the text of ${text}`});
+    }
+})
+//  last 10 messages
+router.get("/messages/latest",(req,res) => {
+    res.json(lodash.takeRight(messages,10))
+})
 // get all messages
 router.get("/messages",(req,res) => {
     res.json(messages);
@@ -14,7 +31,7 @@ router.get("/messages/:id", (req,res) => {
     if(found){
         res.json(messages.filter(message =>  message.id === parseInt(req.params.id)))
     }else {
-        res.status(400).json({ msg: `No member with the id of ${req.params.id}`});
+        res.status(400).json({ msg: `No message with the id of ${req.params.id}`});
     } 
 })
 
@@ -47,7 +64,6 @@ router.delete("/messages/:id", (req,res) => {
         res.status(400).json({ msg: `No message with the id of ${req.params.id}`});
     } 
 });
-
 
 
 
