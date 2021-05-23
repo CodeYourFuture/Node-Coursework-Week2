@@ -41,6 +41,7 @@ router.post("/messages", (req, res) => {
         id: uuid.v4(),
         from: req.body.from,
         text: req.body.text,
+        timeSent:new Date().toLocaleTimeString(),
     }
 
     if(!newMessages.from || !newMessages.text){
