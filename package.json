@@ -11,6 +11,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "concurrently": "^6.2.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lodash": "^4.17.21",
