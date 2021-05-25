@@ -13,7 +13,7 @@
 	<h2>
 		Send a message
 	</h2>
-	<form action="/messages" method="post" id="my-form">
+	<form action="http://localhost:3000/messages" method="post" id="my-form">
 		<p>
 			Name: <input type="text" name="from" placeholder="Your Name" /> <br />
 			Message: <input type="text" name="text" placeholder="The message..." />
@@ -25,23 +25,5 @@
 	</form>
 
 	<a href="http://localhost:3000/messages" method="get">See all messages</a>
-	<!-- <script>
-		const myForm = document.getElementById("my-form");
-		myForm.addEventListener('submit', (event) => {
-			event.preventDefault();
-			const data = new data(this);
-			const options = {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json;charset=utf-8'
-				},
-				body: JSON.stringify(data);
-			}
-			fetch('http://localhost:3000/messages', options)
-				.then(res => res.json())
-				.then(data => console.log(data))
-				.catch(err => console.error(err))
-		})
-	</script> -->
 </body>
 </html>

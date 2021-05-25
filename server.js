@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(express.json());
@@ -35,6 +36,7 @@ app.post('/messages', (req, res) => {
 	}
 	messages.push(newMessage);
 	res.status(201).send(messages);
+	console.log(messages)
 })
 
 app.get('/messages', (req, res) => {
