@@ -16,6 +16,8 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
+const date = new Date();
+welcomeMessage.timeSent = date;
 const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
@@ -26,10 +28,12 @@ app.get("/", function (request, response) {
 app.get('/messages', function(request, response) {
   response.send(messages);
 });
+
 //Create a new message, reject requests to create messages if the message objects have an empty or missing text or from property
 app.post("/messages", function (request, response) {
   const newMessage = request.body;
-  newMessage.id = messages.length;  
+  newMessage.id = messages.length;
+  newMessage.timeSent = new Date();  
   if(!request.body.from || !request.body.text){
     response.status(400);
     response.send("You are missing some required fields!!!");
@@ -43,9 +47,7 @@ app.post("/messages", function (request, response) {
 //Read only messages whose text contains a given substring
 app.get("/messages/search", function (request, response) {
   const searchText = request.query.text;
-  console.log(request.query.text);
   const result = messages.filter(message => message.text.toUpperCase().includes(searchText.toUpperCase()));
-  console.log(result)
   response.send(result);
 });
 
