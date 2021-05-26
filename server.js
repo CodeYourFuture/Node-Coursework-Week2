@@ -28,15 +28,38 @@ app.get('/search', (req, res) => {
 })
 
 app.post('/messages', (req, res) => {
-	console.log(req.body)
-	const newMessage = {
-		id: Number(messages.length),
-		from: req.body.from,
-		text: req.body.text
+	if ((req.body.from).length >= 3 && (req.body.text).length > 0) {
+		const newMessage = {
+			id: Number(messages.length),
+			from: req.body.from,
+			text: req.body.text
+		};
+		messages.push(newMessage);
+		res.status(201).send(messages[newMessage.id]);
+	} else {
+		res.status(400).send('Please make sure to make the input fields are filled correctly!')
 	}
-	messages.push(newMessage);
-	res.status(201).send(messages);
-	console.log(messages)
+})
+
+app.get('/messages/:ID', (req, res) => {
+	const messageFound = messages.filter(mess => mess.id === Number(req.params.ID))
+	if (messageFound.length > 0) {
+		res.status(200).send(...messageFound)
+	}
+	else {
+		res.status(418).send('Don\'t make coffee with the teapot 🚫\n You learned something today😉')
+	}
+})
+
+app.delete('/messages/:ID', (req, res) => {
+	if (messages.find(mess => mess.id === Number(req.params.ID))) {
+		messages.splice(req.params.ID, 1);
+		messages.map((mess, index) => mess.id = index)
+		console.log(messages)
+		res.status(200).send('Message deleted')
+	} else {
+		res.status(416).send('Not a valid ID number')
+	}
 })
 
 app.get('/messages', (req, res) => {
