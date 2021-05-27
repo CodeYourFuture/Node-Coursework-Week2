@@ -38,7 +38,7 @@ router.get("/messages/:id", (req,res) => {
 // create Messages
 router.post("/messages", (req, res) => {
     const newMessages = {
-        id: uuid.v4(),
+        id: parseInt(uuid.v4()),
         from: req.body.from,
         text: req.body.text,
         timeSent:new Date().toLocaleTimeString(),
