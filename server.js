@@ -22,32 +22,44 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-
+// read all messages
 app.get("/messages", (request, response) => {
-  console.log("GET");
+  response.status(200);
   response.json(messages);
 });
 
+// post a message
 app.post("/messages", (request, response) => {
   const message = request.body;
   message.id = messages.length;
-  messages.push(message);
-  response.send(messages);
+
+  if (!request.body.from || !request.body.text) {
+    response.status(400);
+    response.send("Please fill all the fields");
+  } else {
+    response.status(200);
+    messages.push(message);
+    response.send(messages);
+  }
 });
 
+// get message by id
 app.get("/messages/:id", (request, response) => {
   const id = Number(request.params.id);
   const foundMessage = messages.find((message) => {
     return message.id === id;
   });
+  response.status(200);
   response.json(foundMessage);
 });
 
+// delete message by id
 app.delete("/messages/:id", (request, response) => {
   const id = Number(request.params.id);
   messages.map((message) => {
     message.id === id ? messages.splice(id, 1) : null;
   });
+  response.status(200);
   response.send(`You have deleted a message with id ${id}`);
 });
 
