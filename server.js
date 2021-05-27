@@ -2,8 +2,11 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const port = 4000;
 
 app.use(cors());
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -20,4 +23,32 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages", (request, response) => {
+  console.log("GET");
+  response.json(messages);
+});
+
+app.post("/messages", (request, response) => {
+  const message = request.body;
+  message.id = messages.length;
+  messages.push(message);
+  response.send(messages);
+});
+
+app.get("/messages/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const foundMessage = messages.find((message) => {
+    return message.id === id;
+  });
+  response.json(foundMessage);
+});
+
+app.delete("/messages/:id", (request, response) => {
+  const id = Number(request.params.id);
+  messages.map((message) => {
+    message.id === id ? messages.splice(id, 1) : null;
+  });
+  response.send(`You have deleted a message with id ${id}`);
+});
+
+app.listen(port);
