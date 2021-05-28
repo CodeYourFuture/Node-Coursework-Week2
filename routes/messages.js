@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const uuid = require("uuid"); 
-const { includes } = require("../Messages");
 const messages = require("../Messages");
 const lodash = require('lodash'); 
+const faker = require('faker');
 
 //  level 3 
 // search route
@@ -39,7 +39,7 @@ router.get("/messages/:id", (req,res) => {
 router.post("/messages", (req, res) => {
     const num = uuid.v4()
     const newMessages = {
-        id: parseFloat(num),
+        id: typeof  parseInt(num) === "number" ? parseInt(num) : faker.datatype.number(),
         from: req.body.from,
         text: req.body.text,
         timeSent:new Date().toLocaleTimeString(),
