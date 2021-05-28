@@ -37,8 +37,9 @@ router.get("/messages/:id", (req,res) => {
 
 // create Messages
 router.post("/messages", (req, res) => {
+    const num = uuid.v4()
     const newMessages = {
-        id: parseInt(uuid.v4()),
+        id: parseFloat(num),
         from: req.body.from,
         text: req.body.text,
         timeSent:new Date().toLocaleTimeString(),
@@ -51,20 +52,42 @@ router.post("/messages", (req, res) => {
     // res.json(messages)
     res.redirect("/");
 })
+// Delete message by id
+
+
+router.delete("/messages/:id", function (req, res) {
+    let temp;
+    for (let i = 0; i < messages.length; i++){
+      if (messages[i].id === parseInt(req.params.id) ){
+        temp = messages[i];
+        messages.splice(i,1);
+      }    
+    }
+    if (temp === undefined)
+    {
+      console.log(temp);
+      res.status(404);
+      res.send(`The item ${req.params.id} is not exist`);
+    }
+    else {
+      res.status(200);
+      res.send(`The item ${req.params.id} has been deleted`); 
+    }
+  });
 
 
 // Delete message by id
-router.delete("/messages/:id", (req,res) => {
-    const found = messages.some(message => message.id === parseInt(req.params.id));
-    if(found){
-        res.json({
-            msg: "message  deleted",
-            messages: messages.filter(message =>  message.id !== parseInt(req.params.id))
-        });
-    }else {
-        res.status(400).json({ msg: `No message with the id of ${req.params.id}`});
-    } 
-});
+// router.delete("/messages/:id", (req,res) => {
+//     const found = messages.some(message => message.id === parseInt(req.params.id));
+//     if(found){
+//         res.json({
+//             msg: "message  deleted",
+//             messages: messages.filter((message,index) => { message.splice(index,1)}  )
+//         });
+//     }else {
+//         res.status(400).json({ msg: `No message with the id of ${req.params.id}`});
+//     } 
+// });
 
 //  level 5 update Message by id
 router.put("/messages/:id", (req,res) => {
