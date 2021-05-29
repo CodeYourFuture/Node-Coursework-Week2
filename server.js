@@ -16,7 +16,7 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
+app.get("/:id", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
