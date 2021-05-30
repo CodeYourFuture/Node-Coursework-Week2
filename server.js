@@ -22,6 +22,7 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+
 // read all messages
 app.get("/messages", (request, response) => {
   response.status(200);
@@ -33,6 +34,9 @@ app.post("/messages", (request, response) => {
   const message = request.body;
   message.id = messages.length;
 
+  const timeSent = new Date().toLocaleString();
+  message.timeSent = timeSent;
+
   if (!request.body.from || !request.body.text) {
     response.status(400);
     response.send("Please fill all the fields");
@@ -41,6 +45,16 @@ app.post("/messages", (request, response) => {
     messages.push(message);
     response.send(messages);
   }
+});
+
+// search for a specific word in the message
+app.get("/messages/search", (request, response) => {
+  const searchWord = request.query.text;
+  const filteredMessages = messages.filter((message) => {
+    return message.text.includes(searchWord);
+  });
+
+  response.send(filteredMessages);
 });
 
 // get message by id
