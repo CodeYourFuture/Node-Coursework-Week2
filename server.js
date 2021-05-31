@@ -3,7 +3,6 @@ const cors = require('cors')
 const app = express();
 const messages = require("./Messages");
 // const lodash = require("lodash");
-const date = new Date().toLocaleString();
 app.use(cors());
 
 //Body Parser Middleware
@@ -45,10 +44,10 @@ app.post("/messages", (request, response) => {
     id: request.body.id,
     from: request.body.from,
     text: request.body.text,
-    timeSent: date // store a timestamp in each message object, in a field called timeSent.
+    timeSent: new Date().toLocaleString() // store a timestamp in each message object, in a field called timeSent.
   }
 
-  const uniqueMessageIdCheck = messages.some((message) => message.id === request.body.id)
+  const uniqueMessageIdCheck = messages.some((message) => message.id === request.body.id);
 
   if (!newMessage.from || !newMessage.text) {
     return response.status(400).json({ msg: "Please include an author and message text" })
@@ -63,14 +62,41 @@ app.post("/messages", (request, response) => {
 });
 
 
-// Delete a message, by ID
-app.delete("/messages/:id", (request, response) => {
-  let isMessageIdFound = messages.some(message => message.id === parseInt(request.params.id))
+// Update the message
+app.put("/messages/:id", (request, response) => {
+  const isMessageIdFound = messages.some((message) => message.id === parseInt(request.params.id));
 
   if (isMessageIdFound) {
-    response.json({ msg: `Message deleted on ${date}`, messages: messages.filter((message) => message.id !== parseInt(request.params.id)) })
+    const updatedMessage = request.body;
+    messages.forEach((message) => {
+      if (message.id === parseInt(request.params.id)) {
+        message.from = updatedMessage.from ? updatedMessage.from : message.from;
+        message.text = updatedMessage.text ? updatedMessage.text : message.text;
+        message.timeSent = message.timeSent
+        response.json({ msg: "Message updated", message })
+      }
+    })
   } else {
-    response.status(400).json({ msg: `No member with the id of ${request.params.id}` })
+    response.status(400).json({ msg: `No message with the id of ${request.params.id}` })
+  }
+})
+
+
+// Delete a message, by ID
+app.delete("/messages/:id", (request, response) => {
+  let isMessageIdFound = messages.some(message => message.id === parseInt(request.params.id));
+  let deletedMessage;
+  
+  if (isMessageIdFound) {
+    messages.forEach((message, index) => {
+      if (message.id === parseInt(request.params.id)) {
+        deletedMessage = message;
+        messages.splice(index, 1);
+      }
+    })
+    response.json({ msg: `Message Id ${request.params.id} deleted on ${new Date().toLocaleString()}`, deletedMessage })
+  } else {
+    response.status(400).json({ msg: `No message with the id of ${request.params.id}` })
   }
 })
 
@@ -82,7 +108,7 @@ app.get("/messages/:id", (request, response) => {
   if (isMessageIdFound) {
     response.json(messages.filter((message) => message.id === parseInt(request.params.id)))
   } else {
-    response.status(400).json({ msg: `No member with the id of ${request.params.id}` })
+    response.status(400).json({ msg: `No message with the id of ${request.params.id}` })
   }
 });
 
