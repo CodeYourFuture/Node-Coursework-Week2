@@ -1,4 +1,5 @@
 const routes = require("express").Router();
+const lodash = require("lodash");
 const dbMessages = require("../database.json").messages;
 
 routes.get("/", function (req, res) {
@@ -7,10 +8,12 @@ routes.get("/", function (req, res) {
 
 routes.post("/", function (req, res) {
   const newMessage = {
-    id: parseInt(new Date().getTime() / 100).toString(16),
+    id: lodash.uniqueId(),
     from: req.body.from.trim(),
     text: req.body.text.trim(),
+    timeSent: new Date(),
   };
+
   if (!newMessage.from || !newMessage.text) {
     res.status(422).json({ msg: "Enter valid name or text" });
   } else {
