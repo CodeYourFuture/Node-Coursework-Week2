@@ -22,8 +22,6 @@ routes.post("/", function (req, res) {
   }
 });
 
-//Read only messages whose text contains a given substring: /messages/search?text=express
-//Read only the most recent 10 messages: /messages/latest
 routes.get("/latest", function (req, res) {
   const latestMessages = dbMessages.slice(-10);
   res.status(200).json(latestMessages);
@@ -41,8 +39,28 @@ routes.get("/:id", function (req, res) {
   const indexSelected = dbMessages.findIndex(
     (message) => message.id == req.params.id
   );
+
   if (indexSelected >= 0) {
-    res.status(200).json(db_messages[indexSelected]);
+    res.status(200).json(dbMessages[indexSelected]);
+  } else {
+    res.status(501).send("The message was not found");
+  }
+});
+
+routes.put("/:id", function (req, res) {
+  const updateIndex = dbMessages.findIndex(
+    (message) => message.id == req.params.id
+  );
+  if (updateIndex >= 0) {
+    const updateFrom = req.body.from.trim();
+    const updateText = req.body.text.trim();
+    if (updateFrom || updateText) {
+      dbMessages[updateIndex].from = updateFrom;
+      dbMessages[updateIndex].text = updateText;
+      res.status(204).json({ message: "Updated" });
+    } else {
+      res.status(501).send("Please send valid from or text");
+    }
   } else {
     res.status(501).send("The message was not found");
   }
