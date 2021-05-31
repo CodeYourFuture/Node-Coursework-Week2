@@ -16,7 +16,7 @@ const welcomeMessage = {
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 let messages = [welcomeMessage];
-let x = 1;
+let idNumber = 1;
 
 app.get("/", function (request, response) {
     response.sendFile(__dirname + "/index.html");
@@ -26,7 +26,7 @@ app.get("/", function (request, response) {
 app.post("/messages", function (request, response) {
     console.log(request.body)
     const newMessage = {
-        id: x++,                                                                     //Using message.length is not functional, if you delete a message and add a new message it will have the same id as the previous message
+        id: idNumber++,                                                                     //Using message.length is not functional, if you delete a message and add a new message it will have the same id as the previous message
         from: request.body.from,
         text: request.body.text,
         timeSent: new Date()
