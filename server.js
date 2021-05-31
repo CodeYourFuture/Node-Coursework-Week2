@@ -28,7 +28,6 @@ app.get("/messages", (request, response) => {
 });
 app.get("/messages/search", (request, response) => {
   const searchQuery = request.query.text.toLocaleLowerCase();
-  // console.log(request.query)
   const filterMessages = messages.filter((element) => {
     return element.text.toLowerCase().includes(searchQuery);
   });
@@ -47,12 +46,17 @@ app.get("/messages/:id", (request, response) => {
   response.send(message);
 });
 
-
 app.post("/messages", (request, response) => {
   const message = request.body;
+  const date = new Date().toLocaleDateString();
+  const hour = new Date().getHours();
+  const minutes = new Date().getMinutes();
+  timeSent = `${hour}:${minutes}, ${date}`;
+  message.timeSent = timeSent;
   message.id = messages.length;
   if (message.text && message.from) {
     messages.push(message);
+    response.send(messages);
   } else {
     response.sendStatus(400);
     // response.send("Fill all the required fields!");
@@ -68,4 +72,9 @@ app.delete("/messages/:id", (request, response) => {
   });
   response.send(`You deleted the message with id, ${id}`);
 });
+
+app.get("/messages/latest", (request, response) => {
+  response.send(messages.slice(-10));
+});
+
 app.listen(port);
