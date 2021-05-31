@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require('cors')
 const app = express();
-const messages = require("./Messages")
-app.use(cors())
+const messages = require("./Messages");
+// const lodash = require("lodash");
+const date = new Date().toLocaleString();
+app.use(cors());
 
 //Body Parser Middleware
 app.use(express.json());
@@ -21,7 +23,13 @@ app.get("/messages", (request, response) => {
 });
 
 
-// Search by a term
+// Read only the most recent 10 messages
+app.get("/messages/latest", (request, response) => {
+  response.status(200).json(messages.slice(-10))
+})
+
+
+//  Read only messages whose text contains a given substring:
 app.get("/messages/search", (request, response) => {
   const term = request.query.term;
 
@@ -36,7 +44,8 @@ app.post("/messages", (request, response) => {
   const newMessage = {
     id: request.body.id,
     from: request.body.from,
-    text: request.body.text
+    text: request.body.text,
+    timeSent: date // store a timestamp in each message object, in a field called timeSent.
   }
 
   const uniqueMessageIdCheck = messages.some((message) => message.id === request.body.id)
@@ -54,12 +63,12 @@ app.post("/messages", (request, response) => {
 });
 
 
-// Delete messages
+// Delete a message, by ID
 app.delete("/messages/:id", (request, response) => {
   let isMessageIdFound = messages.some(message => message.id === parseInt(request.params.id))
 
   if (isMessageIdFound) {
-    response.json({ msg: "Message deleted", messages: messages.filter((message) => message.id !== parseInt(request.params.id)) })
+    response.json({ msg: `Message deleted on ${date}`, messages: messages.filter((message) => message.id !== parseInt(request.params.id)) })
   } else {
     response.status(400).json({ msg: `No member with the id of ${request.params.id}` })
   }

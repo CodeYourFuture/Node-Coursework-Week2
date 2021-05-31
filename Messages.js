@@ -6,22 +6,22 @@ let messages = [
   {
     id: 0,
     from: "Bart",
-    text: "Welcome to CYF chat system!"
+    text: "Welcome to CYF chat system!",
   },
   {
     id: 1,
     from: "Neil",
-    text: "Welcome to CYF chat system!"
+    text: "Welcome to CYF chat system!",
   },
   {
     id: 2,
     from: "Lucy",
-    text: "Welcome to CYF chat system!"
+    text: "Welcome to CYF chat system!",
   },
   {
     id: 3,
     from: "Thomas",
-    text: "Welcome to CYF chat system!"
+    text: "Welcome to CYF chat system!",
   },
 ]
 
