@@ -11,8 +11,12 @@ routes.post("/", function (req, res) {
     from: req.body.from.trim(),
     text: req.body.text.trim(),
   };
-  dbMessages.push(newMessage);
-  res.status(200).json(dbMessages);
+  if (!newMessage.from || !newMessage.text) {
+    res.status(422).json({ msg: "Enter valid name or text" });
+  } else {
+    dbMessages.push(newMessage);
+    res.status(200).json(dbMessages);
+  }
 });
 
 routes.get("/:id", function (req, res) {
