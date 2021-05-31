@@ -1,0 +1,12 @@
+{
+    "messages":[{
+        "id": 0,
+        "from": "Bart",
+        "text": "Welcome to CYF chat system!"
+    },
+    {
+        "id": 1,
+        "from": "Benn",
+        "text": "Welcome to DB messages"
+    }]
+}
