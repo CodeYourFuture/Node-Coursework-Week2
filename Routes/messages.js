@@ -19,6 +19,21 @@ routes.post("/", function (req, res) {
   }
 });
 
+//Read only messages whose text contains a given substring: /messages/search?text=express
+//Read only the most recent 10 messages: /messages/latest
+routes.get("/latest", function (req, res) {
+  const latestMessages = dbMessages.slice(-10);
+  res.status(200).json(latestMessages);
+});
+
+routes.get("/search", function (req, res) {
+  const searchText = req.query.text;
+  const searchResult = dbMessages.filter((message) =>
+    message.text.includes(searchText)
+  );
+  res.send(searchResult);
+});
+
 routes.get("/:id", function (req, res) {
   const indexSelected = dbMessages.findIndex(
     (message) => message.id == req.params.id
