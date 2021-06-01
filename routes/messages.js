@@ -4,7 +4,7 @@ const uuid = require("uuid");
 const messages = require("../Messages");
 const lodash = require('lodash'); 
 const faker = require('faker');
-
+console.log(messages);
 //  level 3 
 // search route
 router.get("/messages/search",(req,res) => {
@@ -39,7 +39,7 @@ router.get("/messages/:id", (req,res) => {
 router.post("/messages", (req, res) => {
     const num = uuid.v4()
     const newMessages = {
-        id: typeof  parseInt(num) === "number" ? parseInt(num) : faker.datatype.number(),
+        id: typeof  num === "number" ? parseInt(num) : faker.datatype.number(),
         from: req.body.from,
         text: req.body.text,
         timeSent:new Date().toLocaleTimeString(),
@@ -49,8 +49,8 @@ router.post("/messages", (req, res) => {
         return res.status(400).json({ msg: "please make sure that you have added name and message."})
     }
     messages.push(newMessages);
-    // res.json(messages)
-    res.redirect("/");
+    res.json(messages)
+    // res.redirect("/");
 })
 // Delete message by id
 
@@ -66,7 +66,7 @@ router.delete("/messages/:id", function (req, res) {
     if (temp === undefined)
     {
       console.log(temp);
-      res.status(404);
+      res.status(404).json(messages)
       res.send(`The item ${req.params.id} is not exist`);
     }
     else {
