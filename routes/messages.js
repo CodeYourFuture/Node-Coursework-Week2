@@ -4,7 +4,7 @@ const uuid = require("uuid");
 const messages = require("../Messages");
 const lodash = require('lodash'); 
 const faker = require('faker');
-console.log(messages);
+
 //  level 3 
 // search route
 router.get("/messages/search",(req,res) => {
@@ -16,10 +16,12 @@ router.get("/messages/search",(req,res) => {
             res.status(400).json({ msg: `No message with the text of ${text}`});
     }
 })
+
 //  last 10 messages
 router.get("/messages/latest",(req,res) => {
     res.json(lodash.takeRight(messages,10))
 })
+
 // get all messages
 router.get("/messages",(req,res) => {
     res.json(messages);
@@ -52,9 +54,8 @@ router.post("/messages", (req, res) => {
     res.json(messages)
     // res.redirect("/");
 })
+
 // Delete message by id
-
-
 router.delete("/messages/:id", function (req, res) {
     let temp;
     for (let i = 0; i < messages.length; i++){
@@ -70,7 +71,7 @@ router.delete("/messages/:id", function (req, res) {
       res.send(`The item ${req.params.id} is not exist`);
     }
     else {
-      res.status(200);
+      res.status(200).json(messages)
       res.send(`The item ${req.params.id} has been deleted`); 
     }
   });
@@ -98,8 +99,7 @@ router.put("/messages/:id", (req,res) => {
             if(message.id === parseInt(req.params.id)) {
                 message.text = upMessage.text ? upMessage.text : message.text;
                 message.from = upMessage.from ? upMessage.from : message.from;
-
-                res.json({ msg: "message updated", message })
+                res.status(200).json(messages)
             }
         })
     }else {
