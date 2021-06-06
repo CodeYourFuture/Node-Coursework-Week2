@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", function (request, response) {
-	response.sendFile(__dirname + "./index.html");
+	response.sendFile(__dirname + "/index.html");
 });
 
 const welcomeMessage = {
@@ -28,7 +28,7 @@ app.get('/search', (req, res) => {
 	if (filteredMessages.length > 0) {
 		res.status(200).send(filteredMessages);
 	} else {
-		res.status(400).send('Nothing found');
+		res.status(404).send('Nothing found');
 	}
 	console.log(req.query)
 })
@@ -65,7 +65,7 @@ app.delete('/messages/:ID', (req, res) => {
 		console.log(messages);
 		res.status(200).send('Message deleted');
 	} else {
-		res.status(416).send('Not a valid ID number');
+		res.status(404).send('Not a valid ID number');
 	}
 })
 
@@ -76,7 +76,7 @@ app.get('/messages', (req, res) => {
 app.put('/messages/:ID', (req, res) => {
 	const messageToUpdate = messages.find(mess => mess.id === Number(req.params.ID));
 	if (messageToUpdate) {
-		if (req.body.form) messageToUpdate.form = req.body.form;
+		if (req.body.from) messageToUpdate.from = req.body.from;
 		if (req.body.term) messageToUpdate.text = req.body.text;
 		res.status(200).send('Message Updated');
 	} else {
