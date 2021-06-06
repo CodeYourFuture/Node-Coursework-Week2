@@ -4,7 +4,11 @@ const cors = require("cors");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+const corsOption = {
+	origin: 'http://localhost:3000'
+}
+
+app.use(cors(corsOption));
 app.use(express.json());
 
 app.get("/", function (request, response) {
