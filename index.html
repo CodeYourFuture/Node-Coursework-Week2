@@ -4,23 +4,47 @@
     <title>Welcome to CYF Chat</title>
   </head>
   <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
+    <h1>CYF Chat</h1>
+    <h2>Send a message</h2>
+     <form action="/messages" method="post">
       <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
+        Name: <input type="text" name="from" id="message-name" placeholder="Your Name" />
+        <br />
+        Message:
+        <input type="text" name="text" id="message-text" placeholder="The message..." />
         <br />
       </p>
-      <button type="submit">
-        Send
-      </button>
+      <button type="submit">Send</button>
+      <!-- <button onclick="addMessage()">Send</button>
+      <button onclick="deleteMessage()">Delete</button> -->
     </form>
 
     <a href="/messages">See all messages</a>
   </body>
+  <!-- <script>
+    const deleteMessage = () => {
+    const id =parseInt(document.getElementById("message-name").value) ;
+    console.log("from html delete"+id);
+      fetch(`http://localhost:3000/message/${id}`, { method: "DELETE" })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    };
+    const addMessage = () => {
+      const name = document.getElementById("message-name").value;
+      const message = document.getElementById("message-text").value;
+      fetch(`http://localhost:3000/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, message }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    };
+  </script> -->
 </html>
