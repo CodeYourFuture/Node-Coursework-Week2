@@ -22,7 +22,20 @@ app.get('/messages', (req, res) => {
   res.json(messages);
 });
 
+// Get message by ID
+app.get('/messages/:id', (req, res) => {
+  const { id } = req.params;
+  const matchedId = messages.some(message => message.id === parseInt(id)  );
 
+  if (matchedId) {
+    const foundId = messages.find(message => message.id === parseInt(id));
+    res.json(foundId)
+  } else {
+    res.status(404).json({
+      msg: `No message with the id of ${id}` 
+    })
+  }
+});
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
