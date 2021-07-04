@@ -28,8 +28,8 @@ app.get('/messages', (req, res) => {
 // Get Message by ID
 app.get('/messages/:id', (req, res) => {
   const { id } = req.params;
-  const matchedId = messages.some(message => message.id === parseInt(id)  );
-
+  const matchedId = messages.some(message => message.id === parseInt(id));
+  
   if (matchedId) {
     const foundId = messages.find(message => message.id === parseInt(id));
     res.json(foundId)
@@ -47,10 +47,21 @@ app.post('/messages', (req, res) => {
     from: req.body.from,
     text: req.body.text
   }
-
   messages.push(newMessage);
-
   res.send(messages);
+});
+
+// Delete a Message
+app.delete('/messages/:id', (req, res) => {
+  const { id } = req.params;
+  const matchedId = messages.some(message => message.id === parseInt(id));
+
+  if (matchedId) {
+    const filteredMessage = messages.filter(message => message.id !== parseInt(id));
+    res.status(200).send({ success: true, msg: `You have deleted message with ID: ${id}` }).json(filteredMessage);
+  } else {
+    res.status(404).send({ success: false, msg: `The message with ID: ${id} does not exist`});
+  }
 });
 
 app.get("/", function (request, response) {
