@@ -57,10 +57,10 @@ app.post("/messages", (req, res) => {
   };
 
   if (!newMessage.from) {
-    res.status(400).json({ msg: `Please include a name` });    
+    res.status(400).json({ msg: `Please include a name` }); //  Check if a name is included
   } else if (!newMessage.text) {
-    res.status(400).json({ msg: `Please include a message` });    
-  } else { //  Check if name and a messae in included
+    res.status(400).json({ msg: `Please include a message` });  //  Check if message is included
+  } else {
     messages.push(newMessage);
     res.json(messages);
   }
