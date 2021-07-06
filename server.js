@@ -35,6 +35,23 @@ app.get("/messages", (req, res) => {
   res.json(messages)
 });
 
+// Search only messages which text contains a given substring.
+app.get('/messages/search', (req, res) => {
+  const searchTerm = req.query.term;
+  let wordMatch = messages.filter(({ text }) => {
+    return (
+      text.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    });
+    
+    
+    if (wordMatch) {
+      res.json(wordMatch);
+    } else {
+      res.json({ msg: `No message that contains the word ${term}` });
+    }
+});
+
 // Get a Message by ID
 app.get("/messages/:id", (req, res) => {
   const { id } = req.params;
