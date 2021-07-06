@@ -1,6 +1,7 @@
 ;const express = require("express");
 const cors = require("cors");
 const _ = require("lodash");
+const { query } = require("express");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -54,8 +55,15 @@ app.post("/messages", (req, res) => {
     from: req.body.from,
     text: req.body.text
   };
-  messages.push(newMessage);
-  res.json(messages);
+
+  if (!newMessage.from) {
+    res.status(400).json({ msg: `Please include a name` });    
+  } else if (!newMessage.text) {
+    res.status(400).json({ msg: `Please include a message` });    
+  } else { //  Check if name and a messae in included
+    messages.push(newMessage);
+    res.json(messages);
+  }
 });
 
 // Delete a Message by ID
