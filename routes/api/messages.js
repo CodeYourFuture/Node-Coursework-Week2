@@ -17,8 +17,8 @@ const findId = msgId => messages.find(message => message.id === parseInt(msgId))
 // Remove Message with ID
 const filterId = msgId => messages.filter(message => message.id !== parseInt(msgId));
 
-const mostRecent = messages.slice(-1);
-console.log('mostRecent=', mostRecent);
+// const mostRecent = messages.slice(-1);
+// console.log('mostRecent=', mostRecent);
 
 // Get All Messages
 router.get("/", (req, res) => {
@@ -84,7 +84,7 @@ router.delete("/:id", (req, res) => {
 
   if (deleteId) {
     const deleteMsg = filterId(id);
-    res.status(200).send({ success: true, msg: `Deleted message with the ID of ${id}` }).json(deleteMsg);
+    res.json({ msg: `Message id: ${id} deleted`, messages: deleteMsg});
   } else {
     res.status(404).json({ msg: `No message with the ID of ${id}` });
   }
