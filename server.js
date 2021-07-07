@@ -13,6 +13,7 @@ const welcomeMessage = {
   id: 0,
   from: "Jonathan",
   text: "Welcome to CYF chat system!",
+  timeSent: new Date(),
 };
 
 //This array is our "data store".
@@ -27,6 +28,7 @@ app.post("/messages", (req, res) => {
   const newMessage = {
     id: "",
     ...req.body,
+    timeSent: new Date(),
   };
 
   const { from, text } = newMessage;
@@ -75,6 +77,30 @@ app.get("/messages/:id", (req, res) => {
   }
 });
 
+
+// Update messages
+app.put("/messages/:id", (req, res) => {
+  const { id } = req.params;
+
+  const foundMsg = messages.find((entry) => entry.id === parseInt(id));
+
+  if (foundMsg) {
+    const updateMsg = req.body;
+    messages.forEach((entry) => {
+      if (entry.id === parseInt(id)) {
+        entry.from = updateMsg.from ? updateMsg.from : entry.from;
+        entry.text = updateMsg.text ? updateMsg.text : entry.text;
+
+        res.json({
+          msg: `Message Updated with Id: ${id}`,
+          entry,
+        });
+      }
+    });
+  }
+});
+
+
 // Delete a message by id
 app.delete("/messages/:id", (req, res) => {
   const { id } = req.params;
@@ -100,5 +126,3 @@ app.delete("/messages/:id", (req, res) => {
  */
 
 app.listen(PORT, () => console.log(`Server started at port: ${PORT}`));
-
-

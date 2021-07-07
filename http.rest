@@ -15,10 +15,19 @@ POST http://localhost:3030/messages
 Content-Type: application/json
 
 {
-    "from": "Tumi",
-    "text": "I want hungry Lion"
+    "from": "Jerione",
+    "text": "I want to out to the mall"
 }
 
 ###
 
 GET http://localhost:3030/messages/search?text=hungry
+
+###
+
+PUT http://localhost:3030/messages/2
+Content-Type: application/json
+
+{
+    "text": "I am staying inside"
+}
