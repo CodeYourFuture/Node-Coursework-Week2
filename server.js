@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 const welcomeMessage = {
 	id: 0,
@@ -21,9 +22,14 @@ app.get("/", function (request, response) {
 });
 
 //Create new message
-app.post("/", (req, res) => {
+app.post("/messages", (req, res) => {
+	validateId = messages.some((message) => message.id === parseInt(req.body.id));
+	if(!validateId){
 	messages.push(req.body);
 	res.json({ msg: "Message received", messages });
+	}else{
+		res.json({msg: "Id already exits",messages}).status(400);
+	}
 });
 
 //Read all messages
@@ -35,7 +41,6 @@ app.get("/messages", (req, res) => {
 app.get("/messages/:id", (req, res) => {
 	const messageId = parseInt(req.params.id);
 	idValid = messages.some((message) => message.id === messageId);
-	console.log(messageId);
 	if (typeof messageId === "number" && idValid) {
 		const filteredMessages = messages.filter(
 			(message) => message.id === messageId
