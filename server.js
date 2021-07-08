@@ -22,7 +22,8 @@ app.get("/", function (request, response) {
 
 //Create new message
 app.post("/", (req, res) => {
-	res.send("Message received");
+	messages.push(req.body);
+	res.json({ msg: "Message received", messages });
 });
 
 //Read all messages
@@ -32,19 +33,24 @@ app.get("/messages", (req, res) => {
 
 //Read one message
 app.get("/messages/:id", (req, res) => {
-	const messageId = req.params.id;
-	if (messageId) {
-		const filteredMessages = messages.filter((message) => message.id === id);
+	const messageId = parseInt(req.params.id);
+	idValid = messages.some((message) => message.id === messageId);
+	console.log(messageId);
+	if (typeof messageId === "number" && idValid) {
+		const filteredMessages = messages.filter(
+			(message) => message.id === messageId
+		);
 		res.json(filteredMessages);
 	} else {
-		res.status(400).send("Not a valid id");
+		res.status(400).send("Not a valid id/id does not exist");
 	}
 });
 
 //Delete message
 app.delete("/messages/:id", (req, res) => {
-	const messageId = req.params.id;
-	if (messageId) {
+	const messageId = parseInt(req.params.id);
+	idValid = messages.some((message) => message.id === messageId);
+	if (typeof messageId === "number" && idValid) {
 		const filteredMessages = messages.filter(
 			(message) => message.id !== messageId
 		);
