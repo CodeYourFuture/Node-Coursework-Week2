@@ -16,8 +16,10 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
+app.get("/",  (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.listen (3000, () => {
+  console.log("Node Server is listening on port 3000 and Ready For Requests");
+});
