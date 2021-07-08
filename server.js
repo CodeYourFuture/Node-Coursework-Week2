@@ -20,9 +20,14 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-//create new message
+//Create new message
 app.post("/", (req,res)=>{
   res.send("Message received");
+})
+
+//Read all messages
+app.get("/messages", (req,res)=>{
+  res.json(messages);
 })
 
 const listener = app.listen(process.env.PORT);
