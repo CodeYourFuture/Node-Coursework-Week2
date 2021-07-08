@@ -23,12 +23,16 @@ app.get("/", function (request, response) {
 
 //Create new message
 app.post("/messages", (req, res) => {
-	validateId = messages.some((message) => message.id === parseInt(req.body.id));
-	if(!validateId){
-	messages.push(req.body);
-	res.json({ msg: "Message received", messages });
-	}else{
-		res.json({msg: "Id already exits",messages}).status(400);
+	validId = messages.some((message) => message.id !== parseInt(req.body.id));
+	const msgAuthor = req.body.from;
+	const msgText = req.body.text;
+	if (validId && msgAuthor.length > 0 && msgText.length > 0) {
+		messages.push(req.body);
+		res.json({ msg: "Message received", messages });
+	} else {
+		res
+			.status(400)
+			.json({ msg: "Id already exits/missing: from/missing: text", messages });
 	}
 });
 
