@@ -20,5 +20,10 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+//create new message
+app.post("/", (req,res)=>{
+  res.send("Message received");
+})
+
 const listener = app.listen(process.env.PORT);
 console.log("Listening on", listener.address().port);
