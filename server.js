@@ -32,14 +32,25 @@ app.get("/messages", (req, res) => {
 
 //Read one message
 app.get("/messages/:id", (req, res) => {
-	messageId = req.params.id;
+	const messageId = req.params.id;
 	if (messageId) {
 		const filteredMessages = messages.filter((message) => message.id === id);
 		res.json(filteredMessages);
-	}else{
-    res.status(400).send("Not a valid id");
-  }
+	} else {
+		res.status(400).send("Not a valid id");
+	}
 });
+
+//Delete message
+app.delete("/messages/:id", (req,res)=>{
+  const messageId = req.params.id;
+  if(messageId){
+    const filteredMessages = messages.filter(message=> message.id !== messageId);
+    res.json({message: "Successfully deleted", filteredMessages});
+  } else{
+    res.status(400).send("Not a valid ID");
+  }
+})
 
 const listener = app.listen(process.env.PORT);
 console.log("Listening on", listener.address().port);
