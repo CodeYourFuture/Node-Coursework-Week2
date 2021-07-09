@@ -44,7 +44,7 @@ app.get("/messages", (req, res) => {
 //Get messages based on text substring - Place before id routes to establish hierarchy
 app.get("/messages/search", (req, res) => {
 	let searchString = req.query.text;
-	if (searchString && typeof parseInt(searchString) === "NAN") {
+	if (searchString) {
 		const filteredMessages = messages.filter((message) =>
 			message.text.includes(searchString)
 		);
