@@ -41,6 +41,12 @@ app.get("/messages", (req, res) => {
 	res.json(messages);
 });
 
+//Get messages based on text substring
+app.get("/messages/search", (req,res)=>{
+	let searchString = req.query.string;
+	
+})
+
 //Read one message
 app.get("/messages/:id", (req, res) => {
 	const messageId = parseInt(req.params.id);
