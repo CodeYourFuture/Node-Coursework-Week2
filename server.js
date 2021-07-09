@@ -44,7 +44,12 @@ app.get("/messages", (req, res) => {
 //Get messages based on text substring
 app.get("/messages/search", (req,res)=>{
 	let searchString = req.query.string;
-	
+	if(typeof parseInt(searchString) === "NAN"){
+		filteredMessages = messages.filter(message=>{
+			
+		})
+	}
+
 })
 
 //Read one message
