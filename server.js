@@ -9,6 +9,7 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+
 };
 
 //This array is our "data store".
@@ -17,7 +18,7 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 
 app.get("/",  (request, response) => {
-  response.sendFile(__dirname + "/index.html");
+  response.sendFile(__dirname + "/public/index.html");
 });
 
 app.listen (3000, () => {
