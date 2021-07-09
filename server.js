@@ -104,7 +104,7 @@ app.get("/messages/search", (req, res) => {
 	let searchString = req.query.text;
 	if (searchString) {
 		const filteredMessages = messages.filter((message) =>
-			message.text.includes(searchString)
+			message.text.toLowerCase().includes(searchString.toLowerCase())
 		);
 		res.json(filteredMessages);
 	} else {
