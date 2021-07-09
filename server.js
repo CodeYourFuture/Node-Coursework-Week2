@@ -64,16 +64,16 @@ const messageArray = [
 	},
 ];
 
-const welcomeMessage = {
+const welcomeMessage = [{
 	id: 0,
 	from: "Bart",
 	text: "Welcome to CYF chat system!",
-};
+}];
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = messageArray.concat(welcomeMessage);
+const messages = welcomeMessage.concat(messageArray);
 
 app.get("/", function (request, response) {
 	response.sendFile(__dirname + "/index.html");
@@ -110,6 +110,12 @@ app.get("/messages/search", (req, res) => {
 	} else {
 		res.json({ msg: "Please enter search text" });
 	}
+});
+
+//Get latest messages
+app.get("/messages/latest", (req,res)=>{
+	latestMsgs = messageArray.slice(-10);
+	res.json(latestMsgs);
 });
 
 //Read one message
