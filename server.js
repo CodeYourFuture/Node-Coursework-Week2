@@ -10,8 +10,32 @@ app.get('/', function (request, response) {
   response.sendFile(__dirname + '/index.html');
 });
 
-app.get('/messages', function (request, response) {
-  response.json(allMessages);
+app.get('/messages', function (req, res) {
+  res.json(allMessages);
+});
+
+app.get('/messages/latest', function (req, res) {
+  let latestMessages = [];
+  if (allMessages.length > 3) {
+    res.json(allMessages.slice(allMessages.length - 3, allMessages.length - 1));
+  } else {
+    res.json(allMessages);
+  }
+});
+
+app.get('/messages/search', function (request, response) {
+  const { text } = request.query;
+  if (text) {
+    response
+      .status(200)
+      .json(
+        allMessages.filter(
+          (message) =>
+            message.from.toUpperCase().includes(text.toUpperCase()) ||
+            message.text.toUpperCase().includes(text.toUpperCase())
+        )
+      );
+  }
 });
 
 app.get('/messages/:messageId', function (req, res) {
