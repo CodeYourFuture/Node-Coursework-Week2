@@ -41,16 +41,18 @@ app.get("/messages", (req, res) => {
 	res.json(messages);
 });
 
-//Get messages based on text substring
-app.get("/messages/search", (req,res)=>{
-	let searchString = req.query.string;
-	if(typeof parseInt(searchString) === "NAN"){
-		filteredMessages = messages.filter(message=>{
-			
-		})
+//Get messages based on text substring - Place before id routes to establish hierarchy
+app.get("/messages/search", (req, res) => {
+	let searchString = req.query.text;
+	if (searchString && typeof parseInt(searchString) === "NAN") {
+		const filteredMessages = messages.filter((message) =>
+			message.text.includes(searchString)
+		);
+		res.json(filteredMessages);
+	} else {
+		res.json({ msg: "Please enter search text" });
 	}
-
-})
+});
 
 //Read one message
 app.get("/messages/:id", (req, res) => {
