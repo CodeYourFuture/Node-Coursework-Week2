@@ -64,11 +64,13 @@ const messageArray = [
 	},
 ];
 
-const welcomeMessage = [{
-	id: 0,
-	from: "Bart",
-	text: "Welcome to CYF chat system!",
-}];
+const welcomeMessage = [
+	{
+		id: 0,
+		from: "Bart",
+		text: "Welcome to CYF chat system!",
+	},
+];
 
 //This array is our "data store".
 //We will start with one message in the array.
@@ -113,7 +115,7 @@ app.get("/messages/search", (req, res) => {
 });
 
 //Get latest messages
-app.get("/messages/latest", (req,res)=>{
+app.get("/messages/latest", (req, res) => {
 	latestMsgs = messageArray.slice(-10);
 	res.json(latestMsgs);
 });
