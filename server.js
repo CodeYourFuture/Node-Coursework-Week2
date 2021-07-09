@@ -6,6 +6,64 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const messageArray = [
+	{
+		id: 1,
+		from: "Art",
+		text: "Chat servers are cool!",
+	},
+	{
+		id: 2,
+		from: "Marge",
+		text: "CYF Rocks!!!",
+	},
+	{
+		id: 3,
+		from: "Carl",
+		text: "Thanks for the invite",
+	},
+	{
+		id: 4,
+		from: "FratBoy",
+		text: "Where them girls at!",
+	},
+	{
+		id: 5,
+		from: "Con",
+		text: "Send me money!",
+	},
+	{
+		id: 6,
+		from: "Bart",
+		text: "We just went live",
+	},
+	{
+		id: 7,
+		from: "SorGirl",
+		text: "Who needs the gram!",
+	},
+	{
+		id: 8,
+		from: "Jack",
+		text: "Whats happening peeps!",
+	},
+	{
+		id: 9,
+		from: "Bronwyn",
+		text: "Well this is quite interesting",
+	},
+	{
+		id: 10,
+		from: "Bash",
+		text: "Chat system loading!",
+	},
+	{
+		id: 11,
+		from: "Jeremy",
+		text: "Anyone for coffee?",
+	},
+];
+
 const welcomeMessage = {
 	id: 0,
 	from: "Bart",
@@ -15,7 +73,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = messageArray.concat(welcomeMessage);
 
 app.get("/", function (request, response) {
 	response.sendFile(__dirname + "/index.html");
