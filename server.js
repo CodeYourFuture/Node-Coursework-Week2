@@ -6,6 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//How to import data from another file?
 const messageArray = [
 	{
 		id: 1,
