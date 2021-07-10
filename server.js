@@ -3,6 +3,8 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 const welcomeMessage = {
@@ -20,4 +22,9 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.post("/", function (request, response) {
+  response.send(request.body);
+}) //stopped in my attempts to het the think to post... on 01:09:20 of the crash course
+
+app.listen(3000, () => {
+  console.log(`app is listening on port ${3000}`)});
