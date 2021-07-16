@@ -1,4 +1,5 @@
 const express = require('express');
+const { some } = require('lodash');
 const router = express.Router();
 const _ = require("lodash");
 
@@ -6,7 +7,7 @@ const _ = require("lodash");
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = require('../../Messages');
+let messages = require('../../Messages');
 
 // Check if ID exisits in Array
 const someId = msgId => messages.some(message => message.id === parseInt(msgId));
@@ -77,6 +78,27 @@ router.post("/", (req, res) => {
   }
 });
 
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const idFound = some(id)
+
+  if (idFound) {
+    const updateMessage = req.body;
+    
+    messages.forEach(message => {
+      if (message.id === id) {
+        message.from = updateMessage.from ? updateMessage.from : message.from;
+        message.text = updateMessage.text ? updateMessage.text : message.text;
+
+        res.json({ msg: 'Message updated', message });
+      }
+    })
+  } else {
+    res.status(400).json({ msg: `No message with the id of ${id}` });
+  }
+});
+
+
 // Delete a Message by ID
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
@@ -84,7 +106,8 @@ router.delete("/:id", (req, res) => {
 
   if (deleteId) {
     const deleteMsg = filterId(id);
-    res.json({ msg: `Message id: ${id} deleted`, messages: deleteMsg});
+    res.json({ msg: `Message id: ${id} deleted`});
+    messages = deleteMsg;
   } else {
     res.status(404).json({ msg: `No message with the ID of ${id}` });
   }
