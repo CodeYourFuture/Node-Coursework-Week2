@@ -3,6 +3,9 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
+
 app.use(cors());
 
 const welcomeMessage = {
@@ -42,6 +45,17 @@ app.get("/messages/:messageId", (request, response) => {
 app.post("/messages", (request, response) => {
   const from = request.body.from;
   const text = request.body.text;
+  if (!from) {
+    return response.status(400).send({
+      msg: 'Please check your message\'s "from" properties',
+    });
+  }
+  if (!text) {
+    return response.status(400).send({
+      msg: 'Please check your message\'s "text" properties',
+    });
+  }
+
   let lastMessageId = messages[messages.length - 1].id; //DB will create a unique ID, for now, message-id will increase according to the last message-id
   const newMessage = {
     id: lastMessageId + 1,
