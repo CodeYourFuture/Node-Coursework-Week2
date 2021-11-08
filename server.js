@@ -20,6 +20,11 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+//send all messages
+app.get("/messages", (request, response) => {
+  response.send(messages);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening the PORT : ${PORT}`);
 });
