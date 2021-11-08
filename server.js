@@ -52,6 +52,24 @@ app.post("/messages", (request, response) => {
   response.send(newMessage);
 });
 
+// Delete a message, by ID
+app.delete("/messages/:messageId", (request, response) => {
+  const messageId = +request.params.messageId;
+  const messageIindex = messages.findIndex(
+    (message) => message.id === messageId
+  );
+  if (messageIindex === -1) {
+    return response.status(404).send({
+      msg: `Message not found with id: ${messageId}`,
+    });
+  } else {
+    messages.splice(messageIindex, 1);
+    response.send({
+      msg: `Message id: ${messageId} deleted successfully `,
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening the PORT : ${PORT}`);
 });
