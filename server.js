@@ -23,6 +23,24 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+// Add a new message to the messages
+app.post("/messages", function (req, res) {
+  const lastIndex = messages.length - 1;
+  const lastId = messages[lastIndex].id;
+
+  const newMessage = {
+    "id" : lastId + 1,
+    "from": req.body.from,
+    "text": req.body.text
+  }
+  if(!newMessage.from || !newMessage.text) {
+    res.sendStatus(400);
+  } else {
+    messages.push(newMessage);
+    res.status(200);
+  }
+})
+
 // Read all messages
 app.get("/messages", function (req, res) {
   res.send(messages);
