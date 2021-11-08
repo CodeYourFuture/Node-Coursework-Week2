@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { request, response } = require("express");
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
@@ -30,9 +31,38 @@ app.get("/messages", (request, response) => {
 
 //Read one message specified by an ID
 app.get("/messages/:messageId", (request, response) => {
-  const messageId = +request.params.messageId;
+  //LOOK at the messageId, it could be 3 different version, /id , /search?text=xyz , /lastest
+  const messageId = request.params.messageId;
+  //route is => /messages/search?text=express
+  // take search text from query
+  //filter all messages that include search text
+  //send filtered message
+  // DON'T FORGET the RETURN!!!
+  if (messageId === "search") {
+    const serachTerm = request.query.text.toLowerCase();
+    const messagesIncludesSearchTerm = messages.filter(
+      (message) =>
+        message.text.toLowerCase().includes(serachTerm)
+    );
+    if (messagesIncludesSearchTerm.length === 0) {
+      response.status(404).send({
+        msg: `Message not found with text: ${serachTerm}`,
+      });
+      return;
+    }
+    response.send(messagesIncludesSearchTerm);
+    return;
+  }
+
+  ////route is => /messages/lastest
+  //send last 10 message and RETURN
+  if (messageId === "lastest") {
+    response.send(messages.slice(-10));
+    return;
+  }
+  //route is => /messages/12
   const messageIncludedId = messages.filter(
-    (message) => message.id === messageId
+    (message) => message.id === +messageId
   );
   messageIncludedId.length === 0
     ? response.status(404).send({
