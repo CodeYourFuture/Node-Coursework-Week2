@@ -91,6 +91,7 @@ app.post("/messages", (request, response) => {
     id: lastMessageId + 1,
     from: from,
     text: text,
+    timeSent: new Date().toLocaleString(),
   };
   messages.push(newMessage);
   response.send(newMessage);
