@@ -4,7 +4,7 @@ const { request, response } = require("express");
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 // https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
 
 app.use(cors());
