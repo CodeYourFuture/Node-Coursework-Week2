@@ -25,6 +25,18 @@ app.get("/messages", (request, response) => {
   response.send(messages);
 });
 
+//Read one message specified by an ID
+app.get("/messages/:messageId", (request, response) => {
+  const messageId = +request.params.messageId;
+  const messageIncludedId = messages.filter(
+    (message) => message.id === messageId
+  );
+  messageIncludedId.length === 0
+    ? response.status(404).send({
+        msg: `Message not found with id: ${messageId}`,
+      })
+    : response.send(messageIncludedId);
+});
 app.listen(PORT, () => {
   console.log(`Server is listening the PORT : ${PORT}`);
 });
