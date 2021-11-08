@@ -115,6 +115,26 @@ app.delete("/messages/:messageId", (request, response) => {
   }
 });
 
+//Level 5 - Optional - add message update functionality
+app.put("/messages/:messageId", (request, response) => {
+  const messageId = +request.params.messageId;
+  const from = request.body.from;
+  const text = request.body.text;
+  const messageIndex = messages.findIndex(
+    (message) => message.id === messageId
+  );
+  if (messageIndex === -1) {
+    return response.status(404).send({
+      msg: `Message not found with id: ${messageId}`,
+    });
+  }
+  messages[messageIndex].from =
+    from || messages[messageIndex].from;
+  messages[messageIndex].text =
+    text || messages[messageIndex].text;
+  response.send(messages[messageIndex]);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening the PORT : ${PORT}`);
 });
