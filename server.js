@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { request, response } = require("express");
 
 
 const app = express();
@@ -27,18 +28,19 @@ app.get("/", function (request, response) {
 app.get("/messages", (request, response) => {
   response.send(messages);
 });
+app.get("/messages/search", (request, response) => {
+  const text = request.query.text.toLowerCase();
+  const messagesWithSelectedText = messages.filter((message) =>
+    message.text.toLowerCase().includes(text)
+  );
+  response.send(messagesWithSelectedText);
+});
 
+app.get("/messages/latest", (request, response) => {
+  response.send(messages.slice(-10));
+})
 app.get("/messages/:id", (request, response) => {
   const id = +request.params.id;
-  if(request.params.id === "search"){
-    const text = request.query.text.toLowerCase();
-    const messagesWithSelectedText = messages.filter( message =>  message.text.toLowerCase().includes(text));
-    response.send(messagesWithSelectedText);
-    return
-  }
-  if(request.params.id === "latest"){
-    return response.send(messages.slice(-10)); 
-  }
   const selectedId = messages.filter(message => message.id === id);
   if(selectedId.length === 0){
     return response.status(400).send({MSG: `This id doesn't exist`});
