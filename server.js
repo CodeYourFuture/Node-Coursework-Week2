@@ -34,11 +34,14 @@ app.get("/messages/:id", (request, response) => {
   response.send(selectedId);
 })
 app.post("/messages", (request, response) => {
-  const newMessages = request.body;
+  const { text, from } = request.body;
+  if(!text || !from){
+   return response.status(400).send({MSG: `There is no "text" or "from"`});
+  }
   const newObject= {
     id: messages[messages.length-1].id + 1,
-    from: newMessages.from,
-    text: newMessages.text,
+    text: text,
+    from: from,
 }; 
   messages.push(newObject);
   response.send(newObject);
@@ -49,6 +52,7 @@ app.delete("/messages/:id", (request, response) => {
   messages.splice(index, 1);
   response.send(`Message ${id} deleted`);
 });
+
 app.listen(PORT, function () {
   console.log(`Server is listening on port ${PORT}. Ready to accept requests!`);
 });
