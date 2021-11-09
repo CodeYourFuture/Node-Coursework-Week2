@@ -52,9 +52,14 @@ app.post("/messages", (req, res) => {
     text: req.body.text,
   };
 
-  messages.push(newMessage);
-
-  res.send("Message Added");
+  const from = req.body.from;
+  const text = req.body.text;
+  if (from.length > 0 || text.length > 0) {
+    messages.push(newMessage);
+    res.status(200).send(`Message sent to ${from}.`);
+  } else {
+    res.status(400).send("No message to send or recipient not set.");
+  }
 });
 
 app.listen(process.env.PORT || 3001);
