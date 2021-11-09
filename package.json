@@ -26,5 +26,8 @@
     "glitch",
     "express"
   ],
-  "author": ""
+  "author": "",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
 }
