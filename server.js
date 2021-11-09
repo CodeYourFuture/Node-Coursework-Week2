@@ -30,13 +30,26 @@ app.get("/messages", (request, response) => {
 
 app.get("/messages/:id", (request, response) => {
   const id = +request.params.id;
+  if(request.params.id === "search"){
+    const text = request.query.text.toLowerCase();
+    const messagesWithSelectedText = messages.filter( message =>  message.text.toLowerCase().includes(text));
+    response.send(messagesWithSelectedText);
+    return
+  }
+  if(request.params.id === "latest"){
+    return response.send(messages.slice(-10)); 
+  }
   const selectedId = messages.filter(message => message.id === id);
+  if(selectedId.length === 0){
+    return response.status(400).send({MSG: `This id doesn't exist`});
+  }
   response.send(selectedId);
-})
+});
+
 app.post("/messages", (request, response) => {
   const { text, from } = request.body;
   if(!text || !from){
-   return response.status(400).send({MSG: `There is no "text" or "from"`});
+   return response.status(400).send({MSG: `There is no text or from`});
   }
   const newObject= {
     id: messages[messages.length-1].id + 1,
@@ -46,9 +59,13 @@ app.post("/messages", (request, response) => {
   messages.push(newObject);
   response.send(newObject);
 });
+
 app.delete("/messages/:id", (request, response) => {
   const id = +request.params.id;
   const index = messages.findIndex(message => message.id === id);
+  if(index === -1){
+    return response.status(400).send({MSG:`Check id`});
+  }
   messages.splice(index, 1);
   response.send(`Message ${id} deleted`);
 });
