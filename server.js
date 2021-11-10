@@ -57,7 +57,7 @@ app.post("/messages", (request, response) => {
     id: messages[messages.length - 1].id + 1,
     text: text,
     from: from,
-    timeSent: new Date().toLocaleString(),
+    timeSent: new Date().toLocaleString("en-GB"),
   }; 
   messages.push(newObject);
   response.send(newObject);
