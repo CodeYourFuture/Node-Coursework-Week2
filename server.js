@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -9,15 +10,16 @@ const uuid = require("uuid4");
 
 const welcomeMessage = {
   id: uuid(),
-  from: "Bart",
+  from: "Bar",
   text: "Welcome to CYF chat system!",
   timeSent: new Date(),
 };
 
+const messages = [welcomeMessage];
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+//const messages = [welcomeMessage];
 console.log(messages);
 
 //different routes //html form
@@ -39,7 +41,7 @@ app.get("/messages/search", (req, res) => {
 //get latest 10 messages
 app.get("/messages/latest", (req, res) => {
   const messaging = [...messages];
-  res.json(messaging.slice(messaging.length - 10, messaging.length));
+  res.json(messaging.slice(-10));
 });
 //post a message from form
 app.post("/messages", (req, res) => {
@@ -79,7 +81,7 @@ app.put("/messages/:id", (req, res) => {
 //delete message with particular id
 app.delete("/messages/:id", (req, res) => {
   let indexsearched = 0;
-  let messageDeleted = messages.filter((messages, index) => {
+  let messageDeleted = messages.forEach((messages, index) => {
     if (messages.id === req.params.id) {
       indexsearched = index;
     }
@@ -88,6 +90,7 @@ app.delete("/messages/:id", (req, res) => {
   if (indexsearched > -1) {
     let newarray = messages.splice(indexsearched, 1);
     res.json(messages);
+    res.sendStatus(204);
   }
 });
 
