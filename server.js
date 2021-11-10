@@ -20,4 +20,15 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+//request to read all messages
+app.get('/messages', function(request, response) {
+  response.json(messages);
+});
+
+
+app.post('/messages', (request, response) => {response.json("hello Express world!")})
+
+
+const listener = app.listen(process.env.PORT, () => {
+  console.log("listing at port" + listener.address().port);
+}); 
