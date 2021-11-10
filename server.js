@@ -53,11 +53,12 @@ app.post("/messages", (request, response) => {
   if(!text || !from){
    return response.status(400).send({MSG: `There is no text or from`});
   }
-  const newObject= {
-    id: messages[messages.length-1].id + 1,
+  const newObject = {
+    id: messages[messages.length - 1].id + 1,
     text: text,
     from: from,
-}; 
+    timeSent: new Date().toLocaleString(),
+  }; 
   messages.push(newObject);
   response.send(newObject);
 });
