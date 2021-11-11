@@ -127,6 +127,7 @@ app.post("/messages", (req, res) => {
     id: uuidv4(),
     from: req.body.from,
     text: req.body.text,
+    timeSent: new Date().toLocaleTimeString(),
   };
 
   const from = req.body.from;
