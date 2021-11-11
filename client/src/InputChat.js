@@ -12,6 +12,7 @@ function InputChat() {
   fetch("http://localhost:4002/messages", {
    method: "POST",
    body: JSON.stringify({
+    //id: 0,
     from: name,
     text: message
    }),

@@ -16,15 +16,17 @@ function BoxChat(props) {
      });
  }, [props.count, refresh]);
  const deleteMessageButton = (id) => {
-  fetch(`http://localhost:4002/delete/${id}`, {
-   method: "POST",
-   body: JSON.stringify({
-    id: id
-   }),
-   headers: {
-    "Content-Type": "application/json"
-   }
-  });
+  // fetch(`http://localhost:4002/messages/${id}`, {
+  //  method: "DELETE",
+  //  body: JSON.stringify({
+  //   id: id
+  //  }),
+  //  headers: {
+  //   "Content-Type": "application/json"
+  //  }
+  // });
+  
+  fetch(`http://localhost:4002/messages/${id}`,{method:"DELETE"}).then(res=>res.json()).then(console.log)
   setRefresh(() => id)
  } 
  return (
