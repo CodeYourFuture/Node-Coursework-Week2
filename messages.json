@@ -1,0 +1,82 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 1,
+    "from": "Humail",
+    "text": "Bonjour!"
+  },
+  {
+    "id": 2,
+    "from": "John",
+    "text": "How are you?"
+  },
+  {
+    "id": 3,
+    "from": "Alex",
+    "text": "Hola!"
+  },
+  {
+    "id": 4,
+    "from": "Marty",
+    "text": "What's up?"
+  },
+  {
+    "id": 5,
+    "from": "Brigitte",
+    "text": "Hope all is well at your end"
+  },
+  {
+    "id": 6,
+    "from": "Mario",
+    "text": "I miss those golden days when we use to study together"
+  },
+  {
+    "id": 7,
+    "from": "Wissam",
+    "text": "Comment vas tu? ca fait longtemps"
+  },
+  {
+    "id": 8,
+    "from": "Margaret",
+    "text": "I have been calling you since all morning"
+  },
+  {
+    "id": 9,
+    "from": "Brady",
+    "text": "Why did you go through all that hassle"
+  },
+  {
+    "id": 10,
+    "from": "Valentina",
+    "text": "Where are you? I have been waiting for you"
+  },
+  {
+    "id": 11,
+    "from": "Rashid",
+    "text": "Well played at the games today bro!"
+  },
+  {
+    "id": 12,
+    "from": "Waz",
+    "text": "Let's go for a bike ride to central London"
+  },
+  {
+    "id": 13,
+    "from": "Roberto",
+    "text": "I am so excited I am travelling this weekend"
+  },
+  {
+    "id": 14,
+    "from": "Carlos",
+    "text": "Did you find what I asked you to look for?"
+  },
+  {
+    "id": 15,
+    "from": "Farhana",
+    "text": "When are you coming home tonight?"
+  }
+]
