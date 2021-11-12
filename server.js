@@ -22,8 +22,8 @@ let messageCounter = 1
 const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
-  //response.json(messages);
+  // response.sendFile(__dirname + "/index.html");
+  response.json(messages);
 });
 
 app.get("/messages/:id", (req,res) => {
