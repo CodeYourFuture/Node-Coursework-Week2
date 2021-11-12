@@ -73,7 +73,6 @@ const messages = [
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-// const messages = welcomeMessage;
 
 // Display root directory, input controls
 app.get("/", function (req, res) {
@@ -131,6 +130,20 @@ app.get("/messages/:id", (req, res) => {
     res.status(404).json({ Success: false });
   } else {
     res.status(200).json(message);
+  }
+});
+
+// Delete message by id
+app.delete("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const indexOfMessage = messages.findIndex((message) => message.id === id);
+
+  if (indexOfMessage >= 0) {
+    messages.splice(indexOfMessage, 1);
+    res.status(200).json({ Success: true });
+  } else {
+    res.status(404).json({ Success: false });
   }
 });
 
