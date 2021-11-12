@@ -4,14 +4,12 @@ const cors = require("cors");
 // Import library to generate random id's.
 const { v4: uuidv4 } = require("uuid");
 
-// const { application } = require("express");
-
 const app = express();
 
 // Required when POST comes from a form
 app.use(express.urlencoded({ extended: false }));
 
-// app.use(express.json());
+app.use(express.json());
 app.use(cors());
 
 const messages = [
@@ -92,9 +90,9 @@ app.get("/messages", (req, res) => {
 app.get("/messages/search", (req, res) => {
   const searchTerm = req.query.text.toUpperCase();
 
-  const filteredMessages = messages.filter((message) => {
-    return message.text.toUpperCase().includes(searchTerm);
-  });
+  const filteredMessages = messages.filter((message) =>
+    message.text.toUpperCase().includes(searchTerm)
+  );
 
   res.status(200).json(filteredMessages);
 });
@@ -106,22 +104,37 @@ app.get("/messages/latest", (req, res) => {
   if (messages.length >= 10) {
     res.status(200).json(lastTenMessages);
   } else {
-    res.status(404).send("Not enough messages");
+    res.status(404).json({ Success: false });
+  }
+});
+
+// Update message by id
+app.put("/messages/:messageId", (req, res) => {
+  const id = parseInt(req.params.messageId);
+
+  const indexOfMessage = messages.findIndex((message) => message.id === id);
+
+  if (indexOfMessage >= 0) {
+    messages[indexOfMessage].text = req.body.text;
+    res.status(200).json({ Success: true });
+  } else {
+    res.status(404).json({ Success: false });
   }
 });
 
 // Get message by id
 app.get("/messages/:id", (req, res) => {
-  const message = messages[req.params.id];
+  const id = parseInt(req.params.id);
+  const message = messages.find((message) => message.id === id);
 
-  if (!message) {
-    res.status(404).send(`Message with id: ${req.params.id} not found`);
+  if (message === undefined) {
+    res.status(404).json({ Success: false });
   } else {
-    res.status(200).json(messages[req.params.id]);
+    res.status(200).json(message);
   }
 });
 
-// Add new message, check for empty field and respond with appropriate feedback
+// Add new message, check for `empty` from and `text` fields and respond with appropriate feedback
 app.post("/messages", (req, res) => {
   const newMessage = {
     id: uuidv4(),
@@ -133,11 +146,11 @@ app.post("/messages", (req, res) => {
   const from = req.body.from;
   const text = req.body.text;
 
-  if (from || text) {
-    messages.push(newMessage);
-    res.status(200).send("Message sent.");
+  if (from === undefined && text === undefined) {
+    res.status(400).json({ Success: false });
   } else {
-    res.status(400).send("No message to send or recipient not set.");
+    messages.push(newMessage);
+    res.status(200).json({ Success: true });
   }
 });
 
