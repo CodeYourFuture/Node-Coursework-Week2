@@ -41,6 +41,7 @@ app.post("/messages", (req, res) => {
     let seqID = generator.generate();
     const timeElapsed = Date.now();
     const today = new Date(timeElapsed);
+
     let newMessage = {
       id: Number(seqID),
       from: newFrom,
