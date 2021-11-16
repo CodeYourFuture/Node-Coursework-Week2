@@ -39,10 +39,13 @@ app.post("/messages", (req, res) => {
     res.status(400).send("message is not valid");
   } else {
     let seqID = generator.generate();
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
     let newMessage = {
       id: Number(seqID),
       from: newFrom,
       text: newText,
+      timestamp: today.toUTCString(),
     };
     messages.push(newMessage);
     res.send(messages);
