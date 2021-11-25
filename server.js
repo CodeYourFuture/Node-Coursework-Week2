@@ -46,6 +46,19 @@ app.post("/messages", function (request, response) {
   // response.send(messages);//I don't need to send all messages//post man = client
 });
 
+app.delete("/messages/:id", function(request,response){
+  const messageIndex = messages.findIndex(
+    (message) => String(message.id) === request.params.id
+  );
+  if(messageIndex>=0){
+    messages.splice(messageIndex, 1);
+    response.sendStatus(204); //204=No Content
+  }else{
+    response.status(404).send("Could not find message with id " + request.params.id);
+  }
+
+})
+
 //app.listen(process.env.PORT);                     
 app.listen(5500, "localhost", function () {
   console.log(
