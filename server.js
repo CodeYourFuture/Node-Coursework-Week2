@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
-
+app.use(express.json());
 const welcomeMessage = {
   id: 0,
   from: "Bart",
@@ -20,4 +20,18 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages", function (request, response) {
+  response.send(messages);
+});
+
+app.post("/messages", function (request, response) {
+  const newmessage = request.body;
+  messages.push(newmessage);
+  response.sendStatus(201);
+});
+app.get("/messages/:messageId", function (request, response) {
+  const messageId = messages.filter((id) => {});
+  response.send(request.messages.messageId);
+});
+
+app.listen(3000);
