@@ -1,12 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const uuid = require("uuid");
+
 const app = express();
 
 app.use(cors());
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 const welcomeMessage = {
   id: 0,
@@ -17,114 +16,65 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage, {
-  id: "1",
-  from: "Homer",
-  text: "Welcome to CYF chat system!",
-}, {
-    id: "2",
-    from: "Marge",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "3",
-    from: "Lisa",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "4",
-    from: "Maggie",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "5",
-    from: "Grandpa",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "6",
-    from: "Ned Flanders",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "7",
-    from: "Milhouse",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "8",
-    from: "Principal Skinner",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "9",
-    from: "Apu",
-    text: "Welcome to CYF chat system!",
-  }, {
-    id: "10",
-    from: "Krusty",
-    text: "Welcome to CYF chat system!",
-  }];
-
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.get("/messages", function (req, res) {
-  res.json(messages);
-});
-
-app.post("/messages", function (req, res) {
-  const newMessage = {
-    id: uuid.v4(),
-    from: req.body.from,
-    text: req.body.text,
-    timeSent: new DateTime()
-  };
-  if (!newMessage.from || !newMessage.text) {
-    return res.status(400).json(`Please include a name and message`);
-  }
-  messages.push(newMessage);
-  res.json(messages);
-});
-
-app.get("/messages/latest", function (req, res) {
-  let latestMessages = [];
-
-  if (messages.length <= 10) {
-    res.json(messages);
-  } else if (messages.length > 10) {
-    for (let i = messages.length - 10; i < messages.length; i++) {
-      latestMessages.push(messages[i]);
-    }
-    res.json(latestMessages);
-  }
-});
-
-app.get("/messages/search", function (req, res) {
-  const searchQuery = req.query.text;
-  messages.filter(message => {
-    if (message.text.includes(searchQuery)) {
-      return res.json(message);
-    } else {
-      return res.status(400).send(`There are no messages containing "${req.query.text}"`);
-    }
-  });
-});
-
-app.get("/messages/:messageId", function (req, res) {
-  const requestedMessage = messages.filter(message => message.id === req.params.messageId);
-  res.json(requestedMessage);
-});
-
-app.delete("/messages/:messageId", function (req, res) {
-  const found = messages.some(
-    message => message.id === req.params.messageId
-  );
-  if (found) {
-    res.json(
-      messages.filter(message => message.id !== req.params.messageId)
-    );
-  } else {
-    res.status(400).send(`There's no message with ${req.params.messageId}`);
-  }
-});
+const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+// read all messages
+app.get("/messages", (request, response) => {
+  response.status(200);
+  response.json(messages);
+});
+
+// post a message
+app.post("/messages", (request, response) => {
+  const message = request.body;
+  message.id = messages.length;
+
+  const timeSent = new Date().toLocaleString();
+  message.timeSent = timeSent;
+
+  if (!request.body.from || !request.body.text) {
+    response.status(400);
+    response.send("Please fill all the fields");
+  } else {
+    response.status(200);
+    messages.push(message);
+    response.send(messages);
+  }
+});
+
+// search for a specific word in the message
+app.get("/messages/search", (request, response) => {
+  const searchWord = request.query.text;
+  const filteredMessages = messages.filter((message) => {
+    return message.text.includes(searchWord);
+  });
+
+  response.send(filteredMessages);
+});
+
+// get message by id
+app.get("/messages/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const foundMessage = messages.find((message) => {
+    return message.id === id;
+  });
+  response.status(200);
+  response.json(foundMessage);
+});
+
+// delete message by id
+app.delete("/messages/:id", (request, response) => {
+  const id = Number(request.params.id);
+  messages.map((message) => {
+    message.id === id ? messages.splice(id, 1) : null;
+  });
+  response.status(200);
+  response.send(`You have deleted a message with id ${id}`);
+});
+
+
+app.listen(process.env.PORT || 30000);
