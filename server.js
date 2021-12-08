@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 // Read all messages
-app.get("/messages", (req, res) => {
+app.get("/messages", (req, res) => {git 
   res.json(messages);
 });
 
