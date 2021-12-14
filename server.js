@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
 app.use(cors());
+
+//for use with forms
+app.use(express.urlencoded({ extended: false }));
+
 
 const welcomeMessage = {
   id: 0,
@@ -21,14 +24,49 @@ app.get("/", function (request, response) {
 });
 
 //request to read all messages
-app.get('/messages', function(request, response) {
+app.get("/messages", function (request, response) {
   response.json(messages);
 });
 
+app.get("/messages/:msgId", (request, response) => {
+  const msgId = request.params.msgId;
+  if (msgId) {
+    const filteredMsg = messages.filter((message) => message.id == msgId);
+    return response.json(filteredMsg);
+  }
+});
+// --------------------------------
 
-app.post('/messages', (request, response) => {response.json("hello Express world!")})
+app.post("/messages", (request, response) => {
+  const lastIndex = messages.length - 1;
+  const lastId = messages[lastIndex].id;
 
+  const newMessage = {
+    id: lastId + 1,
+    from: request.body.from,
+    text: request.body.text,
+  };
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log("listing at port" + listener.address().port);
-}); 
+  if (!newMessage.from || !newMessage.text) {
+    return response.sendStatus(400);
+  } else {
+    messages.push(newMessage);
+    return response.send("Message created");
+  }
+});
+
+app.delete("/messages/:msgId", (request, response) => {
+  const msgId = request.params.msgId;
+
+  if (msgId) {
+    //finds index of msg obj whose id value equals msgId
+    const msgIndex = messages.findIndex((message) => message.id == msgId);
+
+    messages.splice(msgIndex, 1);
+    response.json("Message deleted");
+  }
+});
+
+const listener = app.listen(process.env.PORT, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
