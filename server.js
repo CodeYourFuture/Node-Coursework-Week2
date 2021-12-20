@@ -51,6 +51,21 @@ app.get("/messages/:id", (req, res) => {
     : res.send(message);
 });
 
+// edit message based on ID
+app.put("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const payload = req.body;
+  const index = messages.findIndex((message) => message.id === id);
+
+  if (index === -1)
+    return res.status(400).send({ message: "Message ID not found" });
+
+  messages[index].from = payload.from;
+  messages[index].text = payload.text;
+
+  res.send({ message: "Message has been updated" });
+});
+
 // delete a message based on ID
 app.delete("/messages/:id", (req, res) => {
   const id = parseInt(req.params.id); // need this to be an integer so convert it now
