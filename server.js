@@ -41,14 +41,29 @@ app.get("/messages", (req, res) => {
   res.send(messages);
 });
 
+// get one message via id
+app.get("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id); // need this to be an integer so convert it now
+  const message = messages.filter((message) => message.id === id);
+  // if length is 0 means the filter has found nothing and returned an empty array
+  message.length === 0
+    ? res.status(400).send({ message: "Message ID not found" })
+    : res.send(message);
+});
+
 // delete a message based on ID
 app.delete("/messages/:id", (req, res) => {
   const id = parseInt(req.params.id); // need this to be an integer so convert it now
-  messages = messages.filter((message) => message.id !== id);
-  res.send(messages);
+  const index = messages.findIndex((message) => message.id === id); // gets index of the message who's ID matches the param id
+  // if index === -1 findIndex couldn't find the element which means we can't delete it
+  if (index === -1)
+    return res.status(400).send({ message: "message ID not found" });
+
+  messages.splice(index, 1); // remove that index
+  res.send({ message: "Message successfully removed" });
 });
 
-// making a new message
+// make a new message based on the payload / body
 app.post("/messages", (req, res) => {
   const message = new MessageObject(req.body);
   const messageTextValid = validateMessageString(message.text);
