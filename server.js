@@ -12,7 +12,6 @@ class MessageObject {
   constructor({ text, from }) {
     // if the message array is empty (no messages sent yet) the id = 0 else it looks at the last item in the array and gets that id + 1
     this.id = messages.length === 0 ? 0 : messages[messages.length - 1].id + 1;
-    console.log(typeof this.id);
     this.from = from;
     this.text = text;
   }
@@ -24,11 +23,10 @@ const validateMessageString = (string) => string.trim().length > 0;
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [];
+let messages = [];
 
 messages.push(
   new MessageObject({
-    id: 0,
     from: "Bart",
     text: "Welcome to the CYF chat system!",
   })
@@ -45,6 +43,8 @@ app.get("/messages", (req, res) => {
 
 // delete a message based on ID
 app.delete("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id); // need this to be an integer so convert it now
+  messages = messages.filter((message) => message.id !== id);
   res.send(messages);
 });
 
