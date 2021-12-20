@@ -14,6 +14,7 @@ class MessageObject {
     this.id = messages.length === 0 ? 0 : messages[messages.length - 1].id + 1;
     this.from = from;
     this.text = text;
+    this.timeSent = new Date(); // including a time sent for all the messages
   }
 }
 
@@ -38,7 +39,43 @@ app.get("/", (req, res) => {
 
 // view all messages
 app.get("/messages", (req, res) => {
-  res.send(messages);
+  res.json(messages);
+});
+
+// serve the latest x messages based on the query
+app.get("/messages/latest", (req, res) => {
+  const amount = req.query.amount || 10; // if the query doesn't exist load the latest 10 messages
+  const latestMessages = messages.slice(0, parseInt(amount) + 1); // get the first 10 messages from the array
+  res.json(latestMessages);
+});
+
+// search for messages based on a query string
+app.get("/messages/search", (req, res) => {
+  const textQuery = req.query.text;
+  const fromQuery = req.query.from;
+
+  if (textQuery === undefined && fromQuery === undefined)
+    return res
+      .status(400)
+      .json({ message: "Please enter a Query for either 'text' or 'from'" });
+
+  const convertToLowerCase = (string) =>
+    string === undefined ? null : string.toLowerCase();
+
+  // looks real bad but works.
+  const filteredMessages = messages.filter((message) => {
+    if (textQuery && fromQuery)
+      return (
+        message.text.toLowerCase().includes(convertToLowerCase(textQuery)) &&
+        message.from.toLowerCase().includes(convertToLowerCase(fromQuery))
+      );
+    else
+      return (
+        message.text.toLowerCase().includes(convertToLowerCase(textQuery)) ||
+        message.from.toLowerCase().includes(convertToLowerCase(fromQuery))
+      );
+  });
+  res.json(filteredMessages);
 });
 
 // get one message via id
@@ -48,7 +85,7 @@ app.get("/messages/:id", (req, res) => {
   // if length is 0 means the filter has found nothing and returned an empty array
   message.length === 0
     ? res.status(400).send({ message: "Message ID not found" })
-    : res.send(message);
+    : res.json(message);
 });
 
 // edit message based on ID
@@ -58,12 +95,12 @@ app.put("/messages/:id", (req, res) => {
   const index = messages.findIndex((message) => message.id === id);
 
   if (index === -1)
-    return res.status(400).send({ message: "Message ID not found" });
+    return res.status(400).json({ message: "Message ID not found" });
 
   messages[index].from = payload.from;
   messages[index].text = payload.text;
 
-  res.send({ message: "Message has been updated" });
+  res.json({ message: "Message has been updated" });
 });
 
 // delete a message based on ID
@@ -72,10 +109,10 @@ app.delete("/messages/:id", (req, res) => {
   const index = messages.findIndex((message) => message.id === id); // gets index of the message who's ID matches the param id
   // if index === -1 findIndex couldn't find the element which means we can't delete it
   if (index === -1)
-    return res.status(400).send({ message: "message ID not found" });
+    return res.status(400).json({ message: "message ID not found" });
 
   messages.splice(index, 1); // remove that index
-  res.send({ message: "Message successfully removed" });
+  res.json({ message: "Message successfully removed" });
 });
 
 // make a new message based on the payload / body
