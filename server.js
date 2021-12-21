@@ -39,7 +39,7 @@ app.post("/messages", function (request, response) {
   if (!message.from || !message.text) {
     return response
       .status(400)
-      .json({ msg: "Please include a name and email" });
+      .json({ msg: "Please include a name and a text" });
   }
 
   messages.push(message);
