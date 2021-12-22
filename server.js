@@ -78,7 +78,7 @@ app.get("/messages/:id", (request, response) => {
   } else {
     response
       .status(400)
-      .json({ msg: `No member with the id of ${request.params.id}` });
+      .json({ msg: `No message with the id of ${request.params.id}` });
   }
 });
 
@@ -98,7 +98,25 @@ app.put("/messages/:id", (request, response) => {
   } else {
     response
       .status(400)
-      .json({ msg: `No member with the id of ${request.params.id}` });
+      .json({ msg: `No message with the id of ${request.params.id}` });
+  }
+});
+
+//delete a message
+app.delete("/messages/:id", (request, response) => {
+  const found = messages.some(idFilter(request));
+
+  if (found) {
+    response.json({
+      msg: "Message Deleted",
+      messages: messages.filter(
+        (message) => message.id !== parseInt(request.params.id)
+      ),
+    });
+  } else {
+    response
+      .status(400)
+      .json({ msg: `No message with the id of ${request.params.id}` });
   }
 });
 
