@@ -7,12 +7,6 @@ const app = express();
 
 // app.use(cors());
 
-// const welcomeMessage = {
-//   id: 0,
-//   from: "Bart",
-//   text: "Welcome to CYF chat system!",
-// };
-
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
@@ -22,13 +16,14 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-const messages = [];
+
+const welcomeMessage = {
+  id: 0,
+  from: "Bart",
+  text: "Welcome to CYF chat system!",
+};
+const messages = [welcomeMessage];
 app.post("/messages", function (request, response) {
-  // const welcomeMessage = {
-  //   id: 0,
-  //   from: "Bart",
-  //   text: "Welcome to CYF chat system!",
-  // };
   const submissionTime = new Date().toLocaleTimeString();
   const message = {
     id: 0,
@@ -43,7 +38,7 @@ app.post("/messages", function (request, response) {
   }
 
   messages.push(message);
-  message.id = messages.indexOf(message) + 1;
+  message.id = messages.indexOf(message);
   response.json(messages);
 });
 
@@ -73,9 +68,9 @@ app.get("/messages/latest", function (request, response) {
 });
 
 //see one message
+const idFilter = (request) => (message) =>
+  message.id === parseInt(request.params.id);
 app.get("/messages/:id", (request, response) => {
-  const idFilter = (request) => (message) =>
-    message.id === parseInt(request.params.id);
   const found = messages.some(idFilter(request));
 
   if (found) {
@@ -87,22 +82,25 @@ app.get("/messages/:id", (request, response) => {
   }
 });
 
-// Update a message
-// app.put("/messages/:id", (request, response) => {
-//   const found = messages.some(idFilter(request));
+//Update a message
+app.put("/messages/:id", (request, response) => {
+  const found = messages.some(idFilter(request));
 
-//   if (found) {
-//     messages.forEach((message, i) => {
-//       if (idFilter(request)(message)) {
-//         const updMessage = { ...message, ...request.body };
-//         messages[i] = updMessage;
-//         response.json({ msg: "message updated", updMessage });
-//       }
-//     });
-//   } else {
-//     res.status(400).json({ msg: `No member with the id of ${request.params.id}` });
-//   }
-// });
+  if (found) {
+    const updatedMessage = request.body;
+    messages.forEach((message) => {
+      if (message.id == request.params.id) {
+        message.from = updatedMessage.from ? updatedMessage.from : message.from;
+        message.text = updatedMessage.text ? updatedMessage.text : message.text;
+        response.json({ msg: "Message updated", message });
+      }
+    });
+  } else {
+    response
+      .status(400)
+      .json({ msg: `No member with the id of ${request.params.id}` });
+  }
+});
 
 // app.listen(process.env.PORT);
 const PORT = process.env.PORT || 5050;
