@@ -1,9 +1,11 @@
 const express = require("express");
-//const cors = require("cors");
+const cors = require("cors");
 
 const app = express();
 
-//app.use(cors());
+const port = process.env.PORT||3000;
+
+app.use(cors());
 app.use(express.json()); //All message content should be passed as JSON
 
 const welcomeMessage = {
@@ -16,19 +18,44 @@ const welcomeMessage = {
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 
-// Create a new message  -- Post a new message
-const messages = [welcomeMessage];
-app.post("/message", function (req, res) { 
-  console.log (req.body);
-  const id = req.body.id;
-})
 
-//Read all messages  -- Get all message
-app.get("/message", function (req, res) {
+const messages = [welcomeMessage];
+
+
+app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+//Read all messages  -- Get all message
+app.get("/messages". (req, res) =>{ 
+  res.send(messages);
+})
 
+// Read (GET) one message specified by an ID
+app.get("/message/:id", function (req, res) { 
+  console.log (req.body);
+  const id = req.body.id;
+  const message = messages.find((element) => {
+    return element.id ===parseInt;
+  })
+  res.send(message);
+})
+
+//Read (GET) only the most recent 10 messages: `/messages/latest`
+
+app.get("/messages/latest", (req, res) => { 
+  res.send (messages.slice(-10));
+});
+
+// Create (POST) a new message  
+app.post("/message/:id", function (req, res) { 
+  console.log (req.body);
+  const id = req.body.id;
+  const message = messages.find((element) => {
+    return element.id ===parseInt;
+  })
+  res.send(message);
+})
 
 
 
@@ -38,7 +65,7 @@ app.get("/message", function (req, res) {
  // Delete a message, by ID
  app.delete("/message/:id", function (req, res){
    const id = req.params.id;
-   welcomeMessage = welcomeMessage.filter((message) => message.id !== req.params.id);
+   welcomeMessage = welcomeMessage.filter((welcomeMessage) => welcomeMessage.id !== req.params.id);
 
   res.status(204); // No data
   res.end(); // Response body is empty
