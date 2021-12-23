@@ -16,12 +16,16 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
+
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 let messageCounter = 1
 const messages = [welcomeMessage];
-
+function addZero(i) {
+  if (i < 10) {i = "0" + i}
+  return i;
+}
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
   // response.json(messages);
@@ -58,6 +62,11 @@ app.post("/messages", (req, res) => {
   console.log(req.body);
   let from = req.body.from;
   let text = req.body.text;
+  const d = new Date();
+  let h = addZero(d.getUTCHours());
+  let m = addZero(d.getUTCMinutes());
+  let s = addZero(d.getUTCSeconds());
+  let timeSent = h + ":" + m + ":" + s;
   let id = messages.length;
   console.log(id)
   if (from.length === 0 || text.length === 0){
@@ -67,6 +76,7 @@ app.post("/messages", (req, res) => {
       id: id,
       from: from,
       text: text,
+      timeSent: timeSent,
     };
     messages.push(newObj);
 
