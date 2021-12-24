@@ -104,6 +104,7 @@ app.put("/messages/:id", (request, response) => {
 
 //delete a message
 app.delete("/messages/:id", (request, response) => {
+  const idFilter = (req) => (booking) => booking.id === parseInt(req.params.id);
   const found = messages.some(idFilter(request));
 
   if (found) {
@@ -121,6 +122,6 @@ app.delete("/messages/:id", (request, response) => {
 });
 
 // app.listen(process.env.PORT);
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
