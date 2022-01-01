@@ -32,7 +32,7 @@ router.post("/", function (req, res) {
     res.sendStatus(400);
   } else {
     messages.push(newMessage);
-    res.status(200);
+    res.status(200).send({'msg': 'New message is added to the messages!'});
   }
 })
 
