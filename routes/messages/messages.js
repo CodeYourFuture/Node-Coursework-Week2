@@ -63,18 +63,28 @@ router.get("/:id", function (req, res) {
 
 // // Update text or from property
 router.put('/update/:id', function (req, res) {
-    const found = messages.some(({id}) => id === parseInt(req.params.id));
-    if(found) {
-        const updMessage = req.body;
-        messages.forEach((msg) => {
-            if(msg.id === parseInt(req.params.id)) {
-                msg.from = updMessage.from;
-                msg.text = updMessage.text;
-            }
-            res.send("The message is updated", msg);
-        })
-    }else {
-        res.status(400).send({ "msg": `No message with the id of ${req.params.id}`})
+    const messageId = req.params.id;
+    const messageToUpdate = messages.find(({id}) => id === parseInt(messageId));
+    
+    if (!messageToUpdate) {
+        return res.status(400).send({ 'msg': `No message with the id of ${messageId}` });
+    } else {
+        const { from, text } = req.body;
+        const today = new Date();
+        const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+        const dateTime = `${date} ${time}`;
+        const updatedMessage = {
+          id: messageId,
+          from,
+          text,
+          timeSent: dateTime,
+        };
+        return res.send({
+          'msg': `Message with the id of ${messageId} has been updated.`,
+          'oldMessage': messageToUpdate,
+          'updatedMessage': updatedMessage,
+        });
     }
 })
 
