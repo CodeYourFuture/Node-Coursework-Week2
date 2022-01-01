@@ -16,16 +16,12 @@ const messages = [welcomeMessage];
 router.post("/", function (req, res) {
   const lastIndex = messages.length - 1;
   const lastId = messages[lastIndex].id;
-  const today = new Date();
-  const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-  const dateTime = `${date} ${time}`;
 
   const newMessage = {
-    "id" : lastId + 1,
-    "from": req.body.from,
-    "text": req.body.text,
-    "timeSent": dateTime
+    id: lastId + 1,
+    from: req.body.from,
+    text: req.body.text,
+    timeSent: createDateAndTime(),
   };
 
   if(!newMessage.from || !newMessage.text) {
@@ -70,15 +66,11 @@ router.put('/update/:id', function (req, res) {
         return res.status(400).send({ 'msg': `No message with the id of ${messageId}` });
     } else {
         const { from, text } = req.body;
-        const today = new Date();
-        const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-        const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
-        const dateTime = `${date} ${time}`;
         const updatedMessage = {
           id: messageId,
           from,
           text,
-          timeSent: dateTime,
+          timeSent: createDateAndTime(),
         };
         return res.send({
           'msg': `Message with the id of ${messageId} has been updated.`,
@@ -87,5 +79,13 @@ router.put('/update/:id', function (req, res) {
         });
     }
 })
+
+function createDateAndTime () {
+    const today = new Date();
+    const date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+    const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    const dateTime = `${date} ${time}`;
+    return dateTime;
+}
 
 module.exports = router;
