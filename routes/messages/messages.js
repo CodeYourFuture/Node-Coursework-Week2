@@ -67,12 +67,14 @@ router.put('/update/:id', function (req, res) {
         return res.status(400).send({ 'msg': `No message with the id of ${messageId}` });
     } else {
         const { from, text } = req.body;
+        const messageIndex = messages.indexOf(messageToUpdate);
         const updatedMessage = {
           id: messageId,
           from,
           text,
           timeSent: createDateAndTime(),
         };
+        messages.splice(messageIndex, 1, updatedMessage);
         return res.send({
           'msg': `Message with the id of ${messageId} has been updated.`,
           'oldMessage': messageToUpdate,
