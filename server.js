@@ -43,7 +43,7 @@ app.post("/messages", function (req, res) {
   };
   
   if(!newMessage.from || !newMessage.text) {
-    res.sendStatus(400);
+    res.status(400).send({ "msg": `Invalid request, please check you filled the form correctly`});;
   } else {
     messages.push(newMessage);
     res.status(200).send(messages);
