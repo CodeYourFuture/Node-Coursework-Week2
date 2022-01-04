@@ -5,22 +5,22 @@
   </head>
   <body>
     <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
+      CYF Chat</h1>
+    <h2> Send a message</h2>
     <form action="/messages" method="post">
       <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
+        Name: <input type="text" name="from" id="message-name" placeholder="Krishan Kumar" />
+        <br />
+        Message:
+        <input type="text" name="text" id="message-text" placeholder="Nice to see you here..." />
         <br />
       </p>
-      <button type="submit">
-        Send
-      </button>
-    </form>
+      <button type="submit">Send</button>
+  </form>
 
     <a href="/messages">See all messages</a>
   </body>
 </html>
+
+
+  
