@@ -101,6 +101,7 @@ app.put("/messages/update/:id", (req, res) => {
   const updated = messages.find((element) => element.id === idOfMessage);
   updated.from = update.from;
   updated.text = update.text;
+
   res.status(200).json(updated);
 });
 
