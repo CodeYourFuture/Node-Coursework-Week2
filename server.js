@@ -57,7 +57,14 @@ app.post("/messages", (req, res) => {
 
 //Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-  res.send(messages[req.params.id]);
+
+  const messageIndex = messages.findIndex((event) => event.id === req.params.id);
+
+  if (messageIndex === -1) {
+    res.status(404).send("This message does not exist");
+  } else {
+    res.status(204).send(messages.splice(messageIndex, 1))
+  }
 });
 
 app.listen(process.env.PORT || 5000);
