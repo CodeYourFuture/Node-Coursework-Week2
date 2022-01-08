@@ -38,10 +38,12 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+// get all messages
 app.get("/messages", (req, res) => {
   res.json(messages);
 });
 
+// post a message
 app.post("/messages", (req, res) => {
   const sentDate = moment().format("MMMM Do YYYY, h:mm:ss a");
   const newMessage = {
@@ -58,6 +60,7 @@ app.post("/messages", (req, res) => {
     res.json(newMessage);
 });
 
+// search for a message
 app.get("/messages/search", (req, res) => {
   const searchTerm = req.query.text;
   const filtered = messages.filter((message) =>
@@ -69,13 +72,16 @@ app.get("/messages/search", (req, res) => {
     : res.status(404).json({ message: "Message not found." });
 });
 
+// get latest 10 messages
 app.get("/messages/latest", (req, res) => {
   const latest = messages.filter((element) => {
-    return element.id < 10;
+    return arr2.indexOf(element) > arr2.length - 11;
+    // change this!!!
   });
   res.json(latest);
 });
 
+// get message by id value
 app.get("/messages/:id", (req, res) => {
   const messageId = parseInt(req.params.id);
   const filteredMessage = messages.find((element) => element.id === messageId);
@@ -84,6 +90,7 @@ app.get("/messages/:id", (req, res) => {
     : res.status(404).json({ message: "Message not found." });
 });
 
+// deletes a message
 app.delete("/messages/:id", (req, res) => {
   const inputId = parseInt(req.params.id);
   const indexOfDeleted = messages.findIndex(
@@ -95,6 +102,7 @@ app.delete("/messages/:id", (req, res) => {
     : res.status(404).json({ message: "Message not found." });
 });
 
+// update/alter a posted message
 app.put("/messages/update/:id", (req, res) => {
   const idOfMessage = parseInt(req.params.id);
   const update = req.body;
@@ -105,6 +113,7 @@ app.put("/messages/update/:id", (req, res) => {
   res.status(200).json(updated);
 });
 
+// listener function
 app.listen(port, () => {
   console.log(`Server listening on port: ${port}`);
 });
