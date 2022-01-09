@@ -24,7 +24,7 @@ app.get("/", function (req, res) {
 
 //read all messages
 app.get("/messages", function (req, res) {
-  res.send(messages);
+  res.json(messages);
 });
 
 //creating a new message
@@ -41,6 +41,25 @@ app.post("/messages", (req, res) => {
 
   messages.push(newMessage);
   res.status(200).json(messages);
+});
+
+//read messages whose text contains a given substring
+app.get("/messages/search", (req, res) => {
+  let filteredMessages = messages.filter((message) =>
+    message.text.toLowerCase().includes(req.query.text.toLowerCase())
+  );
+  if (filteredMessages.length > 0) {
+    res.status(200).json(filteredMessages);
+  } else {
+    res
+      .status(404)
+      .json({ msg: `No message containing the word ${req.query.text}` });
+  }
+});
+
+//read the most recent 10 messages
+app.get("/messages/latest", (req, res) => {
+  res.status(200).json(messages.splice(-10));
 });
 
 //read one message specified by ID
