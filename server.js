@@ -36,7 +36,7 @@ app.post("/messages", (req, res) => {
   };
 
   if (!newMessage.from || !newMessage.text) {
-    res.status(404).json({ msg: "A name and a message is required" });
+    res.status(400).json({ msg: "A name and a message is required" });
   }
 
   messages.push(newMessage);
@@ -48,6 +48,7 @@ app.get("/messages/:id", (req, res) => {
   const filteredMsg = messages.filter(
     (message) => message.id == parseInt(req.params.id)
   );
+
   if (filteredMsg.length > 0) {
     res.status(200).json(filteredMsg);
   } else {
@@ -61,9 +62,11 @@ app.delete("/messages/:id", (req, res) => {
   const index = messages.findIndex(
     (message) => message.id === parseInt(req.params.id)
   );
+
   if (index < 0) {
     res.status(404).json({ msg: `No message with ${req.params.id}` });
   }
+
   messages.splice(parseInt(req.params.id), 1);
   res.status(200).json(messages);
 });
