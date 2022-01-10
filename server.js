@@ -19,11 +19,14 @@ app.get("/", function (request, response) {
 
 // Create a message
 const messages = [];
+
+const timeStamp = new Date().toLocaleTimeString();
 app.post("/messages", function (request, response) {
   const message = {
     id: 0,
     from: request.body.from,
     text: request.body.text,
+    timeSent: timeStamp,
   };
   if (!message.from || !message.text) {
     return response
@@ -91,6 +94,49 @@ app.get("/message/search", function (request, response) {
 // Show 10 latest messages
 app.get("/messages/latest", function (request, response) {
   response.send(messages.slice(-10));
+});
+
+// Updating message
+// Solution-1
+
+// app.put("/messages/:id", function (request, response) {
+//   let oldMessage = {};
+//   let newMessage = {};
+//   messages.forEach((msg, index) => {
+//     if (msg.id == request.params.id) {
+//       newMessage = { ...msg, ...request.body };
+//       oldMessage = messages[index];
+//       messages[index] = newMessage;
+//     }
+//   });
+//   response.json({
+//     success: true,
+//     oldMessage: oldMessage,
+//     newMessage: newMessage,
+//   });
+// });
+
+// Solution-2
+// With this method user can only change things we have allowed.
+app.put("/messages/:id", function (request, response) {
+  const index = messages.findIndex(
+    (message) => message.id == request.params.id
+  );
+  if (index < 0)
+    response.status(404).json({ success: false, message: "message not found" });
+  const changes = request.body;
+  let allowedChanges = {};
+  ["from", "text"].forEach((key) => {
+    if (changes.hasOwnProperty(key)) allowedChanges[key] = changes[key];
+  });
+  const oldMessage = messages[index];
+  const newMessage = { ...oldMessage, ...allowedChanges };
+  messages[index] = newMessage;
+  response.json({
+    success: true,
+    oldMessage: oldMessage,
+    updatedMessage: newMessage,
+  });
 });
 
 const listener = app.listen(process.env.PORT, () => {
