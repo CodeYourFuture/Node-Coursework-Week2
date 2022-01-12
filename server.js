@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+let updateId = 0;
 const welcomeMessage = {
   id: 0,
   from: "Bart",
@@ -30,15 +31,15 @@ app.get("/messages", function (req, res) {
 //creating a new message
 app.post("/messages", (req, res) => {
   const newMessage = {
-    id: messages.length,
+    id: updateId++,
     from: req.body.from,
     text: req.body.text,
   };
 
-  if (!newMessage.from || !newMessage.text) {
+  if (!newMessage.from && !newMessage.text) {
     res.status(400).json({ msg: "A name and a message is required" });
   }
-
+  
   messages.push(newMessage);
   res.status(200).json(messages);
 });
