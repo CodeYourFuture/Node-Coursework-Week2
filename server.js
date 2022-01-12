@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const moment = require("moment");
 const app = express();
-const port = 5500;
+const port = process.env.PORT || 5500;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
