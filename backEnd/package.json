@@ -11,7 +11,8 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
+    //"cors": "^2.8.5",
+    "nodemom": "^2.015",
     "express": "^4.17.2"
   },
   "engines": {
