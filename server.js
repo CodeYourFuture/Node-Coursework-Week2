@@ -42,6 +42,22 @@ app.post("/create", (request,response) => {
   }
 })
 
+//View the last 10 messages
+app.get("/latest", (request,response) => {
+  let firstTenMessages = messages.map((message,index) => {
+    if(messages.length > 10){
+      for(let i = messages.length; i > messages.length - 11; i--){
+        if(index === i){
+          return message
+        }
+      }
+    } else {
+      return message
+    }
+  })
+  response.send(response.send({"messages":firstTenMessages}));
+})
+
 //View all messages
 app.get("/allmessages", (request,response) => {
   response.send({"messages":messages})
@@ -73,17 +89,7 @@ app.get("/messages/search", (request,response) => {
   response.send(searchResult);
 })
 
-//View the last 10 messages
-app.get("/messages/latest", (request,response) => {
-  let firstTenMessages = messages((message,index) => {
-    for(let i = messages.length; i > messages.length - 11; i--){
-      if(index === i){
-        return message
-      }
-    }
-  })
-  response.send(firstTenMessages);
-})
+
 
 app.listen(5000, ()=> {
   console.log("App is running");
