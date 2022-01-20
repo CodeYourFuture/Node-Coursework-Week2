@@ -76,7 +76,7 @@ app.get("/messages/:id", (req, res) => {
 //add new message
 app.post("/messages", (req, res) => {
   const newMessage = {
-    id: nextId++,
+    id: nextId,
     from: req.body.from,
     text: req.body.text,
   };
@@ -91,9 +91,10 @@ app.post("/messages", (req, res) => {
     res.status(400).send({ message: `Message already exist!` });
   } else {
     messages.push(newMessage);
-    //nextId++;
+    nextId++;
     res.status(201).json(newMessage);
   }
+  res.end();
 });
 
 //delete message by id
