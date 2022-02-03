@@ -28,6 +28,10 @@ app.post('/messages', (req, res) => {
     from: req.body.from,
     text: req.body.text
   }
+   if (!newMessage.from || !newMessage.text) {
+    res.status(400).json({ msg: "Please type Name and Message" });
+  }
+  
   messages.push(newMessage);
   res.status(200).json(messages);
   
@@ -48,11 +52,12 @@ app.get("/messages/:id", (req, res) => {
   const messageId = parseInt(req.params.id);
   const message = messages.find(message => message.id === messageId);
   if(message) {
-    res.send(message);
+    res.status(200).send(message);
   } else {
     res.status(404).send({message: "User not found"});
   }
 })
+
 
 
 //app.listen(process.env.PORT || 5000);
