@@ -61,6 +61,18 @@ app.get("/messages/:id", (req, res) => {
   }
 });
 
+// API must allow clinet to update a message by id 
+// app.put("/messages/:id", (req, res) => {
+//   const updatedMessage = messages.filter((message) => message.id === parseInt(req.params.id));
+//   const newMessage = updatedMessage.map((message) => {
+//     message.from = req.body.from;
+//     message.text = req.body.text;
+//   });
+//   res.json(newMessage);
+// });
+
+
+
 // API must allow client to delete a message
 
 app.delete("/messages/:id", (req, res) => {
@@ -75,7 +87,60 @@ app.delete("/messages/:id", (req, res) => {
     res.status(404).json({ msg: `Message not found of ${req.params.id}` });
   }
 });
-// API must allow client to update a message
+// API must allow client to update a message by id
+app.put("/messages/:id", (req, res) => {
+  const messageId = req.params.id;
+  const message = welcomeMessage.find((message) => message.id === parseInt(messageId));
+  if (message) {
+    res.json({
+      msg: `Message ${messageId} updated`,
+      Message: welcomeMessage.filter((message) => message.id !== parseInt(messageId))
+    }
+    );
+  } else {
+    res.status(404).json({ msg: `Message not found of ${req.params.id}` });
+  }
+});
+
+
+//API must allow client to get all messages
+app.get("/messages", (req, res) => {
+  res.json(welcomeMessage);
+});
+
+//API must allow client to get the latest 10 messages
+app.get("/messages/latest", (req, res) => {
+  res.json(welcomeMessage.slice(welcomeMessage.length - 10));
+});
+
+
+app.post("/messages", function (request, response) {
+  let id = messages.length;
+  console.log(request.body);
+   console.log(request.body.text);
+
+  if (
+    request.body === null ||
+    request.body.text == " " ||
+    request.body.text == "" ||
+    request.body.text === null ||
+    request.body.from === " " ||
+    request.body.from == "" ||
+    request.body.from === null
+  ) {
+    response.status(400).send("not valid request");
+  } else {
+    const newMassage = {
+      id: id,
+      from: request.body.from,
+      text: request.body.text,
+    };
+
+    messages.push(newMassage);
+    response.json(messages);
+  }
+});
+
 
 
 app.get("/", function (request, response) {
