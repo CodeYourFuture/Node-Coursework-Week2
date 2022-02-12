@@ -5,13 +5,14 @@ const { request, response } = require("express");
 
 const app = express();
 
-// app.use(cors());
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
+// app.use(cors());
+app.use(express.static("public"))
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
+
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -93,8 +94,12 @@ app.put("/messages/:id", (request, response) => {
         message.from = updatedMessage.from ? updatedMessage.from : message.from;
         message.text = updatedMessage.text ? updatedMessage.text : message.text;
         response.json({ msg: "Message updated", message });
+       
       }
+
     });
+    
+
   } else {
     response
       .status(400)
@@ -122,6 +127,6 @@ app.delete("/messages/:id", (request, response) => {
 });
 
 // app.listen(process.env.PORT);
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4400;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
