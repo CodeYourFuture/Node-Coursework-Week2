@@ -1,21 +1,15 @@
 const { response } = require("express");
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-
-// app.use(cors());
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-
-// const welcomeMessage = {
-//   id: 0,
-//   from: "Bart",
-//   text: "Welcome to CYF chat system!",
-// };
 
 // Create a message
 const messages = [];
@@ -139,9 +133,9 @@ app.put("/messages/:id", function (request, response) {
   });
 });
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
-// const listener = app.listen(5000, () => {
+// const listener = app.listen(process.env.PORT, () => {
 //   console.log("Your app is listening on port " + listener.address().port);
 // });
+const listener = app.listen(5000, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
