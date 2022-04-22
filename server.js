@@ -52,6 +52,15 @@ app.get("/messages/search", function (req, res) {
     : res.status(400).send("No messages found");
 });
 
+// Read only the most recent 10 messages
+app.get("/messages/latest", function (req, res) {
+  const latestMessages = messages.slice(
+    messages.length - 10,
+    messages.length
+  );
+  res.json(latestMessages);
+});
+
 // Read one message specified by id
 app.get("/messages/:id", function (req, res) {
   const id = parseInt(req.params.id);
@@ -73,8 +82,6 @@ app.delete("/messages/:id", function (req, res) {
   messages.splice(messages.indexOf(message), 1);
   res.json(messages);
 });
-
-
 
 const listener = app.listen(5001, () => {
   console.log("Your app is listening on port " + listener.address().port);
