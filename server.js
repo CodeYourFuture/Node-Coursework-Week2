@@ -23,10 +23,13 @@ app.get("/", function (req, res) {
 
 // Create a new message
 app.post("/messages", function (req, res) {
+  const timeStamp =
+    new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString();
   const newMessage = {
     id: messages.length,
     from: req.body.from,
     text: req.body.text,
+    timeSent: timeStamp,
   };
   if (!newMessage.from || !newMessage.text) {
     res.status(400).send("Please provide a name and a message");
@@ -54,10 +57,7 @@ app.get("/messages/search", function (req, res) {
 
 // Read only the most recent 10 messages
 app.get("/messages/latest", function (req, res) {
-  const latestMessages = messages.slice(
-    messages.length - 10,
-    messages.length
-  );
+  const latestMessages = messages.slice(messages.length - 10, messages.length);
   res.json(latestMessages);
 });
 
@@ -70,7 +70,6 @@ app.get("/messages/:id", function (req, res) {
   }
   res.json(message);
 });
-
 
 // Delete one message specified by id
 app.delete("/messages/:id", function (req, res) {
