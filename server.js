@@ -17,49 +17,64 @@ app.use(express.urlencoded({ extended: false }));
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/index.html");
 });
 
 // Create a new message
-app.post("/messages", function (request, response) {
+app.post("/messages", function (req, res) {
   const newMessage = {
     id: messages.length,
-    from: request.body.from,
-    text: request.body.text,
+    from: req.body.from,
+    text: req.body.text,
   };
   if (!newMessage.from || !newMessage.text) {
-    response.status(400).send("Please provide a name and a message");
+    res.status(400).send("Please provide a name and a message");
   }
   messages.push(newMessage);
-  response.json(messages);
+  res.json(messages);
 });
 
 // Get all messages
-app.get("/messages", function (request, response) {
-  response.json(messages);
+app.get("/messages", function (req, res) {
+  res.json(messages);
+});
+
+// Search for messages containing a string
+app.get("/messages/search", function (req, res) {
+  const text = req.query.text;
+  const filteredMessages = messages.filter((message) =>
+    message.text.toLowerCase().includes(text.toLowerCase())
+  );
+  console.log(filteredMessages);
+  filteredMessages.length > 0
+    ? res.json(filteredMessages)
+    : res.status(400).send("No messages found");
 });
 
 // Read one message specified by id
-app.get("/messages/:id", function (request, response) {
-  const id = parseInt(request.params.id);
+app.get("/messages/:id", function (req, res) {
+  const id = parseInt(req.params.id);
   const message = messages.find((message) => message.id === id);
   if (!message) {
-    response.status(400).send("Message not found");
+    res.status(400).send("Message not found");
   }
-  response.json(message);
+  res.json(message);
 });
 
+
 // Delete one message specified by id
-app.delete("/messages/:id", function (request, response) {
-  const id = parseInt(request.params.id);
+app.delete("/messages/:id", function (req, res) {
+  const id = parseInt(req.params.id);
   const message = messages.find((message) => message.id === id);
   if (!message) {
-    response.status(400).send("Message not found");
+    res.status(400).send("Message not found");
   }
   messages.splice(messages.indexOf(message), 1);
-  response.json(messages);
+  res.json(messages);
 });
+
+
 
 const listener = app.listen(5001, () => {
   console.log("Your app is listening on port " + listener.address().port);
