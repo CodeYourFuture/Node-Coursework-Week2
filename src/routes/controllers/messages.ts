@@ -16,12 +16,12 @@ export function getMessageById(req: Request, res: Response): void {
 }
 
 export function addMessage(req: Request, res: Response): void {
-  const { message, date, from } = req.body;
-  if (!message || !from) {
+  const { text, date, from } = req.body;
+  if (!text || !from) {
     res.status(400).send('Missing message or from');
   }
   MessageService.add({
-    message,
+    text,
     date: date || new Date().toISOString(),
     from,
   })

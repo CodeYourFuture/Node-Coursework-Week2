@@ -1,6 +1,6 @@
 type TMessage = {
   id?: number;
-  message: string;
+  text: string;
   date: string;
   from: string;
 };
