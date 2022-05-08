@@ -1,9 +1,5 @@
-type TMessage = {
-  id?: number;
-  text: string;
-  date: string;
-  from: string;
-};
+import TMessage from 'src/types/message';
+
 class MessageService {
   data: TMessage[];
 
@@ -29,7 +25,7 @@ class MessageService {
     };
   }
 
-  async add(message: TMessage): Promise<TMessage> {
+  add(message: TMessage): TMessage {
     this.data.push(message);
     if (this.data.length > 100) {
       this.data = this.data.slice(-100);
@@ -40,8 +36,16 @@ class MessageService {
     };
   }
 
-  async delete(id: number): Promise<void> {
+  delete(id: number): void {
     this.data = this.data.filter((_msg: TMessage, i: number) => i !== id);
+  }
+
+  edit(id: number, msg: { text: string; from: string }): TMessage {
+    this.data[id] = {
+      ...this.data[id],
+      ...msg,
+    };
+    return this.data[id];
   }
 }
 
