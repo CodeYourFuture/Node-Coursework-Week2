@@ -59,7 +59,8 @@ app.get("/messages/:id", (req, res) => {
 });
 
 app.delete("/messages/:id", (req, res) => {
-  const index = messages.indexOf(messages[req.params.id]); // Check the index of the message to be deleted
+  const index = messages.indexOf(findMessage(req.params.id)); // Check the index of the message to be deleted
+  console.log(findMessage(req.params.id));
   if (findMessage(req.params.id)) {
     messages.splice(index, 1);
   } else {
