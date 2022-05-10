@@ -6,7 +6,13 @@ const port = process.env.PORT || 8090;
 
 app.use(cors());
 
-app.use(express.json());
+// If the request has come from fetch (e.g. in React), or from Postman
+// if it has come from a HTML form you need to add the line
+// app.use(express.json());
+
+// If the request has come from an HTML form:
+// if it has been submitted by HTML form you need to add the line
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");

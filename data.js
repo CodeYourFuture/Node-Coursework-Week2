@@ -5,6 +5,11 @@ const messagesData = [
     text: "Welcome to CYF chat system!",
   },
   {
+    id: 1,
+    from: "Molly",
+    text: "Invest in yourself!",
+  },
+  {
     id: 2,
     from: "David",
     text: "Invest in yourself!",
