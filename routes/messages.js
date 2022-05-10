@@ -23,7 +23,7 @@ router.post("/", function (request, response) {
   };
 
   if (!newMessage.from || !newMessage.text) {
-    res.status(400).send("Message not found for given id");
+    response.status(400).send("Message not found for given id");
   }
   messagesData.push(newMessage);
   response.json(messagesData);
@@ -31,11 +31,42 @@ router.post("/", function (request, response) {
 
 router.delete("/:id", function (request, response) {
   let id = parseInt(request.params.id);
-  let filteredMessage = messagesData.filter((el) => el.id !== id);
-  if (!filteredMessage) {
-    res.status(400).send("User not existing given id");
+  let deletedMessage = messagesData.find((el) => el.id === id);
+  if (deletedMessage) {
+    messagesData = messagesData.filter(
+      (message) => message.id !== parseInt(req.params.id)
+    );
+
+    response.json({
+      msg: "User deleted",
+
+      messagesData,
+    });
+  } else {
+    response.status(400).send("Message not existing given id");
   }
-  response.json(filteredMessage);
+});
+
+router.put("/:id", function (request, response) {
+  let id = parseInt(request.params.id);
+  let foundMessage = messagesData.find((el) => el.id === id);
+  if (foundMessage) {
+    messagesData.forEach((message) => {
+      if (message.id === parseInt(request.params.id)) {
+        foundMessage.from = request.body.from
+          ? updateMessage.from
+          : foundMessage.from;
+
+        foundMessage.text = request.body.text
+          ? updateMessage.text
+          : foundMessage.text;
+
+        response.json({ msg: "message updated", message });
+      }
+    });
+  } else {
+    response.sendStatus(400);
+  }
 });
 
 module.exports = router;
