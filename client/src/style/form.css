@@ -1,0 +1,116 @@
+@keyframes shadow {
+  0% {
+    box-shadow: 0 0 10px 2px transparent;
+  }
+  25% {
+    box-shadow: 0 0 10px 2px rgb(0, 242, 0);
+  }
+  50% {
+    box-shadow: 0 0 10px 2px transparent;
+  }
+  75% {
+    box-shadow: 0 0 10px 2px rgb(0, 247, 0);
+  }
+  100% {
+    box-shadow: 0 0 10px 2px transparent;
+  }
+}
+.form_main {
+  width: 90%;
+  margin: 0 auto;
+  padding: 1em;
+}
+.form_input::placeholder {
+  color: rgba(255, 255, 255, 0.674);
+}
+.form_cont input,
+textarea {
+  width: 100%;
+  display: inline-block;
+  margin: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.5em;
+  box-shadow: 0 0 5px 2px rgb(0, 129, 0);
+  background: rgb(43, 40, 40);
+  color: wheat;
+  letter-spacing: 1px;
+  word-break: break-all;
+}
+.form_cont input:focus,
+textarea:focus {
+  box-shadow: 0 0 5px 2px rgb(0, 238, 0);
+}
+.form {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 0.5em 1em;
+  animation: shadow infinite 6s;
+  text-align: center;
+}
+.form_btn {
+  display: block;
+  padding: 0.5em;
+  cursor: pointer;
+  margin: 1rem auto;
+  font-size: 1rem;
+  transition: padding 1.5s;
+  box-shadow: 0 0 5px 2px rgb(0, 181, 0);
+  background: rgb(43, 40, 40);
+  color: rgba(246, 220, 172, 0.956);
+}
+.form_btn:hover {
+  background: rgba(16, 17, 16, 0.794);
+  padding: 0.5em 3em;
+  color: rgb(31, 209, 31);
+}
+.form_cont input,
+textarea,
+.form,
+.form_btn {
+  border-radius: 15px;
+}
+.textarea {
+  resize: none;
+}
+.search_cont {
+  margin: 1rem;
+  display: flex;
+}
+.search_input,
+.search_btn {
+  width: 100%;
+  display: block;
+  padding: 0.5em;
+  cursor: pointer;
+  margin: 1rem auto;
+  font-size: 0.8rem;
+  transition: padding 1.5s;
+  box-shadow: 0 0 5px 2px rgb(0, 117, 168);
+  background: rgb(43, 40, 40);
+  color: rgba(246, 220, 172, 0.956);
+}
+.search_input:focus {
+  box-shadow: 0 0 5px 2px rgb(0, 213, 255);
+}
+.search_btn:hover {
+  box-shadow: 0 0 5px 2px rgb(0, 213, 255);
+}
+.cancel_btn {
+  box-shadow: 0 0 5px 2px rgb(248, 48, 48);
+}
+.cancel_btn:focus {
+  box-shadow: 0 0 5px 3px rgb(255, 0, 0);
+}
+.cancel_btn:hover {
+  box-shadow: 0 0 5px 3px rgb(255, 0, 21);
+}
+.search_div {
+  width: 100%;
+  display: flex;
+}
+@media screen and (min-width: 500px) {
+  .form_main {
+    width: 45%;
+  }
+}
