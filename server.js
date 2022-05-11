@@ -91,7 +91,7 @@ let idCounter = 100; // Generate a unique ID
 // GET - SHOW THE FORM
 
 app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+  response.json({ success: "Server has Loaded", message: [] }); // Indicate that the server has loaded
 });
 
 // GET - return all messages
@@ -125,20 +125,16 @@ app.get("/messages/latest", function (request, response) {
 app.get("/messages/:id", (request, response) => {
   let numId = Number(request.params.id);
   if (Number.isNaN(numId) || !Number.isSafeInteger(numId) || numId < 0) {
-    return response
-      .status(400)
-      .json({
-        errormessage: `'${request.params.id}' has been rejected because an ID must be a nonnegative integer`,
-      });
+    return response.status(400).json({
+      errormessage: `'${request.params.id}' has been rejected because an ID must be a nonnegative integer`,
+    });
   }
 
   let theMessageIndex = messages.findIndex(({ id }) => id === numId);
   if (theMessageIndex < 0) {
-    return response
-      .status(400)
-      .json({
-        errormessage: `No message with the ID '${request.params.id}' exists`,
-      });
+    return response.status(400).json({
+      errormessage: `No message with the ID '${request.params.id}' exists`,
+    });
   }
   response.json(messages[theMessageIndex]);
 });
@@ -153,11 +149,9 @@ app.post("/messages", (request, response) => {
 
   // 'OR' - That is neither must be blank
   if (!from || !text) {
-    return response
-      .status(400)
-      .json({
-        errormessage: `Error: ensure that both the 'from' and 'text' fields are not blank`,
-      });
+    return response.status(400).json({
+      errormessage: `Error: ensure that both the 'from' and 'text' fields are not blank`,
+    });
   } else {
     messages.push({
       id: idCounter++,
@@ -216,20 +210,16 @@ app.put("/messages/:id", (request, response) => {
 app.delete("/messages/:id", (request, response) => {
   let numId = Number(request.params.id);
   if (Number.isNaN(numId) || !Number.isSafeInteger(numId) || numId < 0) {
-    return response
-      .status(400)
-      .json({
-        errormessage: `'${request.params.id}' has been rejected because an ID must be a nonnegative integer`,
-      });
+    return response.status(400).json({
+      errormessage: `'${request.params.id}' has been rejected because an ID must be a nonnegative integer`,
+    });
   }
 
   let theMessageIndex = messages.findIndex(({ id }) => id === numId);
   if (theMessageIndex < 0) {
-    return response
-      .status(400)
-      .json({
-        errormessage: `No message with the ID '${request.params.id}' exists`,
-      });
+    return response.status(400).json({
+      errormessage: `No message with the ID '${request.params.id}' exists`,
+    });
   }
 
   let removed = messages[theMessageIndex];
