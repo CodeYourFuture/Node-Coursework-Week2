@@ -11,6 +11,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.16.4"
   },
@@ -26,8 +27,5 @@
     "glitch",
     "express"
   ],
-  "author": "",
-  "devDependencies": {
-    "nodemon": "^2.0.16"
-  }
+  "author": ""
 }
