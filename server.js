@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
 
+app.use(express.json());
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const welcomeMessage = {
   id: 0,
@@ -14,10 +17,40 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+let messages = [welcomeMessage];
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/index.html");
+  // res.json("I am here!");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages/:id", (req, res) => {
+  const message = messages.find(message => message.id === Number(req.params.id));
+  res.json(message);
+});
+
+app.get("/messages", (req, res) => {
+  res.json(messages);
+});
+
+app.delete("/messages/:id", (req, res) => {
+messages = messages.filter(
+    (message) => message.id !== Number(req.params.id)
+  );
+  res.json(messages);
+});
+
+
+
+app.post("/messages", (req, res) => {
+  const { from, text } = req.body;
+  const newMessageObject = { id: messages.length, from, text };
+
+  messages.push(newMessageObject);
+  res.json(messages);
+});
+
+
+
+app.listen(9000, () => "app now listening on port 9000");
