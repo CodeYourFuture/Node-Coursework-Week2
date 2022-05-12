@@ -68,3 +68,28 @@ app.delete("/messages/:id", (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.delete(
+  "/messages/:id",
+  (req,
+  (res) => {
+    const messageId = messages.filter(
+      (message) => message.id === Number(req.params.id)
+    );
+
+    if (messageId) {
+      res.status(200).json({
+        msg: `Message id: ${request.params.id} deleted `,
+        "All messages: ": messages.filter(
+          (message) => message.id !== Number(req.params.id)
+        ),
+      });
+    }
+  })
+);
+
+app.get("/messages/latest", (req, res) => {
+  res.send(messages.slice(-10));
+});
+
+app.listen(process.env.PORT);
