@@ -39,6 +39,14 @@ app.get("/message", function (request, response) {
 
 app.post("/message", function (request, response) {
   const { from, text } = request.body;
+
+  if (from === undefined || text === undefined) {
+    const responseMiss = {
+      message: ` you are missing ${!from ? "from" : "text"}`,
+    };
+    return response.status(400).json(responseMiss);
+  }
+
   const ourMessageObject = {
     id: messages.length,
     from,
