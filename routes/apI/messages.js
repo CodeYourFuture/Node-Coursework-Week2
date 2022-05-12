@@ -4,9 +4,6 @@ const router = express.Router();
 const messages = require("../../Messages");
 
 const uuid = require("uuid");
-const { route } = require("express/lib/application");
-
-//router.get();
 
 // router.get("/", (request, response) => {
 //   response.sendFile(__dirname + "../../index.html");
@@ -15,6 +12,16 @@ const { route } = require("express/lib/application");
 //Get all messages
 router.get("/", (req, res) => {
   res.json(messages);
+});
+
+//Get messages that includes search words
+router.get("/search", (req, res) => {
+  res.json(messages.filter((message) => message.text.includes(req.query.text)));
+});
+
+//Get last 10 messages
+router.get("/latest", (req, res) => {
+  res.json(messages.slice(-10));
 });
 
 //Get one message with a specific Id
@@ -30,16 +37,6 @@ router.get("/:messageId", (req, res) => {
   } else {
     res.status(404).json({ msg: `there is no message with id ${requestedId}` });
   }
-});
-
-//Get messages that includes search words
-router.get("/messages/search", (req, res) => {
-  res.json(
-    messages.filter((message) => {
-      console.log(req.query);
-      message.includes(req.query);
-    })
-  );
 });
 
 //Create a new message
