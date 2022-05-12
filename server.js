@@ -21,28 +21,30 @@ const welcomeMessage = {
 let messages = [welcomeMessage];
 
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
+   res.sendFile(__dirname + "/index.html");
   // res.json("I am here!");
 });
 
+// Read one message specified by an ID
 app.get("/messages/:id", (req, res) => {
-  const message = messages.find(message => message.id === Number(req.params.id));
+  const message = messages.find(
+    (message) => message.id === Number(req.params.id)
+  );
   res.json(message);
 });
 
+//  Read all messages
 app.get("/messages", (req, res) => {
   res.json(messages);
 });
 
+// Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-messages = messages.filter(
-    (message) => message.id !== Number(req.params.id)
-  );
+  messages = messages.filter((message) => message.id !== Number(req.params.id));
   res.json(messages);
 });
 
-
-
+// Create a new message
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
   const newMessageObject = { id: messages.length, from, text };
@@ -50,7 +52,5 @@ app.post("/messages", (req, res) => {
   messages.push(newMessageObject);
   res.json(messages);
 });
-
-
 
 app.listen(9000, () => "app now listening on port 9000");
