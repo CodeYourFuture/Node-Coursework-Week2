@@ -1,8 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const { request } = require("express");
-const { response } = require("express");
-const res = require("express/lib/response");
 const app = express();
 
 app.use(express.json());
@@ -66,7 +63,7 @@ app.post("/messages", function (request, response) {
     id: messages.length,
     from,
     text,
-    timeStamp: (TimeDate = new Date()),
+    timeStamp: new Date(),
   };
   if (from === undefined || from === "" || text === undefined || text === "") {
     const errorMessage = {
