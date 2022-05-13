@@ -21,7 +21,7 @@ const welcomeMessage = {
 let messages = [welcomeMessage];
 
 app.get("/", function (req, res) {
-   res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/index.html");
   // res.json("I am here!");
 });
 
@@ -48,6 +48,10 @@ app.delete("/messages/:id", (req, res) => {
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
   const newMessageObject = { id: messages.length, from, text };
+
+  if (from === undefined || from === "" || text === undefined || text === "") {
+    return res.status(400).send(`Your message has empty or missing text or from property.`);
+  }
 
   messages.push(newMessageObject);
   res.json(messages);
