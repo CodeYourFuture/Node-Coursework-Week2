@@ -26,6 +26,10 @@ app.get("/", (req, res) => {
 
 app.get("/messages", (req, res) => res.json(messages));
 
+app.get("/messages/latest", (request, response) => {
+  response.send(messages.slice(-10));
+});
+
 app.post("/messages", (req, res) => {
   const newMessage = {
     id: messages.length,
@@ -69,27 +73,19 @@ app.delete("/messages/:id", (req, res) => {
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.delete(
-  "/messages/:id",
-  (req,
-  (res) => {
-    const messageId = messages.filter(
-      (message) => message.id === Number(req.params.id)
-    );
+app.delete("/messages/:id", (request, response) => {
+  const messageId = messages.filter(
+    (message) => message.id === Number(request.params.id)
+  );
 
-    if (messageId) {
-      res.status(200).json({
-        msg: `Message id: ${request.params.id} deleted `,
-        "All messages: ": messages.filter(
-          (message) => message.id !== Number(req.params.id)
-        ),
-      });
-    }
-  })
-);
-
-app.get("/messages/latest", (req, res) => {
-  res.send(messages.slice(-10));
+  if (messageId) {
+    response.status(200).json({
+      msg: `Message id: ${request.params.id} deleted `,
+      "All messages: ": messages.filter(
+        (message) => message.id !== Number(request.params.id)
+      ),
+    });
+  }
 });
 
 app.listen(process.env.PORT);
