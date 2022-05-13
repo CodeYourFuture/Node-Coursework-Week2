@@ -27,10 +27,16 @@ app.get("/", (req, res) => {
 // Gets all the messages
 app.get("/messages", (req, res) => res.json(messages));
 
+const getIncrementingId = () => {
+  const lastMessage = messages[messages.length - 1];
+  console.log(lastMessage);
+  return lastMessage ? lastMessage.id + 1 : 0;
+};
+
 // Posts a message from the body
 app.post("/messages", (req, res) => {
   const newMessage = {
-    id: messages.length,
+    id: getIncrementingId(),
     from: req.body.from,
     text: req.body.text,
   };
@@ -51,11 +57,10 @@ const findMessage = (id) =>
 // Gets a specific message by id
 app.get("/messages/:id", (req, res) => {
   if (findMessage(req.params.id)) {
-    findMessage(req.params.id);
+    res.send(findMessage(req.params.id)); // Will show a particular message
   } else {
     res.status(400).json({ msg: `No message with id: ${req.params.id}` });
   }
-  res.send(findMessage(req.params.id)); // Will show a particular message
 });
 
 app.delete("/messages/:id", (req, res) => {
