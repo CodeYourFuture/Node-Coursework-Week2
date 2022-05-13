@@ -25,6 +25,20 @@ app.get("/", function (req, res) {
   // res.json("I am here!");
 });
 
+// Search text in messages -  /messages/search?text=express
+app.get("/messages/search", (req, res) => {
+  const {text }= req.query;
+  const filteredMessages = messages.filter((message) =>
+   message.text.includes(text));
+  res.json(filteredMessages);
+});
+
+// get last 10 messages -  /messages/latest
+app.get("/messages/latest", (req, res) => {
+  res.json(messages.slice(-10));
+});
+
+
 // Read one message specified by an ID
 app.get("/messages/:id", (req, res) => {
   const message = messages.find(
@@ -50,7 +64,9 @@ app.post("/messages", (req, res) => {
   const newMessageObject = { id: messages.length, from, text };
 
   if (from === undefined || from === "" || text === undefined || text === "") {
-    return res.status(400).send(`Your message has empty or missing text or from property.`);
+    return res
+      .status(400)
+      .send(`Your message has empty or missing text or from property.`);
   }
 
   messages.push(newMessageObject);
