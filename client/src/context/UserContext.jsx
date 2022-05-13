@@ -25,5 +25,15 @@ const UserContext = createContext({
   setSearchErrorMessage: () => {},
   setSearchHandler: () => {},
   resetHandler: () => {},
+  editHandler: () => {},
+  showEdit: false,
+  setShowEdit: () => {},
+  editInput: "",
+  setEditInput: () => {},
+  editText: "",
+  setEditText: "",
+  messageID: "",
+  setMessageID: () => {},
+  setUserHandler: () => {},
 });
 export default UserContext;

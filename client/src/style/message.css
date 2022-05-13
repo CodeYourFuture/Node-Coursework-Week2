@@ -22,3 +22,11 @@
 .remove_btn:hover {
   background: rgb(195, 24, 24);
 }
+.message_details {
+  text-align: right;
+  border-radius: 10px;
+  background: linear-gradient(45deg, transparent, black);
+  color: rgb(229, 212, 212);
+  padding: 0 1em;
+  margin-top: 1rem;
+}

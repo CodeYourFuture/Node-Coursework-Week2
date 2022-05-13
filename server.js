@@ -18,6 +18,11 @@ app.get("/", function (request, response) {
 
 app.post("/messages", (req, res) => {
   const newUser = req.body;
+  const newDate = new Date();
+  newUser.date = `${newDate.getDate()}/${
+    newDate.getMonth() + 1
+  }/${newDate.getFullYear()}`;
+
   messages.push(newUser);
   res.json(messages);
 });

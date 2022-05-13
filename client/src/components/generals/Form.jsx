@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import UserContext from "../../context/UserContext";
 import "../../style/form.css";
-const Form = () => {
+const Form = ({ customClass }) => {
   const context = useContext(UserContext);
 
   return (
     <>
-      <article className="form_main">
+      <article className={`form_main ${customClass}`}>
         <section className="form_cont">
-          <form className="form" onSubmit={(e) => context.formHandler(e)}>
+          <form className="form" onSubmit={(e) => context.formHandler(e, "")}>
             <div>
               <input
                 className="form_input"

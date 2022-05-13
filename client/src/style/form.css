@@ -24,6 +24,7 @@
   color: rgba(255, 255, 255, 0.674);
 }
 .form_cont input,
+.edit_form_cont input,
 textarea {
   width: 100%;
   display: inline-block;
@@ -109,6 +110,7 @@ textarea,
   width: 100%;
   display: flex;
 }
+
 @media screen and (min-width: 500px) {
   .form_main {
     width: 45%;

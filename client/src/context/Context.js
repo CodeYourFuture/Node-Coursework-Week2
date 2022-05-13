@@ -11,6 +11,10 @@ const Context = ({ children }) => {
   const [textErrorMessage, setTextErrorMessage] = useState("");
   const [nameSearch, setnameSearch] = useState("");
   const [searchErrorMessage, setSearchErrorMessage] = useState("");
+  const [showEdit, setShowEdit] = useState(false);
+  const [editInput, setEditInput] = useState("");
+  const [editText, setEditText] = useState("");
+  const [messageID, setMessageID] = useState("");
 
   useEffect(() => {
     fetch("https://cyf-ali-jahankah-chat-server.glitch.me/")
@@ -28,7 +32,7 @@ const Context = ({ children }) => {
       });
   }, [data]);
 
-  const inputHandler = (event, num) => {
+  const inputHandler = (event, num, editType) => {
     let myValue = event.target.value.replace("  ", " ");
     if (num === 100) {
       if (myValue.length >= 100 && event.key !== "Backspace") {
@@ -36,7 +40,7 @@ const Context = ({ children }) => {
         setTextErrorMessage(`Not more than ${num} letters!`);
       } else {
         setTextErrorMessage("");
-        setTextInput(myValue);
+        editType === "edit" ? setEditText(myValue) : setTextInput(myValue);
       }
     } else {
       if (myValue.length >= 20 && event.key !== "Backspace") {
@@ -45,41 +49,74 @@ const Context = ({ children }) => {
       } else {
         setNameErrorMessage("");
 
-        setNameInput(myValue);
+        editType === "edit" ? setEditInput(myValue) : setNameInput(myValue);
       }
     }
   };
 
-  const formHandler = (e) => {
+  const formHandler = (e, editType) => {
     e.preventDefault();
-
-    if (nameInput.length !== 0 && textInput.length !== 0) {
-      const user = {
-        id: uuidv4(),
-        from: nameInput,
-        text: textInput,
-      };
-      const postOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      };
-      fetch(
-        "https://cyf-ali-jahankah-chat-server.glitch.me/messages",
-        postOptions
-      )
-        .then((res) => {
-          if (res && res.status >= 200 && res.status < 400) {
-            resetHandler();
-            return res.json();
-          }
-        })
-        .then((data) => setData(data));
+    if (editType !== "edit") {
+      if (nameInput.length !== 0 && textInput.length !== 0) {
+        const user = {
+          id: uuidv4(),
+          from: nameInput,
+          text: textInput,
+        };
+        const postOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        };
+        fetch(
+          "https://cyf-ali-jahankah-chat-server.glitch.me/messages",
+          postOptions
+        )
+          .then((res) => {
+            if (res && res.status >= 200 && res.status < 400) {
+              resetHandler();
+              return res.json();
+            }
+          })
+          .then((data) => setData(data));
+      } else {
+        setNameErrorMessage("Please fill the input!");
+        setTextErrorMessage("Please fill the input!");
+      }
     } else {
-      setNameErrorMessage("Please fill the input!");
-      setTextErrorMessage("Please fill the input!");
+      if (editInput.length !== 0 && editText.length !== 0) {
+        const user = {
+          from: editInput,
+          text: editText,
+          id: messageID,
+        };
+        const putOptions = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        };
+        fetch(
+          `https://cyf-ali-jahankah-chat-server.glitch.me/messages/${messageID}`,
+          putOptions
+        )
+          .then((res) => {
+            if (res && (res.status >= 200) & (res.status < 206)) {
+              resetHandler();
+              return res.json();
+            }
+          })
+          .then((all) => {
+            setShowEdit((prev) => !prev);
+            return setData(all);
+          });
+      } else {
+        setNameErrorMessage("Please fill the input!");
+        setTextErrorMessage("Please fill the input!");
+      }
     }
   };
 
@@ -118,6 +155,12 @@ const Context = ({ children }) => {
     setNameInput("");
     setnameSearch("");
   };
+  const setUserHandler = (item) => {
+    setEditInput(item.from);
+    setEditText(item.text);
+    setMessageID(item.id);
+    setShowEdit((prev) => !prev);
+  };
 
   return (
     <UserContext.Provider
@@ -145,6 +188,15 @@ const Context = ({ children }) => {
         searchErrorMessage,
         setSearchErrorMessage,
         resetHandler,
+        showEdit,
+        setShowEdit,
+        editInput,
+        setEditInput,
+        editText,
+        setEditText,
+        messageID,
+        setMessageID,
+        setUserHandler,
       }}
     >
       {children}

@@ -1,0 +1,13 @@
+.edit_form {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  background: rgba(16, 15, 15, 0.859);
+}
+.edit_form_cont {
+  width: 60%;
+  margin: auto auto;
+}
