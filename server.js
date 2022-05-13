@@ -32,5 +32,17 @@ app.delete("/messages/:id", (req, res) => {
   messages = messages.filter((item) => item.id !== id);
   res.json(messages);
 });
+app.put("/messages/:id", (req, res) => {
+  const id = req.params.id;
+  const user = req.body;
+
+  if (user && id) {
+    const targetIndex = messages.findIndex((item) => item.id === id);
+
+    messages[targetIndex].from = user.from;
+    messages[targetIndex].text = user.text;
+    res.status(201).send(messages);
+  }
+});
 
 app.listen(process.env.PORT);
