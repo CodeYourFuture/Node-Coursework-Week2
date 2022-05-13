@@ -25,6 +25,13 @@ app.get("/", function (request, response) {
 app.post("/messages", function (request, response) {
   const newMessage = request.body;
   newMessage.id = nextId++;
+  // OR using destructuring
+    // const { from, text } = request.body;
+    // const newMessage = {
+    //   id: nextId++,
+    //   from,
+    //   text,
+    // };
   if (newMessage.text == null || newMessage.text =="" || newMessage.from == null || newMessage.from == ""){
       response.status(400).send("Text and From must not be empty!");
       return;
