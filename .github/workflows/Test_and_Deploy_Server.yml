@@ -24,6 +24,12 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test
+      - name: Generate coverage report
+        run: npm run test:coverage
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v3.1.0
+        with:
+          files: ./coverage/clover.xml
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:

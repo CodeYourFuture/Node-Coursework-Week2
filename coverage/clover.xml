@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1652303698150" clover="3.2.0">
+  <project timestamp="1652303698151" name="All files">
+    <metrics statements="53" coveredstatements="44" conditionals="20" coveredconditionals="13" methods="16" coveredmethods="15" elements="89" coveredelements="72" complexity="0" loc="53" ncloc="53" packages="4" files="7" classes="7"/>
+    <package name="src">
+      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="createServer.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/createServer.ts">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.routes">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/routes/index.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.routes.controllers">
+      <metrics statements="30" coveredstatements="22" conditionals="16" coveredconditionals="10" methods="7" coveredmethods="6"/>
+      <file name="invalidRoute.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/routes/controllers/invalidRoute.ts">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+      </file>
+      <file name="messages.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/routes/controllers/messages.ts">
+        <metrics statements="27" coveredstatements="21" conditionals="16" coveredconditionals="10" methods="5" coveredmethods="5"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="9" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="cond" truecount="3" falsecount="1"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="44" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="45" count="0" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+      </file>
+      <file name="welcome.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/routes/controllers/welcome.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="4" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.utils">
+      <metrics statements="13" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="8" coveredmethods="8"/>
+      <file name="MessageService.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/utils/MessageService.ts">
+        <metrics statements="13" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="8" coveredmethods="8"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="11" count="12" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="22" count="6" type="stmt"/>
+        <line num="29" count="8" type="stmt"/>
+        <line num="30" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+      </file>
+      <file name="logger.ts" path="/Users/berkeli/Git/Coursework/NODE/chat-app/node-challenge-chat-server/src/utils/logger.ts">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+    </package>
+  </project>
+</coverage>
