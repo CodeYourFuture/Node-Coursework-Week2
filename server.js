@@ -3,12 +3,15 @@ const cors = require("cors");
 
 const app = express();
 
+const port = 8080;
+
 app.use(cors());
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
+  name: "Marina",
+  text: "Welcome to my chat!",
 };
 
 //This array is our "data store".
@@ -16,8 +19,66 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+app.get("/", (req, res) => {
+  res.json("GET it's working, Go to /messages to see all messages");
 });
 
-app.listen(process.env.PORT);
+// Read all messages
+app.get("/messages", (req, res) => {
+  res.json(messages);
+});
+
+// Create a new message
+app.post("/messages", (req, res) => {
+  const { name, text } = req.body;
+
+  const newMessages = {
+    id: messages.length,
+    name,
+    text,
+  };
+
+  if (!newMessages.name || !newMessages.text) {
+    return res.status(400).json("Please include a name and text");
+  }
+
+  messages.push(newMessages);
+
+  res.json(messages);
+});
+
+// Read one message specified by an ID
+app.get("/messages/:id", (req, res) => {
+  const foundId = messages.filter((i) => i.id === Number(req.params.id));
+
+  if (foundId) {
+    res.status(200).json(foundId);
+  }
+});
+
+app.get("/messages/search", (req, res) => {
+  const { text } = req.query;
+  console.log({text})
+  const filteredMessages = messages.filter((message) => message.text.includes(text))
+  console.log(filteredMessages)
+
+  res.json(filteredMessages)
+})
+
+// Delete a message, by ID
+app.delete("/messages/:id", (req, res) => {
+  const foundId = messages.filter((i) => i.id === Number(req.params.id));
+
+  if (foundId) {
+    return res.status(200).json({
+      msg: `Message id: ${req.params.id} deleted `,
+      "All messages: ": messages.filter((i) => i.id !== Number(req.params.id)),
+    });
+  }
+});
+
+
+
+app.listen(port, () => {
+  console.log(`Listen in http://localhost:${port}`);
+});
