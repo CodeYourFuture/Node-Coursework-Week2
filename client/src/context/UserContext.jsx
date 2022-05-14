@@ -35,5 +35,7 @@ const UserContext = createContext({
   messageID: "",
   setMessageID: () => {},
   setUserHandler: () => {},
+  loader: "",
+  setLoader: () => {},
 });
 export default UserContext;

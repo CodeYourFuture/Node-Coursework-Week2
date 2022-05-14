@@ -15,6 +15,7 @@ const Context = ({ children }) => {
   const [editInput, setEditInput] = useState("");
   const [editText, setEditText] = useState("");
   const [messageID, setMessageID] = useState("");
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     fetch("https://cyf-ali-jahankah-chat-server.glitch.me/")
@@ -58,6 +59,7 @@ const Context = ({ children }) => {
     e.preventDefault();
     if (editType !== "edit") {
       if (nameInput.length !== 0 && textInput.length !== 0) {
+        setLoader(true);
         const user = {
           id: uuidv4(),
           from: nameInput,
@@ -80,7 +82,10 @@ const Context = ({ children }) => {
               return res.json();
             }
           })
-          .then((data) => setData(data));
+          .then((data) => {
+            setLoader(false);
+            return setData(data);
+          });
       } else {
         setNameErrorMessage("Please fill the input!");
         setTextErrorMessage("Please fill the input!");
@@ -105,12 +110,14 @@ const Context = ({ children }) => {
         )
           .then((res) => {
             if (res && (res.status >= 200) & (res.status < 206)) {
+              setLoader(true);
               resetHandler();
               return res.json();
             }
           })
           .then((all) => {
             setShowEdit((prev) => !prev);
+            setLoader(false);
             return setData(all);
           });
       } else {
@@ -135,10 +142,14 @@ const Context = ({ children }) => {
     )
       .then((res) => {
         if (res && res.status >= 200 && res.status < 300) {
+          setLoader(true);
           return res.json();
         }
       })
-      .then((data) => setData(data));
+      .then((data) => {
+        setLoader(false);
+        setData(data);
+      });
   };
   const nameHandler = () => {
     if (data.length !== 0) {
@@ -197,6 +208,8 @@ const Context = ({ children }) => {
         messageID,
         setMessageID,
         setUserHandler,
+        loader,
+        setLoader,
       }}
     >
       {children}
