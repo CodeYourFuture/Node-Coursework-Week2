@@ -11,7 +11,7 @@ app.use(express.json());
 const welcomeMessage = {
   id: 0,
   name: "Marina",
-  message: "Welcome to my chat!",
+  text: "Welcome to my chat!",
 };
 
 //This array is our "data store".
@@ -20,31 +20,31 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 
 app.get("/", (req, res) => {
-  res.send("GET it's working, Go to /messages to see all messages");
+  res.json("GET it's working, Go to /messages to see all messages");
 });
 
 // Read all messages
 app.get("/messages", (req, res) => {
-  res.send(messages);
+  res.json(messages);
 });
 
 // Create a new message
 app.post("/messages", (req, res) => {
-  const { name, message } = req.body;
+  const { name, text } = req.body;
 
   const newMessages = {
     id: messages.length,
     name,
-    message,
+    text,
   };
 
-  if (!newMessages.name || !newMessages.message) {
-    return res.status(400).json("Please include a name and message");
+  if (!newMessages.name || !newMessages.text) {
+    return res.status(400).json("Please include a name and text");
   }
 
   messages.push(newMessages);
 
-  res.send(messages);
+  res.json(messages);
 });
 
 // Read one message specified by an ID
@@ -52,9 +52,18 @@ app.get("/messages/:id", (req, res) => {
   const foundId = messages.filter((i) => i.id === Number(req.params.id));
 
   if (foundId) {
-    res.status(200).send(foundId);
+    res.status(200).json(foundId);
   }
 });
+
+app.get("/messages/search", (req, res) => {
+  const { text } = req.query;
+  console.log({text})
+  const filteredMessages = messages.filter((message) => message.text.includes(text))
+  console.log(filteredMessages)
+
+  res.json(filteredMessages)
+})
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
@@ -67,6 +76,8 @@ app.delete("/messages/:id", (req, res) => {
     });
   }
 });
+
+
 
 app.listen(port, () => {
   console.log(`Listen in http://localhost:${port}`);
