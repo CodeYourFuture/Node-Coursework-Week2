@@ -42,14 +42,18 @@ app.get("/messages", (req, res) => {
 
 // [1] create a new message
 app.post("/messages", (req, res) => {
-  const { from, text } = req.body;
-  // console.log(req.body)
-  const ourMessage = {
+    const ourMessage = {
     id: messages.length,
     from,
     text,
   };
-  messages.push(ourMessage);
+  const { from, text } = req.body;
+  // console.log(req.body)
+  if(from.length === 0 || text.length === 0){
+    return res.status(400).send("please complete body")
+  } else {
+     messages.push(ourMessage);
+  }
 });
 
 //[4] delete a message by id
