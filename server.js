@@ -29,7 +29,6 @@ app.get("/messages", (req, res) => res.json(messages));
 
 const getIncrementingId = () => {
   const lastMessage = messages[messages.length - 1];
-  console.log(lastMessage);
   return lastMessage ? lastMessage.id + 1 : 0;
 };
 
