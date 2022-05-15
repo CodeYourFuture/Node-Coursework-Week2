@@ -27,6 +27,14 @@ app.get("/", (req, res) => {
 // Gets all the messages
 app.get("/messages", (req, res) => res.json(messages));
 
+app.get("/messages/search", (req, res) => {
+  const search = req.query.text;
+  const result = messages.filter((message) =>
+    message.text.toLowerCase().includes(search)
+  );
+  res.send(result);
+});
+
 const getIncrementingId = () => {
   const lastMessage = messages[messages.length - 1];
   return lastMessage ? lastMessage.id + 1 : 0;
