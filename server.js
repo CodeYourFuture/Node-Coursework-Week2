@@ -35,6 +35,16 @@ app.get("/messages/search", (req, res) => {
   res.send(result);
 });
 
+app.get("/messages/latest", (req, res) => {
+  const latest = [];
+  for (let i = 0; i < 10; i++) {
+    if (messages[i]) {
+      latest.push(messages[i]);
+    }
+  }
+  res.send(latest);
+});
+
 const getIncrementingId = () => {
   const lastMessage = messages[messages.length - 1];
   return lastMessage ? lastMessage.id + 1 : 0;
