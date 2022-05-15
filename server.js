@@ -25,6 +25,11 @@ app.get("/message/messageId", (req, res) => {
   const { messageId } = req.params;
   const foundMessage = messages.find((message) => message.id === Number(messageId));
 
+  if (foundMessage) {
+    return res.json(foundMessage);
+  } else {
+    return res.status(404).json("sorry, didn't find anything")
+  };
 });
 
 app.get("/messages", (req, res) => {
