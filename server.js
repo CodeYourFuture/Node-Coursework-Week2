@@ -60,7 +60,7 @@ app.delete("/delete/:id", (req,res) => {
   } //replacing original array
     
   //filter
-}
+})
 
   //  let findMessageById = messages.find((message) => message.id === Number(req.params.id));
   //  let deleteMessageById = ;
