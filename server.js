@@ -45,6 +45,9 @@ app.delete("/message/:id", function (req, res) {
   }
 });
 
+//reject requests to create messages if the message objects have an empty or missing text or from property.
+//In this case your server should return a status code of 400.
+
 app.post("/message", function (req, res) {
   const { from, text } = req.body;
   const newMessage = {
@@ -52,8 +55,13 @@ app.post("/message", function (req, res) {
     from,
     text,
   };
-  messages.push(newMessage);
-  res.json(messages);
+
+  if (!newMessage.from || !newMessage.text) {
+    return res.status(400).json("Please include a from and text in message");
+  } else {
+    messages.push(newMessage);
+    res.json(messages);
+  }
 });
 
 app.listen(PORT, () => {
