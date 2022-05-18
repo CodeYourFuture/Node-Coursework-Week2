@@ -18,6 +18,7 @@
   flex-direction: column;
   text-align: center;
   justify-content: center;
+  z-index: 1;
 }
 .preloader_container h1 {
   animation: loader infinite 10s;
@@ -27,4 +28,5 @@
 }
 .preloader_container h4 {
   font-size: 3.5rem;
+  color: rgb(151, 0, 43);
 }

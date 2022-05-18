@@ -92,6 +92,7 @@ const Context = ({ children }) => {
       }
     } else {
       if (editInput.length !== 0 && editText.length !== 0) {
+        setLoader(true);
         const user = {
           from: editInput,
           text: editText,
@@ -110,7 +111,6 @@ const Context = ({ children }) => {
         )
           .then((res) => {
             if (res && (res.status >= 200) & (res.status < 206)) {
-              setLoader(true);
               resetHandler();
               return res.json();
             }
@@ -136,13 +136,14 @@ const Context = ({ children }) => {
       },
       body: "",
     };
+    setLoader(true);
     fetch(
       `https://cyf-ali-jahankah-chat-server.glitch.me/messages/${target.id}`,
       deleteOptions
     )
       .then((res) => {
         if (res && res.status >= 200 && res.status < 300) {
-          setLoader(true);
+          
           return res.json();
         }
       })
