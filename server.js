@@ -1,8 +1,8 @@
 const express = require("express");
-const data = require("./data.json");
 const cors = require("cors");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(cors());
@@ -45,4 +45,4 @@ app.put("/messages/:id", (req, res) => {
   }
 });
 
-app.listen(process.env.PORT);
+app.listen(PORT);
