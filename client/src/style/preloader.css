@@ -1,0 +1,32 @@
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+.preloader_container {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  z-index: 1;
+}
+.preloader_container h1 {
+  animation: loader infinite 10s;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 5rem;
+}
+.preloader_container h4 {
+  font-size: 3.5rem;
+  color: rgb(151, 0, 43);
+}
