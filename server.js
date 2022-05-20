@@ -1,28 +1,26 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express')
+const cors = require('cors')
+const { sendStatus } = require('express/lib/response')
 
-const app = express();
+const app = express()
 
-app.use(cors());
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 const welcomeMessage = {
   id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
+  from: 'Bart',
+  text: 'Welcome to CYF chat system!',
+  timeSent: 0,
+}
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage]
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
-});
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html')
+})
 
-<<<<<<< Updated upstream
-app.listen(process.env.PORT);
-=======
 app.get('/messages', (req, res, next) => {
   res.send(messages)
 })
@@ -48,8 +46,8 @@ app.get('/messages/:id', (req, res, next) => {
   res.json(message)
 })
 
-app.post('/messages', (req, res) => {
-  if (!req.body.from)
+app.post('/messages', (req, res, next) => {
+    if (!req.body.from)
     res
       .status(400)
       .send('Message must be send from someone! Please fill "Name"!')
@@ -66,6 +64,7 @@ app.post('/messages', (req, res) => {
     }
     messages.push(newMessage)
     res.sendStatus(201)
+    
   }
 })
 
@@ -101,7 +100,8 @@ const checkFields = (message, res) => {
   return result
 }
 
+const port = process.env.PORT || 3001
 app.listen(port, () => {
   console.log(`Server starting on port ${port}`)
 })
->>>>>>> Stashed changes
+
