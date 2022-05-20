@@ -26,13 +26,13 @@ app.post("/messages", (request, response) => {
   const from = request.body.from;
   const text = request.body.text;
   const newMessage = {
-    id: count++,
     from,
     text,
   };
   if (!from || !text) {
     response.status(404).json({ msg: `Please include a ${!newMessage.from ? "name" : !newMessage.message && "message"}.` });
   } else {
+    newMessage.id = count++;
     messages.push(newMessage);
     response.json("Message sent");
   }
@@ -50,23 +50,28 @@ app.get("/messages/search?", (request, response) => {
     response.json(searchResults);
   }
 });
+app.get("/messages/latest", (request, response) => {
+  response.send(messages.slice(-10));
+})
 
 app.get("/messages/:id", (request, response) => {
-  const findMessage = messages.some((message) => message.id === Number(request.query.messageId));
+  const findMessage = messages.some((message) => message.id === Number(request.params.id));
   if (findMessage) {
-    response.json(messages.filter((message) => message.id === Number(request.query.messageId)));
+    response.json(messages.filter((message) => message.id === Number(request.params.id)));
   } else {
-    response.status(404).send(`Sorry, there is no message with id ${request.query.messageId}`);
+    response.status(404).send(`Sorry, there is no message with id ${request.params.id}`);
   }
 });
 
 app.delete("/messages/:id", (request, response) => {
-  const messageToDelete = messages.some((message) => message.id === Number(request.query.deleteId));
+  const messageToDelete = messages.some((message) => message.id === Number(request.params.id));
   if (messageToDelete) {
-    response.json({ msg: "Member deleted successfully", messages: messages.filter((message) => message.id !== Number(request.query.deleteId)) });
+    messageIndex = messages.findIndex((message) => message.id === Number(request.params.id));
+    messages.splice(messageIndex, 1);
+    response.json({ msg: "Message deleted successfully", messages});
   } else {
-    response.status(404).send(`Sorry, there is no message with id ${request.query.deleteId}`);
+    response.status(404).send(`Sorry, there is no message with id ${request.params.id}`);
   }
 });
-
-app.listen(process.env.PORT);
+const PORT = process.env.PORT || 7500;
+app.listen(PORT, console.log(`listening on port ${PORT}`));
