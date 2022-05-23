@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { request } = require("express");
 const { response } = require("express");
+const { status } = require("express/lib/response");
 const app = express();
 
 app.use(cors());
@@ -18,7 +19,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 const PORT = 3000;
 
 app.get("/", function (request, response) {
@@ -51,6 +52,11 @@ app.get("/messages/:id", (request, response) => {
     .find(message => message.id === Number(request.params.id));
 
   response.send(message);
+})
+
+app.delete("/messages/:id", (request, response) => {
+  messages = messages.filter(message => message.id !== Number(request.params.id));
+  response.sendStatus(200);
 })
 
 
