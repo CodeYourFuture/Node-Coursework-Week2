@@ -1,10 +1,13 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); //roules
+//const bodyParser = require("body-parser");
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+//app.use(bodyParser.urlencoded());
+
+app.use(cors()); //nothing specifyes
 
 const welcomeMessage = {
   id: 0,
@@ -13,15 +16,20 @@ const welcomeMessage = {
 };
 const messages = [welcomeMessage];
 
+/* app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/index.html");
+}); */
+
 app.get("/", (req, res) => {
   res.json("you found me!");
 });
 
-app.get("/message/thisClashes", (req, res) => {
+/* app.get("/message/thisClashes", (req, res) => {
   res.json("</-+-/>");
-});
+}); */
 
 app.get("/message/:messageId", (req, res) => {
+  //:dynamic parameter
   const { messageId } = req.params;
   const foundMessage = messages.find(
     (message) => message.id === Number(messageId)
@@ -76,7 +84,9 @@ app.get("/messages", (req, res) => {
 
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
-
+  console.log({ from });
+  console.log({ text });
+  console.log(req.body);
   if (from === undefined || from === "" || text === undefined || text === "") {
     const helpfulMessage = {
       msg: `you have bad input (or are missing the key) for ${
