@@ -31,7 +31,8 @@ router.post("/", function (request, response) {
   response.status(200).json({
     status_code: 1,
     data: newMessage,
-  });});
+  });
+});
 
 
 router.delete("/:id", function (request, response) {
