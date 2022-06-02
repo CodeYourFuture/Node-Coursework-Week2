@@ -23,11 +23,16 @@ router.post("/", function (request, response) {
   };
 
   if (!newMessage.from || !newMessage.text) {
-    response.status(400).send("Message not found for given id");
-  }
+    return response.status(400).json({
+      status_code: 0,
+      error_msg: "Require Params Missing",
+    });  }
   messagesData.push(newMessage);
-  response.json(messagesData);
-});
+  response.status(200).json({
+    status_code: 1,
+    data: newMessage,
+  });});
+
 
 router.delete("/:id", function (request, response) {
   let id = parseInt(request.params.id);
