@@ -1,0 +1,7 @@
+body {
+  box-sizing: border-box;
+  margin: auto;
+}
+.main-content {
+  margin: 2rem auto;
+}
