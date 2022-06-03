@@ -4,12 +4,15 @@ FROM node:14-alpine3.14
 # Copy the package.json file to the container image
 COPY package.json package-lock.json ./
 
-# Install the dependencies
-RUN npm ci
-
 # Copy the components of my program to the container image
 COPY server.js .
 COPY routes routes
+
+# Install the dependencies
+RUN npm ci
+
+# Bundle app source
+COPY . .
 
 # Tell Docker that on startup, the container should run the "npm start" command, which will start the server.
 CMD [ "npm", "start" ]
