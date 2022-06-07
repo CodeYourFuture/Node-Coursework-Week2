@@ -1,5 +1,5 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -7,24 +7,25 @@ app.use(cors());
 
 const welcomeMessage = {
   id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
+  from: 'Bart',
+  text: 'Welcome to CYF chat system!',
 };
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
+// This array is our "data store".
+// We will start with one message in the array.
+// Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  console.log("Get Request was made...");
+app.get('/', (request, response) => {
+  console.log('Get Request was made...');
   console.log(__dirname);
-  response.sendFile(__dirname + "/index.html");
+  response.sendFile(`${__dirname}/index.html`);
 });
 
-app.get("/messages", (req, res) => {
-  console.log
-})
+app.get('/messages', (req, res) => {
+  console.log('GET request was made to route /messages');
+  res.json(messages);
+});
 
 const PORT = process.env.PORT || 3000;
 
