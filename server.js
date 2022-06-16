@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 const express = require('express');
 // const cors = require('cors');
+// input validation and sanitisation
 const { body, validationResult } = require('express-validator');
 
 const app = express();
@@ -9,19 +10,6 @@ const app = express();
 // app.use(express.json());
 // TO BE ABLE TO ACCESS FORM VALUES
 app.use(express.urlencoded({ extended: false }));
-
-// sanitize and validate input data from form (name of field, error message, trim whitespaces, check it has length, escape html characters to prevent XSS attacks)
-body('from', 'Empty name')
-  .trim()
-  .isLength({ min: 1 })
-  .escape()
-  .isAlpha()
-  .withMessage('Name must be alphabet letters.');
-
-body('text', 'Empty text')
-  .trim()
-  .isLength({ min: 1 })
-  .escape();
 
 const welcomeMessage = {
   id: 0,
@@ -47,6 +35,7 @@ app.get('/messages', (req, res) => {
   res.json(messages);
 });
 
+// GET MESSAGE BY ID
 app.get('/messages/:id', (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -61,13 +50,29 @@ app.get('/messages/:id', (req, res) => {
   }
 });
 
-app.post('/messages', (req, res) => {
-  console.log('POST request was made to route /messages');
-  const { from, text } = req.body;
-  console.log(from, text);
-  console.log(req.body);
-  res.sendStatus(200);
-});
+// POST NEW MESSAGE
+app.post('/messages', 
+
+  // sanitise and validate (has length, html escaped)
+  body('from', 'Empty Name').trim().isLength({min: 1}).escape(),
+  body('text', 'Empty Message').trim().isLength({min: 1}).escape(), 
+
+  // controller
+  (req, res) => {
+
+      console.log('POST request was made to route /messages');
+      const { from, text } = req.body;
+      const id = messages.length;
+      
+      // check whether form input data passes validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      messages.push({id, from, text});
+      res.json(messages);
+  });
 
 const PORT = process.env.PORT || 3000;
 
