@@ -22,35 +22,20 @@ const welcomeMessage = {
 // Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-// GET HOME PAGE
+// READ HOME PAGE
 app.get('/', (request, response) => {
   console.log('Get Request was made...');
   console.log(__dirname);
   response.sendFile(`${__dirname}/index.html`);
 });
 
-// GET ALL MESSAGES
+// READ ALL MESSAGES
 app.get('/messages', (req, res) => {
   console.log('GET request was made to route /messages');
   res.json(messages);
 });
 
-// GET MESSAGE BY ID
-app.get('/messages/:id', (req, res) => {
-  try {
-    const id = Number(req.params.id);
-    const message = messages.filter((msg) => msg.id === id);
-    if (message.length < 1) {
-      throw new Error(`Couldn't find message by id ${id}`);
-    } else {
-      res.json(message);
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// POST NEW MESSAGE
+// CREATE NEW MESSAGE
 app.post('/messages', 
 
   // sanitise and validate (has length, html escaped)
@@ -73,6 +58,38 @@ app.post('/messages',
       messages.push({id, from, text});
       res.json(messages);
   });
+
+// READ MESSAGE BY ID
+app.get('/messages/:id', (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const message = messages.filter((msg) => msg.id === id);
+    if (message.length < 1) {
+      throw new Error(`Couldn't find message by id ${id}`);
+    } else {
+      res.json(message);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// DELETE MESSAGE BY ID
+app.delete('/messages/:id', (req, res) => {
+  console.log('DELETE request was made to route /messages')
+  const id = Number(req.params.id);
+  const messageToDelete = messages.splice(id, 1);
+  console.log(id, messageToDelete)
+  try {
+    if (messageToDelete.length > 0) {
+      res.json({"msg": `message by id ${id} has been successfully deleted!`})
+    }  else {
+      throw new Error(`No message to delete by id ${id}`);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+})
 
 const PORT = process.env.PORT || 3000;
 
