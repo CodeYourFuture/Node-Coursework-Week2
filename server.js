@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const app = express();
 
 app.use(express.json());
@@ -11,14 +10,13 @@ const welcomeMessage = {
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
-//order matters, make sure your routes are different if you have two routes that are the same only the first one will work
+
 let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-//getting all messages
 app.get("/messages", function (request, response) {
   response.json(messages);
 });
@@ -33,7 +31,6 @@ app.get("/messages/latest", function (request, response) {
   response.json(messages.slice(-10));
 });
 
-//posting a new message, look at this aagain
 app.post("/messages", function (request, response) {
   const { from, text } = request.body;
 
@@ -54,7 +51,6 @@ app.post("/messages", function (request, response) {
   response.json("message created");
 });
 
-//gets message by id
 app.get("/messages/:id", function (request, response) {
   const id = Number(request.params.id);
   const result = messages.find((message) => message.id === id);
@@ -62,11 +58,9 @@ app.get("/messages/:id", function (request, response) {
     response.json(result);
   } else {
     response.status(404).json("message not found");
-    //respond.sendStatus(404) another way, look at this again
   }
 });
 
-//delets a message
 app.delete("/messages/:id", function (request, response) {
   const id = Number(request.params.id);
   messages = messages.filter((message) => message.id !== id);
@@ -74,7 +68,6 @@ app.delete("/messages/:id", function (request, response) {
   response.json(`message deleted at id ${id}`);
 });
 
-//listening on port
 app.listen(3001, () => {
   console.log("running at 3001");
 });
