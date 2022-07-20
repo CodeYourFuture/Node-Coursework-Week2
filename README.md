@@ -40,8 +40,8 @@ If you want to share your server with other people the easiest way to do this is
 
 At this first level, your API must allow a client to:
 
-- [ ] Create a new message
-- [ ] Read all messages
+- [ ] Create a new message //done
+- [ ] Read all messages //done
 - [ ] Read one message specified by an ID
 - [ ] Delete a message, by ID
 
