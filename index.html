@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Welcome to CYF Chat</title>
-  </head>
-  <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="index.css">
+  <title>Node Chat</title>
+</head>
+<body>
+  <div id="container">
+    <div class="header">
+      <span class="header-emojis">👥💬</span>
+      <h1 class="header-title">Chat API</h1>
+    </div>
+    <div id="routes">
+        <span class="route-heading">Method</span><span class="route-heading">Route</span><span class="route-heading">Result</span><span class="route-heading">Example</span>
+        <span>GET</span><span>/</span><span>get this page (index.html)</span><a href="/">/</a>
+        <span>GET</span><span>/messages</span><span>get all messages</span><a href="/messages" target="iframe">/messages</a>
+        <span>GET</span><span>/messages/id</span><span>get one message by its ID</span><a href="/messages/0" target="iframe">/messages/0</a>
+        <span>GET</span><span>/messages/search?text=_____</span><span>get only messages which contain the search text</span><a href="/messages/search?text=hello" target="iframe">/messages/search?text=hello</a>
+        <span>GET</span><span>/messages/latest</span><span>get only the ten most recent messages</span><a href="/messages/latest" target="iframe">/messages/latest</a>
+        <span>POST</span><span>/messages</span><span>add one message to the data</span><span>use form below</span>
+        <span>DELETE</span><span>/messages/:id</span><span>delete one message by its ID</span><span>/messages/1<br>use postman</span>
+        <!-- <span>UPDATE</span><span>/messages/:id</span><span>delete one message by its ID</span><span>/messages/1<br>use postman</span> -->
+    </div>
     <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
+        <h2>Send A Message</h2>
+        <label for="from">Name:</label>
+        <input type="text" name="from" placeholder="Your Name" />
+        <!-- removed "required" from input^-->
+        <label for="text">Message:</label>
+        <input type="text" name="text" placeholder="The Message..." />
+        <!-- removed "required" from input^-->
+        <button type="submit">Send Message</button>
     </form>
-
-    <a href="/messages">See all messages</a>
-  </body>
+    <!-- <a href="/albums" target="iframe">See All Albums</a> -->
+    <iframe name="iframe"></iframe>
+    <div>
+        <!-- info -->
+    </div>
+  </div>
+</body>
 </html>

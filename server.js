@@ -10,13 +10,73 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
-
-const messages = [welcomeMessage];
+const messages = [
+  {
+    id: 0,
+    from: "Bart",
+    text: "Welcome to CYF chat system!"
+  },
+  {
+    id: 1,
+    from: "Baz",
+    text: "Hello Bart"
+  },
+  {
+    id: 2,
+    from: "Bart",
+    text: "Hi Baz, How are you?"
+  },
+  {
+    id: 3,
+    from: "Baz",
+    text: "I'm ok, thank you"
+  },
+  {
+    id: 4,
+    from: "Bart",
+    text: "What are you doing today?"
+  },
+  {
+    id: 5,
+    from: "Baz",
+    text: "I am trying to learn Express!"
+  },
+  {
+    id: 6,
+    from: "Bart",
+    text: "Well done"
+  },
+  {
+    id: 7,
+    from: "Baz",
+    text: "I just found out Express routing has specificity and that caused me a headache because i didn't know that before now!"
+  },
+  {
+    id: 8,
+    from: "Bart",
+    text: "Yes, you need to declare the routes in specificity order to avoid issues. Or you can use more specific URL routes to help avoid issues with that."
+  },
+  {
+    id: 9,
+    from: "Baz",
+    text: "I need 11 messages on here to be able to test the /messages/latest/ route!"
+  },
+  {
+    id: 10,
+    from: "Bart",
+    text: "Okay, let's keep talking then!"
+  },
+  {
+    id: 11,
+    from: "Baz",
+    text: "I think this is the 11th message now :)"
+  },
+  {
+    id: 12,
+    from: "Bart",
+    text: "Great, go try and make the route work, good luck!"
+  }
+]
 
 app.get("/", function (req, res) {
   // console.log("GET / route")
@@ -28,13 +88,25 @@ app.get("/messages", function(req, res) {
   res.send(messages);
 });
 
+app.get("/messages/latest", function (req, res) {
+  const lastTenMessages = messages.slice(messages.length - 10);
+  res.send(lastTenMessages);
+});
+
+app.get("/messages/search", function (req, res) {
+  // console.log("GET /messages/search?text= route");
+  const searchQuery = req.query.text;
+  const searchResults = messages.filter(element => element.text.toLowerCase().includes(searchQuery.toLowerCase()));
+  res.send(searchResults);
+});
+
 app.get("/messages/:id", function(req, res) {
   // console.log("GET /messages/:id route")
 
   // I SPENT WAY TOO LONG WORKING THIS OUT!!
   // WE HAVE TO TYPE CONVERT THE STRING REQUEST TO NUMBER FOR ID IN THE OBJECT
-  // console.log(`req.params.id : ${req.params.id}`);
-  // console.log(`req.params.id is type ${typeof req.params.id}`)
+  console.log(`req.params.id : ${req.params.id}`);
+  console.log(`req.params.id is type ${typeof req.params.id}`)
   // console.log(`messages[0].id : ${messages[0].id}`)
   // console.log(`messages[0].id is type ${typeof messages[0].id}`)
   
@@ -66,11 +138,11 @@ app.post("/messages", function(req, res) {
   } else {
     res.status(400);
     if (!req.body.from && !req.body.text) {
-      res.render(`You didn't submit your Name or your Message`);
+      res.send(`You didn't submit your Name or your Message`);
     } else if (!req.body.from) {
-      res.render(`You didn't submit your Name`);
+      res.send(`You didn't submit your Name`);
     } else if (!req.body.text) {
-      res.render(`You didn't submit your Message`)
+      res.send(`You didn't submit your Message`)
     }
   }
 });
