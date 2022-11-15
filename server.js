@@ -30,7 +30,6 @@ app.get("/messages", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  console.log(req);
   messages.push(req.body);
   res.send(messages);
 });
