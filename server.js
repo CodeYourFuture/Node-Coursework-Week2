@@ -5,6 +5,11 @@ const app = express();
 
 app.use(cors());
 
+app.use(express.json());
+
+// submitted by HTML form
+app.use(express.urlencoded({ extended: false }));
+
 const welcomeMessage = {
   id: 0,
   from: "Bart",
@@ -22,6 +27,12 @@ app.get("/", function (request, response) {
 
 app.get("/messages", (req, res) => {
   res.send(welcomeMessage);
+});
+
+app.post("/messages", (req, res) => {
+  console.log(req);
+  messages.push(req.body);
+  res.send(messages);
 });
 
 const port = 3001;
