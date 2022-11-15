@@ -20,4 +20,11 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages", (req, res) => {
+  res.send(welcomeMessage);
+});
+
+const port = 3001;
+const listener = app.listen(/*process.env.PORT*/ port, () => {
+  console.log(`server started on port: ${listener.address().port}`);
+});
