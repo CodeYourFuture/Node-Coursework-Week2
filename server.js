@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
+// const { request } = require("express");
+// const { response } = require("express");
+// const res = require("express/lib/response");
 const cors = require("cors");
 app.use(cors());
-// middleware calls JSON parse to convert the req. body into a JS data structure
-app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
@@ -36,15 +38,26 @@ const anaMessage = {
 
 const messages = [welcomeMessage, myMessage, anaMessage];
 
-//create message/I used Postman
+//create message
+//server accept JSON data so to get input from form we use this JS event handler(changes data from input in JSON)
+// app.use(express.urlencoded({ extended: false }))
 app.post('/messages', (req, res) => {
-  const newMessage = req.body;
-  newMessage.id = messages.length + 1;
+  const { from, text } = req.body;
+
+  const newMessage = {
+    id: messages.length,
+    from,
+    text,
+    timeStamp: (TimeDate = new Date()),
+  };
+
+
   if (!newMessage.from || !newMessage.text) {
     return res.status(400).json("Please include a name and message");
   }
   messages.push(newMessage);
   res.send(messages)
+
 });
 
 //read all messages
