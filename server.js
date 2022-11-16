@@ -43,6 +43,18 @@ app.post("/messages", (request, response) => {
   response.json(messages);
 })
 
+// Search message by id
+app.get("/messages/:id", (request, response) => {
+  const id = parseInt(request.params.id);
+  const found = messages.some(msg => msg.id === id);
+
+  if(found) {
+    response.json(messages.find(msg => msg.id === id));
+  } else {
+    response.status(400).json({msg: `No msg with id ${id}`});
+  }
+})
+
 // Delete a message with id
 app.delete("/messages/:id", (request, response) => {
   const id = parseInt(request.params.id);
