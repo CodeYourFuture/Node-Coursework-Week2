@@ -1,9 +1,12 @@
 const express = require("express");
+const _ = require("lodash");
 const cors = require("cors");
+const { json, response } = require("express");
 
 const app = express();
 
 app.use(cors());
+app.use(express.urlencoded({extended: true}));
 
 const welcomeMessage = {
   id: 0,
@@ -20,4 +23,36 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.get("/messages", function (request, response) {
+  response.json(messages);
+});
+
+// Post a message
+app.post("/messages", (request, response) => {
+
+  if(!request.body.from || !request.body.text) {
+    return response.status(400).json({msg: "Enter name and text"})
+  }
+
+  messages.push({
+    id: messages.length,
+    from: request.body.from,
+    text: request.body.text
+  })
+
+  response.json(messages);
+})
+
+// Delete a message with id
+app.delete("/messages/:id", (request, response) => {
+  const id = parseInt(request.params.id);
+  const found = messages.some(msg => msg.id === id);
+
+  if(found) {
+    response.json(messages.filter(msg => msg.id !== id));
+  } else {
+    response.status(400).json({msg: `No msg with id ${id}`});
+  }
+})
+
+const listener = app.listen(process.env.PORT || 3001, () => console.log(`http://localhost:${listener.address().port}`));
