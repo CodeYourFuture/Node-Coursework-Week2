@@ -92,6 +92,22 @@ app.get("/messages/latest", function (req, res) {
   }
 });
 
+//update functionality (Postman)
+app.put('/messages/:ID', (req, res) => {
+  const { ID } = req.params;
+  const objWithReqId = messages.find(elem => elem.id == ID);
+
+  if (objWithReqId) {
+    const updMessage = req.body;
+    messages.forEach(elem => {
+      if (elem.id == req.params.ID) {
+        elem.text = updMessage.text;
+      }
+    })
+    res.json(updMessage)
+  }
+})
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server on port 3000'));
