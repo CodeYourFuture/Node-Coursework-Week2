@@ -1,23 +1,113 @@
 const express = require("express");
-const cors = require("cors");
-
 const app = express();
-
+app.use(express.json())
+const cors = require("cors");
 app.use(cors());
+
+app.use(express.urlencoded({ extended: false }))
+
+app.get("/", function (request, response) {
+  response.sendFile(__dirname + "/index.html");
+});
 
 const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
+const myMessage = {
+  id: 1,
+  from: "Alex",
+  text: "Have a good day!"
+};
+const anaMessage = {
+  id: 2,
+  from: "Ana",
+  text: "Hello!"
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+};
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+
+const messages = [welcomeMessage, myMessage, anaMessage];
+
+//create message
+//server accept JSON data so to get input from form we use this JS event handler(changes data from input in JSON)
+// app.use(express.urlencoded({ extended: false }))
+app.post('/messages', (req, res) => {
+  const { from, text } = req.body;
+
+  const newMessage = {
+    id: messages.length,
+    from,
+    text,
+    timeStamp: (TimeDate = new Date()),
+  };
+
+
+  if (!newMessage.from || !newMessage.text) {
+    return res.status(400).json("Please include a name and message");
+  }
+  messages.push(newMessage);
+  res.send(messages)
+
 });
 
-app.listen(process.env.PORT);
+//read all messages
+app.get('/messages', (req, res) => {
+  res.send(messages);
+});
+
+
+//read one message specified by an ID
+app.get('/messages/:ID', (req, res) => {
+  const { ID } = req.params;
+  const messageWithReqId = messages.find(elem => elem.id == ID)
+  res.send(messageWithReqId);
+});
+
+//delete a message, by ID/Postman
+app.delete('/messages/:ID', (req, res) => {
+  const ID = req.params.ID;
+  // console.log(ID)
+  const notDeletedMessages = messages.filter(elem => elem.id != ID);
+  res.send(notDeletedMessages);
+});
+
+
+
+//read only messages whose text contains a given substring
+app.get("/messages/search", function (req, res) {
+  let messageRead = messages.filter((message) =>
+    message.text.includes(req.query.text)
+  );
+  res.send(messageRead);
+});
+
+//read only the most recent 2 messages: /messages/latest
+app.get("/messages/latest", function (req, res) {
+  if (messages.length >= 2) {
+    return res.send(messages.slice(messages.length - 2));
+  } else {
+    return res.send(messages);
+  }
+});
+
+//update functionality (Postman)
+app.put('/messages/:ID', (req, res) => {
+  const { ID } = req.params;
+  const objWithReqId = messages.find(elem => elem.id == ID);
+
+  if (objWithReqId) {
+    const updMessage = req.body;
+    messages.forEach(elem => {
+      if (elem.id == req.params.ID) {
+        elem.text = updMessage.text;
+      }
+    })
+    res.json(updMessage)
+  }
+})
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server on port 3000'));
