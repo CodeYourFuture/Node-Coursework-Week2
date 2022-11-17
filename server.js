@@ -1,40 +1,32 @@
 const express = require("express");
 const app = express();
-// const { request } = require("express");
-// const { response } = require("express");
-// const res = require("express/lib/response");
+app.use(express.json())
 const cors = require("cors");
 app.use(cors());
+
 app.use(express.urlencoded({ extended: false }))
+
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
 const welcomeMessage = {
-  id: 1,
+  id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
 const myMessage = {
-  id: 2,
+  id: 1,
   from: "Alex",
   text: "Have a good day!"
 };
 const anaMessage = {
-  id: 3,
+  id: 2,
   from: "Ana",
   text: "Hello!"
 
 };
-// const newMessage = {
-//     id: 4,
-//     from: "Ioana",
-//     text: "Welcome!"   
-// }
 
-// //This array is our "data store".
-// //We will start with one message in the array.
-// //Note: messages will be lost when Glitch restarts our server.
 
 const messages = [welcomeMessage, myMessage, anaMessage];
 
@@ -81,6 +73,24 @@ app.delete('/messages/:ID', (req, res) => {
   res.send(notDeletedMessages);
 });
 
+
+
+//read only messages whose text contains a given substring
+app.get("/messages/search", function (req, res) {
+  let messageRead = messages.filter((message) =>
+    message.text.includes(req.query.text)
+  );
+  res.send(messageRead);
+});
+
+//read only the most recent 2 messages: /messages/latest
+app.get("/messages/latest", function (req, res) {
+  if (messages.length >= 2) {
+    return res.send(messages.slice(messages.length - 2));
+  } else {
+    return res.send(messages);
+  }
+});
 
 
 const PORT = process.env.PORT || 3000;
