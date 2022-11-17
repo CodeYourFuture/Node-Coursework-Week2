@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const uuid = require("uuid");
 
 const app = express();
 
@@ -19,19 +20,34 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = [];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
 app.get("/messages", (req, res) => {
-  res.send(welcomeMessage);
+  res.json(messages);
 });
 
 app.post("/messages", (req, res) => {
-  messages.push(req.body);
-  res.send(messages);
+  console.log(req.body);
+  const newMessage = {
+    /*id: uuid.v4()*/ //to be used in the generating of random id but for now i'm using the below method for ease of access
+    id: messages.length + 1,
+    from: req.body.from,
+    text: req.body.text,
+  };
+
+  if (!newMessage.from || !newMessage.text) {
+    //add return if there is no else statement following the if statement.
+    return res
+      .status(400)
+      .json({ msg: "Please include a name and message." });
+  }
+
+  messages.push(newMessage);
+  res.json(messages);
 });
 
 const port = 3001;
