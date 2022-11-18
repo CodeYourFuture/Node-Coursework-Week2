@@ -67,4 +67,6 @@ app.delete("/messages/:id", (request, response) => {
   }
 })
 
-const listener = app.listen(process.env.PORT || 3001, () => console.log(`http://localhost:${listener.address().port}`));
+const listener = app.listen(process.env.PORT, () => console.log(`http://localhost:${listener.address().port}`));
+
+module.exports = app;

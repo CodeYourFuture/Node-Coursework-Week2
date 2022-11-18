@@ -1,0 +1,1 @@
+{"id":"816b028f-9cb0-40c7-85d1-beeb7c3c1d61","space":38845,"runtime":"nodejs14.x","name":"node-challenge-chat-server","path":"0xn4v1","project":"a03hntzr","account":"144798365827","region":"eu-central-1","deps":["cors@^2.8.5","express@^4.16.4","lodash@^4.17.21","uuid@^9.0.0"],"envs":null,"public":true,"log_level":"debug","cron":""}
