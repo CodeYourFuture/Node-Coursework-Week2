@@ -53,11 +53,17 @@ app.post("/messages", (req, res) => {
 //filter by subString level 3
 app.get("/messages/search", (req, res) => {
   let searchString = req.query.text;
-  res.json(
-    messages.filter((item) =>
+  let result = [];
+
+  messages.forEach((item) => {
+    if (
+      result.length < 10 &&
       item.text.toLowerCase().includes(searchString)
-    )
-  );
+    ) {
+      result.push(item);
+    }
+  });
+  res.json(result);
 });
 
 // Get one message by ID
