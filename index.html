@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Welcome to CYF Chat</title>
-  </head>
-  <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
-    </form>
 
-    <a href="/messages">See all messages</a>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to CYF Chat</title>
+</head>
+<style>
+  body {
+    margin: 1px;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .input-fields {
+    background: #999;
+    padding: 1em;
+    border-radius: .25em;
+    margin: .5em 0;
+  }
+
+  button {
+    background: green;
+    border: none;
+    color: #fff;
+    border-radius: .25em;
+    padding: .5em;
+  }
+
+  input {
+    border-radius: .25em;
+    border: none;
+    margin-bottom: .5em;
+  }
+
+</style>
+<body>
+  <h1>Coders Chat</h1>
+  <h2>Send a message </h2>
+  <form action="/messages" method="post">
+    <div class="input-fields">
+      <label for="from">Name:</label>
+      <input type="text" name="from" placeholder="Your Name" /> <br />
+      <label for="text">Message:</label>
+      <input type="text" name="text" placeholder="The message..." /><br />
+    </div>
+    <button type="submit">Send</button>
+  </form>
+
+  <a href="/messages">See all messages</a>
+</body>
+
 </html>
