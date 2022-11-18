@@ -50,6 +50,16 @@ app.post("/messages", (req, res) => {
   res.json(messages);
 });
 
+//filter by subString level 3
+app.get("/messages/search", (req, res) => {
+  let searchString = req.query.text;
+  res.json(
+    messages.filter((item) =>
+      item.text.toLowerCase().includes(searchString)
+    )
+  );
+});
+
 // Get one message by ID
 app.get("/messages/:id", (req, res) => {
   const inputId = parseInt(req.params.id);
@@ -67,6 +77,7 @@ app.get("/messages/:id", (req, res) => {
       .json({ Msg: `No message with id ${inputId} found` });
   }
 });
+
 // Delete a message
 app.delete("/messages/:id", (req, res) => {
   const inputId = parseInt(req.params.id);
