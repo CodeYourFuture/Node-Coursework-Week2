@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
+app.use(express.json()); // before our routes definition
 app.use(cors());
 
 const welcomeMessage = {
@@ -14,7 +14,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -38,10 +38,9 @@ const requiredMessage = messages.find(message => message.id === id);
 res.send(requiredMessage);
 })
 app.delete('/messages/:id', (req, res) => {
- // const toDelete = parseInt(req.params.id);
-  const del = messages.filter(({ id }) => id !== req.params.id);
-  //  const notDeleted = messages.filter(message => message.id !== toDelete);
-    messages = del;
+  const toDelete = parseInt(req.params.id);
+    const notDeleted = messages.filter(message => message.id !== toDelete);
+    messages = notDeleted;
   res.status(200).json({success: true});
 });
 
