@@ -27,8 +27,11 @@ app.get("/", function (request, response) {
 
 app.post("/messages", function (req, res) {
   console.log(`POST /messages route`);
-  // const newMessage = req.body;
+  const newMessage = req.body;
+  newMessage.id = messages.length + 1;
+
   console.log(req.body);
+
   messages.push(req.body);
   res.sendStatus(200);
 });
@@ -43,17 +46,18 @@ app.get("/messages", (req, res) => {
 app.get("/messages/:id", function (req, res) {
   console.log(`GET /messages/${req.params.id} route`);
   const id = parseInt(req.params.id);
-  res.send(messages.find((element) => element.id === id));
+  res.json(messages.find((element) => element.id === id));
 });
 
 //- [ ] Delete a message, by ID
 
 app.delete("/messages/:id", function (req, res) {
-  const deletedId = req.params.id;
-  let filteredId = messages.filter((element) => element.id !== deletedId);
+  const deletedId = parseInt(req.params.id);
+  let filteredArray = messages.filter((element) => element.id !== deletedId);
   // res.send(messages.find((element) => element.id != id));
-  messages = filteredId;
-  res.status(200).json({ success: deletedId });
+  messages = filteredArray;
+  // res.status(200).json({ success: deletedId });
+  res.json(messages);
 });
 
 const listener = app.listen(PORT, function () {
