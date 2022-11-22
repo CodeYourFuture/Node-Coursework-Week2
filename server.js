@@ -38,7 +38,7 @@ app.post("/messages", (req, res) => {
   console.log("POST /messages route");
   console.log(req.body);
   messages.push(req.body);
-  res.sendStatus(200);
+  res.status(200).json(`The messages has been Successfully Added`);
 });
 
 // Read one message specified by an ID
