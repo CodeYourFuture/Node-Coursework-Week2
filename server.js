@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
+
 app.use(cors());
 
 const welcomeMessage = {
@@ -20,4 +21,21 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT || 3000);
+
+app.post('/messages', (req, res) => {
+
+  const newMessage = {
+    name: req.body.from,
+    message: req.body.text,
+  };
+  var message = newMessage(req.body);
+  message.save((err) =>{
+    if(err)
+      sendStatus(500);
+    res.sendStatus(200);
+  })
+})
+
+const listener = app.listen(process.env.PORT || 3000, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
