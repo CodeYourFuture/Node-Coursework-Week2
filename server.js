@@ -5,6 +5,7 @@ PORT = 3005;
 
 app.use(express.json());
 app.use(express.urlencoded());
+var _ = require("lodash");
 
 app.use(cors());
 
@@ -27,13 +28,19 @@ app.get("/", function (request, response) {
 
 app.post("/messages", function (req, res) {
   console.log(`POST /messages route`);
-  const newMessage = req.body;
-  newMessage.id = messages.length + 1;
 
-  console.log(req.body);
+  let newMessage = {
+    id: messages.length,
+    from: req.body.from,
+    text: req.body.text,
+  };
 
-  messages.push(req.body);
-  res.sendStatus(200);
+  if (!newMessage.from || !newMessage.text) {
+    res.status(400).json(`Please complete all fields`);
+  } else {
+    messages.push(newMessage);
+    res.sendStatus(200);
+  }
 });
 
 //- [ ] Read all messages
@@ -60,6 +67,15 @@ app.delete("/messages/:id", function (req, res) {
   res.json(messages);
 });
 
+//LEVEL 2
+
+app.post("/messages", function (req, res) {
+  let noMessage = "";
+  if (noMessage.length === 0) {
+    console.log(`POST /messages route`);
+  }
+  res.status(404).json(`from field or text body cannot be empty`);
+});
 const listener = app.listen(PORT, function () {
   console.log(`Your server is listening on ${PORT}`);
 });
