@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
 app.use(cors());
 
 const welcomeMessage = {
@@ -16,8 +15,20 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
+app.use(express.json()); // before our routes definition
+
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+app.post("/messages", function (req, res) {
+  console.log("POST /messages route");
+  let newChat = req.body;
+  messages.push(newChat);
+  res.status(200).send(messages);
+  console.log(messages);
+});
+
+let port = 3001 || process.env.PORT;
+
+app.listen(port, () => console.log("Server is running on port " + port));
