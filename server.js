@@ -29,6 +29,18 @@ app.post("/messages", function (req, res) {
   console.log(messages);
 });
 
-let port = 3001 || process.env.PORT;
+app.get("/messages", function (req, res) {
+  res.status(200).send(messages);
+});
 
+app.get("/messages/:id", function (req, res) {
+  let id = request.params.id;
+  res.status(200).send(messages.filter(chat => chat[id] === id));
+});
+
+
+
+
+
+let port = 3001 || process.env.PORT;
 app.listen(port, () => console.log("Server is running on port " + port));
