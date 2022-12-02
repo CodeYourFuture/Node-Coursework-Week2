@@ -21,14 +21,15 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+app.get('/messages', (req, res) => {
+  welcomeMessage.find({},(err, messages)=> {
+    res.send(messages);
+  })
+})
+
 
 app.post('/messages', (req, res) => {
-
-  const newMessage = {
-    name: req.body.from,
-    message: req.body.text,
-  };
-  var message = newMessage(req.body);
+  var message = new welcomeMessage (req.body);
   message.save((err) =>{
     if(err)
       sendStatus(500);
