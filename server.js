@@ -4,6 +4,8 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -26,9 +28,14 @@ app.get("/", function (request, response) {
 app.post("/messages", function (req, res) {
   console.log("POST /messages route");
   let newMessage = req.body;
-  messages.push(newMessage);
-  res.status(200).send(messages);
-  console.log(req.body);
+  // if(!Object.keys(newMessage).length) {
+  if (!(req.body.from || req.body.text)) {
+    res.status(400).send("No message entered");
+  } else {
+    messages.push(newMessage);
+    res.status(200).send(messages);
+    // console.log(req.body);
+  }
 });
 
 // Read all messages
@@ -73,8 +80,6 @@ app.put("/messages/:id", (req, res) => {
 //   let from = req.params.from;
 //   let text = req.params.text;
 // });
-
-
 
 let port = 3001 || process.env.PORT;
 
