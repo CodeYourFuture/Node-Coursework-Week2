@@ -14,7 +14,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 
 app.use(express.json()); // before our routes definition
 
@@ -37,19 +37,44 @@ app.get("/messages", (req, res) => {
 });
 
 //  Read one message specified by an ID
-app.get("/messages/:id", function (req, res) {
+app.get("/messages/:id", (req, res) => {
   console.log(req.params.id);
-  let id = parseInt(req.params.id);
-  res.status(200).send(messages.filter((message) => message[id] === id));
+  const id = parseInt(req.params.id);
+  res.status(200).send(messages.filter((message) => message.id === id));
   console.log(messages.filter((message) => message[id] === id));
 });
 //  Delete a message, by ID
-app.delete("/messages/:id", function (req, res) {
+app.delete("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const result = messages.filter((message) => message.id === id);
+  messages = result;
   console.log("DELETE /messages route");
-  res.status(200).send(messages.filter((message) => message[id] === id));
+  res.status(200).send(result);
+});
+
+//  Update a message, by ID
+app.put("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const messageIndex = messages.findIndex((element) => element.id === id);
+  messages[messageIndex] = req.body;
+  // With DB, we do an "Update" statement
+  res.status(200).send(messages);
 });
 
 //  All message content should be passed as JSON.
+
+// level 2
+
+// app.get("/messages/:id", (req, res) => {
+//   console.log(req.params.id);
+//   const id = parseInt(req.params.id);
+//   res.status(200).send(messages.filter((message) => message.id === id));
+//   console.log(messages.filter((message) => message[id] === id));
+//   let from = req.params.from;
+//   let text = req.params.text;
+// });
+
+
 
 let port = 3001 || process.env.PORT;
 
