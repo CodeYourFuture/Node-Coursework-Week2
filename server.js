@@ -27,7 +27,7 @@ app.get("/", function (request, response) {
 app.post("/messages", function (req, res) {
   console.log("POST /messages route");
   let newChat = req.body;
-  console.log(newChat);
+  console.log(newChat, messages.length);
 
   //checking for an empty object but no need if checking if either fields empty
   //if (!Object.keys(newChat).length)
@@ -44,18 +44,29 @@ app.get("/messages", function (req, res) {
 });
 
 app.get("/messages/:id", function (req, res) {
-  let id = parseInt(request.params.id);
-  let newMessages = messages.filter((chat) => chat[id] === id);
+  let id = parseInt(req.params.id);
+  let newMessages = messages.filter((chat) => chat.id === id);
   res.status(200).send(newMessages);
 });
 
- //Read only messages whose text contains a given substring: /messages/search?text=express
- //Read only the most recent 10 messages: /messages/latest
+//Read only messages whose text contains a given substring:/messages/search?text=express
+app.get("/search", (req, res) => {
+  let reqText = req.query.text;
+  console.log(reqText);
+  let newMessages = messages.filter((msg) => msg.text.includes(reqText));
+  console.log("test", newMessages);
+  res.status(200).send(newMessages);
+});
 
-
-app.delete("/messages/:id", function (req, res) {
-  let id = parseInt(request.params.id);
-  res.status(200).send(messages.filter((chat) => !chat[id]));
+//Read only the most recent 10 messages: /messages/latest
+app.get("/latest", (req, res) => {
+  console.log(messages.length);
+  let latestTen = messages.filter((el, inx) => {
+    if (inx >= messages.length - 10) {
+      return el;
+    }
+  });
+  res.status(200).send(latestTen);
 });
 
 let port = 3001 || process.env.PORT;
