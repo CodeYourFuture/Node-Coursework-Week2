@@ -75,9 +75,6 @@ app.get("/messages/:id", function (req, res)
   res.send(filterMsg);
 });
 
-
-
-
 app.get("/messages/delete/:id", function (req, res)
 {
   let id = parseInt(req.params.id);
@@ -95,7 +92,6 @@ app.get("/search", (req, res) =>
 
   res.send(filterdMsg);
 });
-
 
 app.get("/latest", (req, res) =>
 {
