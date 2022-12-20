@@ -31,15 +31,16 @@ app.get("/", function (request, response)
 app.listen(process.env.PORT);
 
 
+
+
+
 app.get("/messages", (req, res) =>
 {
   res.send(messages);
 });
 
-// Create a new message
 app.post("/messages", (req, res) =>
 {
-  //let { msgName, msgText } = req.body;
   let msgName = req.body.from;
   let msgText = req.body.text;
   let idPosition = messages.length;
@@ -48,7 +49,8 @@ app.post("/messages", (req, res) =>
   {
     id: idPosition,
     name: msgName,
-    message: msgText
+    message: msgText,
+    timeSent: new Date(),
   };
 
   if (!newMsg.name || !newMsg.message)
@@ -63,20 +65,41 @@ app.post("/messages", (req, res) =>
   }
 });
 
+
+
 app.get("/messages/:id", function (req, res)
 {
   let id = parseInt(req.params.id);
-  let filterMsg = messages.filter((msg) => msg.id === id);
+  let filterMsg = messages.filter(msg => msg.id === id);
 
   res.send(filterMsg);
 });
 
+
+
+
 app.get("/messages/delete/:id", function (req, res)
 {
   let id = parseInt(req.params.id);
-  let filterMsg = messages.filter((msg) => msg.id === id);
+  let filterdMsg = messages.filter(msg => msg.id === id);
 
-  messages = messages.filter((msg) => msg.id !== id);
+  messages = messages.filter(msg => msg.id !== id);
 
-  res.send(filterMsg);
+  res.send(filterdMsg);
+});
+
+app.get("/search", (req, res) =>
+{
+  let textSearch = req.query.text;
+  let filterdMsg = messages.filter(msg => msg.text.includes(textSearch));
+
+  res.send(filterdMsg);
+});
+
+
+app.get("/latest", (req, res) =>
+{
+  let filterdMsgs = messages.filter(msg => parseInt(msg.id) > (messages.length - 11));
+
+  res.send(filterdMsgs);
 });
