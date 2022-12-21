@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -20,4 +21,26 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+// create a message
+app.post("/messages", (req,res) => {
+
+})
+
+// read all messages
+app.get("/messages", (req, res) => {
+
+})
+
+// read one message specified by id
+app.get("/messages:id", (req, res) => {
+
+})
+// delete a message specified by id
+app.delete("/messages:id", (req,res) => {
+
+})
+
+const port = process.env.PORT || 4200;
+app.listen(port, () =>{
+  console.log(`listening on port : ${port}`)
+});
