@@ -30,7 +30,7 @@ If you want to share your server with other people the easiest way to do this is
 
 - [ ] Make sure you're logged in to https://glitch.com/
 - [ ] Remix https://glitch.com/~cyf-chat-start
-- [ ] Name your new server `yourname-chat-server`
+- [ ] Name your new server `omidomar-chat-server`
 - [ ] Make sure you're logged in so that it saves
 - [ ] Check that it is working by making a request to `/`
 - [ ] Take time to read the comments
