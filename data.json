@@ -1,5 +1,10 @@
 [
   {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
     "id": 1,
     "from": "Omid",
     "text": "Hey, whats'up."

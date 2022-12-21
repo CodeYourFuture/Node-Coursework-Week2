@@ -8,9 +8,7 @@ const app = express();
 app.use(cors());
 
 const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
+  
 };
 
 //This array is our "data store".
@@ -22,8 +20,16 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+//send all messages
+
 app.get("/messages", (req, res) => {
   res.json(data);
+});
+
+//send specific message by id
+
+app.get("/messages/:id", (req, res) => {
+  res.json(data.filter((e) => e.id == req.params.id));
 });
 
 app.listen(3000);
