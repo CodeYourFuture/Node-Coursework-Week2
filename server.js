@@ -3,7 +3,13 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+const port = 3007;
+
+app.use(
+  cors({
+    origin: "http://localhost:3007",
+  })
+);
 
 const welcomeMessage = {
   id: 0,
@@ -29,11 +35,11 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
 
-  const newMessages = {
-    id: messages.length + 1,
-    from,
-    text,
-  };
+ let newMessages = {
+   id: messages.length + 1,
+   from: req.body.from,
+   text: req.body.text,
+ };
 
   if (!newMessages.from || !newMessages.text) {
     return res.status(400).json("Please include a name and message");
@@ -65,6 +71,6 @@ app.delete("/messages/:id", (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running 3000.");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
