@@ -18,7 +18,7 @@ const App = () => {
         return (
           <div>
             <p key={index}>{msg.text}</p>
-            <p >From: {msg.from}</p>
+            <p key={index + 1}>From: {msg.from}</p>
           </div>
         );
       })}
