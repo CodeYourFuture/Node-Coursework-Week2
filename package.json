@@ -8,7 +8,6 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "cd client && npm i && npm run build",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
