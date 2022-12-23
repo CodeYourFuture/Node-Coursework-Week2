@@ -40,12 +40,12 @@ app.post("/messages", (req, res) => {
 
   const newMsg = {
     id: idPosition,
-    name: msgName,
-    message: msgText,
+    from: msgName,
+    text: msgText,
   };
 
-  if (!newMsg.name || !newMsg.message) {
-    return res.status(400).json("Please include a name and 1 message");
+  if (!newMsg.from && !newMsg.text) {
+    return res.status(400).json("Please include a from and 1 text");
   } else {
     messages.push(newMsg);
     res.status(200).json(messages);
