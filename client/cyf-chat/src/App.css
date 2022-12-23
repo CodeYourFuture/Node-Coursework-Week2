@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+.App {
+  text-align: center;
+  color: white;
+  background-color: #282c34;
+  margin: 5rem 20rem;
+  border: 2px solid white;
+  border-radius: 12px;
+}
+.dly-msg {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  color: black;
+  margin: 0.5rem;
+  border: 2px solid white;
+  border-radius: 12px;
+}
+.dly-msg button {
+  margin: 0.5rem;
+  width: 100px;
+  height: 25px;
+  border-radius: 5px;
+}
+.send-text {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5rem;
+  border: 2px solid white;
+  border-radius: 12px;
+}
+.send-input {
+  margin: 1.5rem;
+  gap: 0.5rem;
+}
+.send-input input {
+  border-radius: 5px;
+  margin-left: 0.5rem;
+  border-radius: 5px;
+  height: 25px;
+}
+.text-area {
+  margin-top: 0.5rem;
+}
+.send-text button {
+  margin: 1.5rem;
+  width: 100px;
+  border-radius: 12px;
+  /* background-color: rgb(25, 25, 25); */
+  /* color: white; */
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem;
+}
+.btn {
+  display: flex;
+}
+.btn button {
+  margin-right: 1.5rem;
+  height: 30px;
+  border-radius: 5px;
+}
+.search {
+  height: 25px;
+  border-radius: 5px;
+}
+.search input {
+  margin-right: 0.5rem;
+  border-radius: 5px;
+  height: 25px;
+}
+.search button {
+  /* width: 100px; */
+  height: 30px;
+  border-radius: 5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
