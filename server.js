@@ -36,7 +36,9 @@ app.post("/messages", (req, res) => {
   //let { msgName, msgText } = req.body;
   let msgName = req.body.from;
   let msgText = req.body.text;
-  let idPosition = messages.length;
+  let lastIndex = messages.length -1;
+  let lastId = messages[lastIndex].id;
+  let idPosition = lastId + 1;
 
   const newMsg = {
     id: idPosition,
@@ -51,6 +53,30 @@ app.post("/messages", (req, res) => {
     res.status(200).json(messages);
   }
 });
+
+app.put("/messages", (req,res) => {
+  let msgName = req.body.from;
+  let msgText = req.body.text;
+  let idPosition = req.body.id;
+
+
+const updatedMsg = {
+    id: idPosition,
+    from: msgName,
+    text: msgText,
+  };
+
+  if (!newMsg.from && !newMsg.text) {
+    return res.status(400).json("Please include a from and 1 text");
+  } else {
+    
+    const updateIndex = messages.map(x => x.id).indexOf(idPosition);
+
+    messages[updateIndex] = updatedMsg;
+
+    res.status(200).json(messages);
+  }
+})
 
 app.get("/messages/:id", function (req, res) {
   let id = parseInt(req.params.id);
