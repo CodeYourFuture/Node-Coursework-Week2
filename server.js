@@ -59,7 +59,7 @@ app.get("/messages/:id", function (req, res) {
   res.send(filterMsg);
 });
 
-app.get("/messages/delete/:id", function (req, res) {
+app.delete("/messages/:id", function (req, res) {
   let id = parseInt(req.params.id);
   let filterMsg = messages.filter((msg) => msg.id === id);
 
