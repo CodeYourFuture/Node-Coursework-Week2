@@ -44,3 +44,15 @@ app.post("/messages", function (request, response) {
 app.get("/messages", function (request, response) {
   response.json(messages);
 });
+
+// allows to Read one message specified by an ID
+app.get("/messages/:id", (request, response) => {
+  const id = request.params.id;
+  const message = messages.find(msg => msg.id === id);
+
+  if (!message) {
+    return response.status(400).send("Message not found");
+  }
+
+  response.json(message);
+});
