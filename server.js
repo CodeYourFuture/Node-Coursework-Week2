@@ -46,8 +46,14 @@ app.get("/", (req, res) => {
 
 // All messages
 app.get("/messages", (req, res) => {
-  res.send(messages);
+  res.json(messages);
 });
+
+//  Read only the last 10 messages:
+
+app.get("/messages/latest",(req,res)=>{
+  res.send(messages.slice(-10))
+})
 
 // A new message
 app.post("/messages", (req, res) => {
@@ -58,7 +64,13 @@ app.post("/messages", (req, res) => {
     from,
     text,
     timeSent: new Date().toLocaleDateString(),
-  };
+  }
+
+  if (from.length === 0 || text.length === 0) {
+    return res.status(400).send("Please, complete body...");
+  } else {
+    messages.push(ourMessageObject);
+  }
 });
 
 // Read one message specified by an ID
