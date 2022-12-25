@@ -61,13 +61,34 @@ app.get("/messages/:id", (request, response) => {
 app.delete("/messages/:id", (request, response) => {
   const id = parseInt(request.params.id);
   const messageIndex = messages.findIndex((message) => message.id === id);
-  if (messageIndex === -1) {
+  if (!messageIndex) {
     return response.status(400).send("Message not found");
   }
   messages.splice(messageIndex, 1);
   response.json(messages);
 });
 
-const listener = app.listen(5001, () => {
+// allows read _only_ messages whose text contains a given substring
+app.get("/messages/search", (req, res) => {
+  const text = req.query.text;
+  const filteredMessages = messages.filter(message => message.text.toLowerCase().includes(text.toLowerCase()));
+  if (filteredMessages.length > 0) {
+    res.json(filteredMessages);
+  } else {
+    res.status(400).send("No messages found");
+  }
+});
+
+app.get("/messages/latest", function(req, res){
+  const latestMessages = messages.slice(
+    message.length - 10,
+    message.length
+  );
+  res.json(latestMessages);
+});
+
+const listener = app.listen(3000, () => {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
+
+
