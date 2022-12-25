@@ -56,3 +56,18 @@ app.get("/messages/:id", (request, response) => {
 
   response.json(message);
 });
+
+// Delete a message by id
+app.delete("/messages/:id", (request, response) => {
+  const id = parseInt(request.params.id);
+  const messageIndex = messages.findIndex((message) => message.id === id);
+  if (messageIndex === -1) {
+    return response.status(400).send("Message not found");
+  }
+  messages.splice(messageIndex, 1);
+  response.json(messages);
+});
+
+const listener = app.listen(5001, () => {
+  console.log(`Your app is listening on port ${listener.address().port}`);
+});
