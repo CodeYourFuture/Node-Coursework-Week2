@@ -1,7 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3007;
 
@@ -15,6 +18,7 @@ const welcomeMessage = {
   id: 0,
   from: "Pakize",
   text: "Welcome to CYF chat system!",
+  timeSpent: 24 / 12 / 2022,
 };
 
 //This array is our "data store".
@@ -34,20 +38,13 @@ app.get("/messages", (req, res) => {
 // A new message
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
-
- let newMessages = {
-   id: messages.length + 1,
-   from: req.body.from,
-   text: req.body.text,
- };
-
-  if (!newMessages.from || !newMessages.text) {
-    return res.status(400).json("Please include a name and message");
-  }
-
-  messages.push(newMessages);
-
-  res.send(messages);
+  // console.log(req.body)
+  const ourMessageObject = {
+    id: messages.length + 1,
+    from,
+    text,
+    timeSent: new Date().toLocaleDateString(),
+  };
 });
 
 // Read one message specified by an ID
