@@ -18,13 +18,27 @@ const welcomeMessage = {
   id: 0,
   from: "Pakize",
   text: "Welcome to CYF chat system!",
-  timeSpent: 24 / 12 / 2022,
+  timeSpent: "24 / 12 / 2022"
 };
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
+
+
+//Read only text whose text contains a given substring
+
+app.get("/messages/search", (req, res) => {
+  const { term } = req.query;
+  console.log(term);
+
+  const filterMessages = messages.filter((message) =>
+    message.text.toLowerCase().includes(term.toLowerCase())
+  );
+  console.log(filterMessages);
+  res.send(filterMessages);
+});
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
