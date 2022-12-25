@@ -14,8 +14,7 @@ body {
   border-radius: 12px;
 }
 .dly-msg {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
   background-color: white;
   color: black;
   margin: 0.5rem;
@@ -23,11 +22,17 @@ body {
   border-radius: 12px;
 }
 .dly-msg button {
+  display: flex;
+  justify-content: center;
+  flex-direction: flex-end;
   margin: 0.5rem;
   width: 100px;
   height: 25px;
-  border-radius: 5px;
+  box-shadow: 0 4px 5px;
+  font-size: 105%;
+
 }
+
 .send-text {
   display: flex;
   justify-content: space-around;
@@ -40,20 +45,22 @@ body {
   gap: 0.5rem;
 }
 .send-input input {
-  border-radius: 5px;
   margin-left: 0.5rem;
-  border-radius: 5px;
   height: 25px;
+
+  font-size: 105%;
 }
 .text-area {
   margin-top: 0.5rem;
 }
 .send-text button {
   margin: 1.5rem;
-  width: 100px;
-  border-radius: 12px;
-  /* background-color: rgb(25, 25, 25); */
-  /* color: white; */
+  width: 120px;
+  font-size: 105%;
+
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .btn-container {
   display: flex;
@@ -66,7 +73,11 @@ body {
 .btn button {
   margin-right: 1.5rem;
   height: 30px;
-  border-radius: 5px;
+  font-size: 105%;
+
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .search {
   height: 25px;
@@ -74,13 +85,40 @@ body {
 }
 .search input {
   margin-right: 0.5rem;
-  border-radius: 5px;
   height: 25px;
+
+  /* padding: 16px; */
+  font-size: 105%;
+  /* outline: 0; */
+  /* width: 90%; */
 }
 .search button {
-  /* width: 100px; */
+  margin-left: 0.5rem;
   height: 30px;
-  border-radius: 5px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.message-content {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+  padding-left: 1.5rem;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  text-align: left;
+}
+/* .message-content:second-child {
+} */
+.message-content button {
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.hide {
+  display: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {

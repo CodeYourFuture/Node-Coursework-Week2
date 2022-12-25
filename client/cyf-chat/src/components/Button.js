@@ -1,11 +1,13 @@
 import React from "react";
+// import AllMessages from "./buttons/AllMessages";
+import LatestMessages from "./buttons/LatestMessages";
 
 const Button = () => {
   return (
     <div className="btn">
-      <button>Latest Messages</button>
+      <LatestMessages />
       <div>
-        <button>All Messages</button>
+        {/* <AllMessages /> */}
       </div>
     </div>
   );

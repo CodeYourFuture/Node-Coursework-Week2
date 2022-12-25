@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
+const port = process.env.PORT || 7000;
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,9 +20,9 @@ const welcomeMessage = {
 let messages = [welcomeMessage];
 let incrementId = 1;
 
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
+// app.get("/", function (req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
 
 app.get("/messages", (req, res) => {
   res.send(messages);
@@ -40,6 +41,11 @@ app.get("/messages/:id", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
+  if (!req.body.from || !req.body.text) {
+    res.status(400).json({ msg: 'Please make sure to include text and from' })
+    return
+  }
+
   const newMessage = {
     id: incrementId,
     timeSent: new Date().toLocaleDateString(),
@@ -48,7 +54,7 @@ app.post("/messages", (req, res) => {
   };
   incrementId += 1;
   messages.push(newMessage);
-  res.send(messages);
+  res.json(messages);
 });
 
 app.delete("/messages/:id", (req, res) => {
@@ -67,12 +73,14 @@ app.put("/messages/:id", (req, res) => {
   const message = messages.find((msg) => id === msg.id);
   if (message) {
     let query = req.body;
-    message.text = query.text;
     message.from = query.from;
+    message.text = query.text;
     res.json(message);
   } else {
     res.sendStatus(404);
   }
 });
 
-app.listen(process.env.PORT || 7000);
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
