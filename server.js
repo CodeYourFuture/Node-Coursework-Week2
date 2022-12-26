@@ -29,10 +29,9 @@ const joannaMessage = {
   text: "Have a lovely day",
 };
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage, myMessage, joannaMessage];
+
+//create message
 
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
@@ -41,19 +40,25 @@ app.post("/messages", (req, res) => {
     id: messages.length,
     from,
     text,
-    timeStamp: (TimeDate=new Date()),
+    timeStamp: (TimeDate = new Date()),
   };
 
-  if(!newMessage.from || !newMessage.text){
+  if (!newMessage.from || !newMessage.text) {
     return res.status(400).json("Please include a name and message");
   }
   messages.push(newMessage);
-  res.send(messages)
+  res.send(messages);
 });
-
+//read all messages
 app.get("/messages", (req, res) => {
   res.send(messages);
 });
 
+//Read one message specified by an ID
+app.get("/messages/:ID", (req, res) => {
+  const { ID } = req.params;
+  const messageWithId = messages.find((elem) => elem.id == ID);
+  res.send(messageWithId);
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server on port 3000"));
