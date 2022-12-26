@@ -38,7 +38,7 @@ app.get("/", function (request, response, next) {
 
 app.post('/messages', (req, res,next) => {
   if (!req.body.from || !req.body.text){   
-    res.status(400).send(` You must include a from and a and text in your request`)
+    res.status(400).send(`You must include  name and message in your request`)
     return
   } 
   else{
@@ -52,6 +52,62 @@ app.post('/messages', (req, res,next) => {
       res.send(`<h1>The message has been added</h1> <button onclick="history.back()"> Go Back </button> `)
     
   }
+
+});
+
+//Show or read al messages
+app.get('/messages', (req,res)=>{
+  res.send(messages)
+} )
+
+
+//Read or show on message by id
+app.get('/message', (req,res)=>{
+  const found=messages.filter(message => message.id===parseInt(req.query.id))
+  if(found.length>0){
+    res.send(found)
+    }
+
+else{
+ res.status(400).json({msg: `no message with the id of ${req.query.id}`})
+}
+  
+} )
+
+
+//Delete a message by id
+app.delete('/message/:id', (req,res)=>{
+   const index=messages.findIndex(message => message.id===parseInt(req.params.id))
+
+
+  if(index>=0){
+   messages.splice(index,1)
+    }
+else{
+ res.status(400).json({msg: `There is no an element with the id ${req.params.id}`})
+}
+  
+} )
+
+//Show only messages contains spefic text
+app.get('/messages/search', (req, res) => {
+  const selectedMessages=messages.filter(elm => elm.text.includes(req.query.text))
+  if (selectedMessages.length == 0){   
+    res.status(400).send(`There is no message that includes this text`)
+  } 
+  else{
+    // res.send(req.body)
+    res.send (selectedMessages)
+    }
+
+});
+
+//Show only latest 10 messages 
+app.get('/messages/latest', (req, res) => {
+  const latest10Messages=messages.slice(messages.length-10, messages.length)
+
+    // res.send(req.body)
+    res.send (latest10Messages)
 
 });
 
