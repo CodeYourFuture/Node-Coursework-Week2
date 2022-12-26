@@ -89,27 +89,7 @@ else{
   
 } )
 
-//Show only messages contains spefic text
-app.get('/messages/search', (req, res) => {
-  const selectedMessages=messages.filter(elm => elm.text.includes(req.query.text))
-  if (selectedMessages.length == 0){   
-    res.status(400).send(`There is no message that includes this text`)
-  } 
-  else{
-    // res.send(req.body)
-    res.send (selectedMessages)
-    }
 
-});
-
-//Show only latest 10 messages 
-app.get('/messages/latest', (req, res) => {
-  const latest10Messages=messages.slice(messages.length-10, messages.length)
-
-    // res.send(req.body)
-    res.send (latest10Messages)
-
-});
 
 // app.listen(process.env.PORT);
 const PORT = process.env.PORT || 5000;
