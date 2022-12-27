@@ -84,5 +84,21 @@ app.get("/messages/latest", (req, res) => {
   res.send(messages);
   }
 });
+
+//updated functions
+app.put('/messages/:ID', (req, res) => {
+  const { ID } = req.params;
+  const objWithId = messages.find(elem => elem.id == ID);
+
+  if(objWithId) {
+    const updateMessage = req.body;
+    messages.forEach(elem=>{
+      if(elem.id == req.params.ID){
+        elem.text = updateMessage.text;
+      }
+    })
+    res.json(updateMessage)
+  }
+})
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server on port 3000"));
