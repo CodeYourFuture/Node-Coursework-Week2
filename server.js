@@ -20,4 +20,9 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+// Get all messages
+app.get("/messages", function (request, response) {
+  response.status(200).json(messages);
+});
+
 app.listen(PORT);
