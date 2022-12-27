@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { response } = require("express");
-const data = require("./data.json");
+let data = require("./data.json");
 const fileStream = require("fs");
 
 const app = express();
@@ -12,12 +12,13 @@ app.use(express.urlencoded({ extended: true }));
 //parse JSON bodies
 //app.use(express.json());
 
-const welcomeMessage = {};
-
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+
+const save = () => {
+  fileStream.writeFileSync("data.json", JSON.stringify(data, null, 2));
+};
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -29,15 +30,18 @@ app.get("/messages", (req, res) => {
   res.json(data);
 });
 
-// Add message
+// Insert message
+
 app.post("/messages", (req, res) => {
+  let maxID = Math.max(...data.map((c) => c.id));
+  maxID = maxID > 0 ? maxID : 0;
   const newMessage = {
-    id: 3,
+    id: ++maxID,
     from: req.body.from,
     text: req.body.text,
   };
   data.push(newMessage);
-  fileStream.writeFileSync("data.json", JSON.stringify(data, null, 2));
+  save();
   res.status(200).json(data);
 });
 
@@ -45,6 +49,14 @@ app.post("/messages", (req, res) => {
 
 app.get("/messages/:id", (req, res) => {
   res.json(data.filter((e) => e.id == req.params.id));
+});
+
+//delete a message by id
+
+app.delete("/messages/:id", (req, res) => {
+  data = data.filter((x) => x.id != req.params.id);
+  save();
+  res.json(data);
 });
 
 app.listen(3000);
