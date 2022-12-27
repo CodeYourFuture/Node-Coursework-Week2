@@ -71,6 +71,7 @@ app.post("/messages", urlencodedParser, function (request, response) {
     id: uuid.v4(),
     from: request.body.from,
     text: request.body.text,
+    timeSent: new Date(),
   };
 
   messages.push(newMessage);
