@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.PORT || 3000;
+const uuid = require("uuid");
+const bodyParser = require("body-parser");
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// create application/x-www-form-urlencoded parser - middlleware function
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(cors());
 
@@ -31,10 +36,22 @@ app.get("/messages/:id", function (request, response) {
   if (message) {
     response.status(200).json(message);
   } else {
-    response
-      .status(400)
-      .json({ msg: "No message with the Id '" + request.params.id + "' is found"});
+    response.status(400).json({
+      msg: "No message with the Id '" + request.params.id + "' is found",
+    });
   }
+});
+
+// Create new message
+app.post("/messages", urlencodedParser, function (request, response) {
+  const newMessage = {
+    id: uuid.v4(),
+    from: request.body.from,
+    text: request.body.text,
+  };
+
+  messages.push(newMessage);
+  response.send(messages);
 });
 
 app.listen(PORT);
