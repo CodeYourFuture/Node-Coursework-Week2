@@ -25,4 +25,16 @@ app.get("/messages", function (request, response) {
   response.status(200).json(messages);
 });
 
+// Get one message by id
+app.get("/messages/:id", function (request, response) {
+  let message = messages.find((msg) => msg.id == request.params.id);
+  if (message) {
+    response.status(200).json(message);
+  } else {
+    response
+      .status(400)
+      .json({ msg: "No message with this Id: " + request.params.id });
+  }
+});
+
 app.listen(PORT);
