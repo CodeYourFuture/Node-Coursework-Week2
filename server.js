@@ -34,8 +34,29 @@ app.post("/messages", (request, response) => {
   response.status(201).json(createdMessage);
 });
 
-app.get("/messages", function (request, response) {
+app.get("/messages", (request, response) => {
   response.json(messages);
+});
+
+app.get("/messages/search", (request, response) => {
+  let foundMessages = messages;
+  if (request.query.text) {
+    foundMessages = foundMessages.filter(
+      (message) =>
+        message.text.toLowerCase().indexOf(request.query.text.toLowerCase()) >
+        -1
+    );
+  }
+  if (foundMessages) {
+    response.json(foundMessages);
+  }
+});
+
+app.get("/messages/latest", (request, response) => {
+  let last10Messages = messages.slice(-10);
+  if (last10Messages) {
+    response.json(last10Messages);
+  }
 });
 
 app.get("/messages/:id", (request, response) => {
@@ -51,16 +72,14 @@ app.get("/messages/:id", (request, response) => {
 
 app.delete("/messages/:id", (request, response) => {
   const delMessageId = Number(request.params.id);
-  const foundMessageId = messages.findIndex(
+  const foundMessageIndex = messages.findIndex(
     (message) => message.id === delMessageId
   );
-
-  if (foundMessageId < 0) {
+  if (foundMessageIndex < 0) {
     response.sendStatus(404);
     return;
   }
-
-  messages.splice(foundMessageId, 1);
+  messages.splice(foundMessageIndex, 1);
   response.sendStatus(204);
 });
 
