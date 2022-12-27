@@ -35,7 +35,7 @@ app.get("/messages", (req, res) => {
 
 app.post("/messages", (req, res) => {
   const from = req.body.from;
-  const text = req.body.from;
+  const text = req.body.text;
 
   //validating inputs
   if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) 
@@ -47,6 +47,7 @@ app.post("/messages", (req, res) => {
     id: ++maxID,
     from: from,
     text: text,
+    timeSent: new Date()
   };
   data.push(newMessage);
   save();
