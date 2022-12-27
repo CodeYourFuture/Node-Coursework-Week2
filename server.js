@@ -54,4 +54,18 @@ app.post("/messages", urlencodedParser, function (request, response) {
   response.status(200).json(messages);
 });
 
+// Delete one message by id
+app.delete("/messages/:id", function (request, response) {
+  let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
+  if (msgIndex < 0) {
+    response.status(400).json({
+      msg: "No message with the Id '" + request.params.id + "' is found",
+    });
+  }
+  messages.splice(msgIndex, 1);
+  response.status(200).json({
+    msg: "Message successfully deleted",
+    messages: messages,
+  });
+});
 app.listen(PORT);
