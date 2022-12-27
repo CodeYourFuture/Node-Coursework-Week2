@@ -3,6 +3,7 @@ const cors = require("cors");
 const { response } = require("express");
 let data = require("./data.json");
 const fileStream = require("fs");
+const { stringify } = require("querystring");
 
 const app = express();
 
@@ -33,12 +34,17 @@ app.get("/messages", (req, res) => {
 // Insert message
 
 app.post("/messages", (req, res) => {
+  const from = req.body.from;
+  const text = req.body.from;
+  if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) 
+  return;
+
   let maxID = Math.max(...data.map((c) => c.id));
   maxID = maxID > 0 ? maxID : 0;
   const newMessage = {
     id: ++maxID,
-    from: req.body.from,
-    text: req.body.text,
+    from: from,
+    text: text,
   };
   data.push(newMessage);
   save();
@@ -48,7 +54,7 @@ app.post("/messages", (req, res) => {
 //send specific message by id
 
 app.get("/messages/:id", (req, res) => {
-  res.json(data.filter((e) => e.id == req.params.id));
+  res.status(200).json(data.filter((e) => e.id == req.params.id));
 });
 
 //delete a message by id
@@ -56,7 +62,7 @@ app.get("/messages/:id", (req, res) => {
 app.delete("/messages/:id", (req, res) => {
   data = data.filter((x) => x.id != req.params.id);
   save();
-  res.json(data);
+  res.status(200).json(data);
 });
 
 app.listen(3000);
