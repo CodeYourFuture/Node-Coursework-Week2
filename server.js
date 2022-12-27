@@ -66,7 +66,7 @@ const updatedMsg = {
     text: msgText,
   };
 
-  if (!newMsg.from && !newMsg.text) {
+  if (!updatedMsg.from && !updatedMsg.text) {
     return res.status(400).json("Please include a from and 1 text");
   } else {
     
