@@ -33,7 +33,7 @@ app.get("/messages/:id", function (request, response) {
   } else {
     response
       .status(400)
-      .json({ msg: "No message with this Id: " + request.params.id });
+      .json({ msg: "No message with the Id '" + request.params.id + "' is found"});
   }
 });
 
