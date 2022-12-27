@@ -64,9 +64,25 @@ app.get("/messages/:ID", (req, res) => {
 //Delete a message, by ID
 app.delete("/messages/:ID", (req, res) => {
   const ID = req.params.ID;
-  const notDeletedMessage = messages.filter(elem => elem.id != ID);
+  const notDeletedMessage = messages.filter((elem) => elem.id != ID);
   res.send(notDeletedMessage);
 });
 
+//read only messages with given substring
+app.get("/messages/search", (req, res) => {
+  let messageRead = messages.filter((message) =>
+    message.text.includes(req.query.text)
+  );
+  res.send(messageRead);
+});
+
+//read the latest messages
+app.get("/messages/latest", (req, res) => {
+  if(messages.length >= 2){
+    return res.send(messages.slice(messages.length - 2));
+  } else {
+  res.send(messages);
+  }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server on port 3000"));
