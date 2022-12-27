@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(cors());
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -75,6 +76,24 @@ app.post("/messages", urlencodedParser, function (request, response) {
   };
 
   messages.push(newMessage);
+  response.status(200).json(messages);
+});
+
+// Update one message by id
+app.put("/messages/:id", function (request, response) {
+  let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
+  if (msgIndex < 0) {
+    response.status(400).json({
+      msg: "No message with the Id '" + request.params.id + "' is found",
+    });
+  }
+  if (request.body.text) {
+    messages[msgIndex].text = request.body.text;
+  }
+  if (request.body.from) {
+    messages[msgIndex].from = request.body.from;
+  }
+
   response.status(200).json(messages);
 });
 
