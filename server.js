@@ -46,7 +46,8 @@ app.post('/messages', (req, res,next) => {
     const newMessage = {
       "id": ++maxID,
       "from": req.body.from,
-      "text": req.body.text
+      "text": req.body.text,
+      "date": new Date()
     }
     messages.push(newMessage)
       res.send(`<h1>The message has been added</h1> <button onclick="history.back()"> Go Back </button> `)
@@ -105,7 +106,10 @@ app.get('/messages/search', (req, res) => {
 //Show only latest 10 messages 
 app.get('/messages/latest', (req, res) => {
   const latest10Messages=messages.slice(messages.length-10, messages.length)
+  // const currentDate=new Date()
 
+
+  // console.log(currentDate)
     // res.send(req.body)
     res.send (latest10Messages)
 
