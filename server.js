@@ -28,7 +28,7 @@ app.get("/messages", function (request, response) {
 app.post("/messages", function (request, response) {
   console.log(request.body);
   if(!request.body.from || !request.body.text){
-    response.status(400).json({msg: "Please provide  some texts to post"});
+    response.status(400).json({msg: "Please provide some texts to post"});
     return;
   }
   messages.push(request.body);
