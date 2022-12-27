@@ -44,6 +44,10 @@ app.get("/messages/:id", function (request, response) {
 
 // Create new message
 app.post("/messages", urlencodedParser, function (request, response) {
+  if (!request.body.from || !request.body.text) {
+    response.status(400).json({ msg: "Please enter all fields" });
+  }
+
   const newMessage = {
     id: uuid.v4(),
     from: request.body.from,
