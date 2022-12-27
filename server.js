@@ -51,7 +51,7 @@ app.post("/messages", urlencodedParser, function (request, response) {
   };
 
   messages.push(newMessage);
-  response.send(messages);
+  response.status(200).json(messages);
 });
 
 app.listen(PORT);
