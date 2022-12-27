@@ -43,6 +43,11 @@ app.get("/messages/search", function (request, response) {
     }
   }
 });
+// Get 10 latest messages
+app.get("/messages/latest", function (request, response) {
+  let latestMessages = messages.slice(-10).reverse();
+  response.status(200).json(latestMessages);
+});
 
 // Get one message by id
 app.get("/messages/:id", function (request, response) {
