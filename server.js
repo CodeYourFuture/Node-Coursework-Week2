@@ -30,6 +30,20 @@ app.get("/messages", function (request, response) {
   response.status(200).json(messages);
 });
 
+// Get all messages by search term
+app.get("/messages/search", function (request, response) {
+  if (request.query.text) {
+    let filteredMessages = messages.filter((msg) =>
+      msg.text.includes(request.query.text)
+    );
+    if (filteredMessages.length == 0) {
+      response.status(400).json({ msg: "No matching results" });
+    } else {
+      response.status(200).json(filteredMessages);
+    }
+  }
+});
+
 // Get one message by id
 app.get("/messages/:id", function (request, response) {
   let message = messages.find((msg) => msg.id == request.params.id);
