@@ -24,7 +24,7 @@ const myMessage = {
 };
 
 const joannaMessage = {
-  id: 0,
+  id: 2,
   from: "Joanna",
   text: "Have a lovely day",
 };
@@ -60,5 +60,13 @@ app.get("/messages/:ID", (req, res) => {
   const messageWithId = messages.find((elem) => elem.id == ID);
   res.send(messageWithId);
 });
+
+//Delete a message, by ID
+app.delete("/messages/:ID", (req, res) => {
+  const ID = req.params.ID;
+  const notDeletedMessage = messages.filter(elem => elem.id != ID);
+  res.send(notDeletedMessage);
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server on port 3000"));
