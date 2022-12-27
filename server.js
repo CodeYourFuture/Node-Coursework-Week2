@@ -17,6 +17,15 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
+// Functions
+function isInvalidId(id, index, response) {
+  if (index < 0) {
+    response.status(400).json({
+      msg: "No message with the Id '" + id + "' is found",
+    });
+  }
+}
+
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
@@ -42,8 +51,11 @@ app.get("/messages/search", function (request, response) {
     } else {
       response.status(200).json(filteredMessages);
     }
+  } else {
+    response.status(400).json({ msg: "Please enter search term" });
   }
 });
+
 // Get 10 latest messages
 app.get("/messages/latest", function (request, response) {
   let latestMessages = messages.slice(-10).reverse();
@@ -82,11 +94,9 @@ app.post("/messages", urlencodedParser, function (request, response) {
 // Update one message by id
 app.put("/messages/:id", function (request, response) {
   let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
-  if (msgIndex < 0) {
-    response.status(400).json({
-      msg: "No message with the Id '" + request.params.id + "' is found",
-    });
-  }
+  
+  isInvalidId(request.params.id, msgIndex, response);
+
   if (request.body.text) {
     messages[msgIndex].text = request.body.text;
   }
@@ -100,15 +110,14 @@ app.put("/messages/:id", function (request, response) {
 // Delete one message by id
 app.delete("/messages/:id", function (request, response) {
   let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
-  if (msgIndex < 0) {
-    response.status(400).json({
-      msg: "No message with the Id '" + request.params.id + "' is found",
-    });
-  }
+
+  isInvalidId(request.params.id, msgIndex, response);
+
   messages.splice(msgIndex, 1);
   response.status(200).json({
     msg: "Message successfully deleted",
     messages: messages,
   });
 });
+
 app.listen(PORT);
