@@ -36,6 +36,8 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   const from = req.body.from;
   const text = req.body.from;
+
+  //validating inputs
   if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) 
   return;
 
