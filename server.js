@@ -27,8 +27,20 @@ app.get("/", function (request, response) {
 
 //send all messages
 
+app.get("/messages/latest", (req, res) => {
+  res.json(data.slice(data.length - 10, data.length));
+});
+
 app.get("/messages", (req, res) => {
-  res.json(data);
+  const searchInput = req.query.search;
+  let searchedData;
+  if (searchInput)
+    searchedData = data.filter((x) =>
+      x.text.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase())
+    );
+  else searchedData = data;
+
+  res.json(searchedData);
 });
 
 // Insert message
@@ -38,8 +50,7 @@ app.post("/messages", (req, res) => {
   const text = req.body.text;
 
   //validating inputs
-  if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) 
-  return;
+  if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) return;
 
   let maxID = Math.max(...data.map((c) => c.id));
   maxID = maxID > 0 ? maxID : 0;
@@ -47,7 +58,7 @@ app.post("/messages", (req, res) => {
     id: ++maxID,
     from: from,
     text: text,
-    timeSent: new Date()
+    timeSent: new Date(),
   };
   data.push(newMessage);
   save();
@@ -66,6 +77,11 @@ app.delete("/messages/:id", (req, res) => {
   data = data.filter((x) => x.id != req.params.id);
   save();
   res.status(200).json(data);
+});
+
+// Update message by id
+app.get("/upd", (req, res) => {
+  res.send(req.query.from);
 });
 
 app.listen(3000);
