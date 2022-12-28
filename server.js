@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-//All messages
+//All messages 
 app.get("/messages", (req, res) => {
   res.json(messages);
 });
@@ -57,6 +57,11 @@ app.post("/messages", (req, res) => {
     text,
     timeSent: new Date().toLocaleDateString(),
   };
+if (from.length === 0 || text.length === 0) {
+  return res.status(400).send("Please, complete body...");
+} else {
+  message.push(messageObject);
+}
 });
 
 //Message specified by ID
