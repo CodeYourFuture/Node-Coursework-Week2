@@ -1,9 +1,6 @@
- 
-
 import React, { useState, useEffect } from "react";
 
-const Search = () => {
-  const [searchMessage, setSearchMessage] = useState([]);
+const Search = ({ setMessages }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [search, setSearch] = useState(false);
   useEffect(() => {
@@ -12,11 +9,11 @@ const Search = () => {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setSearchMessage(data);
+          setMessages(data);
           setSearch(false);
         });
     }
-  }, [searchTerm, search]);
+  }, [searchTerm, search, setMessages]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -29,15 +26,6 @@ const Search = () => {
     <div className="search">
       <input placeholder="Search..." type="text" onChange={handleSearch} />
       <button onClick={() => setSearch(true)}>Search</button>
-
-      {searchMessage.map((message) => (
-        <div className={!search ? "search" : "hide"}>
-          <div className="message-search">
-            <p>{message.from}</p>
-            <p>{message.text}</p>
-          </div>
-        </div>
-      ))}
     </div>
   );
 };

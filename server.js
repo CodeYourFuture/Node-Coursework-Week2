@@ -20,19 +20,32 @@ const welcomeMessage = {
 let messages = [welcomeMessage];
 let incrementId = 1;
 
-// app.get("/", function (req, res) {
-//   res.sendFile(__dirname + "/index.html");
-// });
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/index.html");
+});
 
 app.get("/messages", (req, res) => {
   res.send(messages);
 });
 
-app.get("/messages/latest/", (req, res) => {
-  let latestMsg = messages.filter(
-    (messages, index) => messages.length - 10 <= index
+app.get("/messages/search", (req, res) => {
+  const search = req.query.term;
+  const result = messages.filter(
+    (message) =>
+      message.from.toLowerCase().includes(search.toLowerCase()) ||
+      message.text.toLowerCase().includes(search.toLowerCase())
   );
-  res.send(latestMsg);
+  res.send(result);
+});
+// app.get("/messages/latest/", (req, res) => {
+//   let latestMsg = messages.filter(
+//     (messages, index) => messages.length - 10 <= index
+//   );
+//   res.send(latestMsg);
+// });
+app.get("/messages/latest", (req, res) => {
+  let latestMsg = messages.slice(-3);
+  res.json(latestMsg);
 });
 
 app.get("/messages/:id", (req, res) => {
@@ -42,8 +55,8 @@ app.get("/messages/:id", (req, res) => {
 
 app.post("/messages", (req, res) => {
   if (!req.body.from || !req.body.text) {
-    res.status(400).json({ msg: 'Please make sure to include text and from' })
-    return
+    res.status(400).json({ msg: "Please make sure to include text and from" });
+    return;
   }
 
   const newMessage = {
@@ -59,12 +72,14 @@ app.post("/messages", (req, res) => {
 
 app.delete("/messages/:id", (req, res) => {
   const selectedId = req.params.id;
-  const found = messages.some((message) => message.id == selectedId);
+  const found = messages.some((message) => message.id === selectedId);
   if (found) {
-    messages = messages.filter((message) => message.id != selectedId);
+    messages = messages.filter((message) => message.id !== selectedId);
     res.status(204).json({ msg: `Message has been deleted` });
   } else {
-    res.status(400).json({ msg: `No message with the id of ${selectedId}` });
+    res
+      .status(400)
+      .json({ msg: `No message with the id of ${selectedId} has been found` });
   }
 });
 

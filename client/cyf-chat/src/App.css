@@ -9,7 +9,7 @@ body {
   text-align: center;
   color: white;
   background-color: #282c34;
-  margin: 5rem 20rem;
+  margin: 5rem;
   border: 2px solid white;
   border-radius: 12px;
 }
@@ -144,5 +144,10 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+@media screen and (min-width: 900px){
+  .App {
+    margin: 5rem 20rem;
   }
 }

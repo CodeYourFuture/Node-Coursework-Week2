@@ -3,16 +3,21 @@ import DeleteMessage from "./buttons/DeleteMessage";
 import EditMessage from "./buttons/EditMessage";
 // import AllMessages from './buttons/AllMessages';
 
-const MessageList = () => {
-  const [messages, setMessages] = useState([]);
-
+const MessageList = ({
+  messages,
+  setMessages,
+  setName,
+  setText,
+  setIsNewMessage,
+  setSelectedMessage,
+}) => {
   useEffect(() => {
     fetch("/messages")
       .then((res) => res.json())
       .then((data) => {
         setMessages(data);
       });
-  }, []);
+  }, [setMessages]);
   return (
     <div className="dly-msg">
       {messages.map((message) => (
@@ -23,9 +28,19 @@ const MessageList = () => {
             <p>{message.text}</p>
           </div>
           <div className="msg-btn">
-            <EditMessage />
+            <EditMessage
+              message={message}
+              setName={setName}
+              setText={setText}
+              setIsNewMessage={setIsNewMessage}
+              setSelectedMessage={setSelectedMessage}
+            />
             <div>
-              <DeleteMessage />
+              <DeleteMessage
+                message={message}
+                setMessages={setMessages}
+                messages={messages}
+              />
             </div>
           </div>
         </div>
