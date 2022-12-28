@@ -9,7 +9,7 @@ app.use(express.json());
 const welcomeMessage = {
   id: 0,
   from: "Bart",
-  text: "Welcome to CYF chat system!",
+  text: "Welcome to CYF Chat System!",
 };
 
 //This array is our "data store".
