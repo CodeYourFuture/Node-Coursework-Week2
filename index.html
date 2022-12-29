@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Welcome to CYF Chat</title>
-  </head>
-  <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
-    </form>
 
-    <a href="/messages">See all messages</a>
-  </body>
+<head>
+  <title>Welcome to Tsione's Chat Server</title>
+</head>
+
+<body>
+  <h1>
+    Tsione's Chat Server
+  </h1>
+  <h2>
+    Send a message
+  </h2>
+  <form action="/messages" method="post">
+    <p>
+      Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+      Message: <input type="text" name="text" placeholder="The message..." /> <br />
+    </p>
+    <button type="submit">
+      Send
+    </button>
+  </form><br />
+
+  <a href="/messages">See all messages</a><br /><br />
+
+  <a href="/messages/recent">See the most recent messages</a>
+
+  <form action="/messages/search" method="GET"><br />
+    <p>
+
+      <input type="text" name="search" placeholder="Search" />
+
+    </p>
+
+    <button type="submit">
+      Search
+    </button>
+  </form>
+
+</body>
+
 </html>

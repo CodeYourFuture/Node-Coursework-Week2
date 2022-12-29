@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const PORT = 5000;
 const app = express();
 
 app.use(cors());
@@ -102,4 +102,6 @@ app.delete("/messages/:id", function (request, response) {
   }
 });
 
-app.listen(process.env.PORT);
+const listening = app.listen(process.env.PORT || PORT, function () {
+  console.log("Your app is listening on port " + listening.address().port);
+});
