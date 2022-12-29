@@ -47,9 +47,7 @@ app.get("/messages/search", (request, response) => {
         -1
     );
   }
-  if (foundMessages) {
     response.json(foundMessages);
-  }
 });
 
 app.get("/messages/latest", (request, response) => {
