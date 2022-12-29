@@ -21,7 +21,7 @@ const MessageList = ({
   return (
     <div className="dly-msg">
       {messages.map((message) => (
-        <div className="message-content">
+        <div key={message.id} className="message-content">
           <div>
             <p>{message.timeSent}</p>
             <p>{message.from}</p>
@@ -45,14 +45,6 @@ const MessageList = ({
           </div>
         </div>
       ))}
-
-      {/* <AllMessages />
-      <div className='msg-btn'>
-        <button>Edit</button>
-        <div>
-          <button>Delete</button>
-        </div>
-      </div> */}
     </div>
   );
 };

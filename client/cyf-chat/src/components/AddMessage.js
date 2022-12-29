@@ -51,7 +51,7 @@ const AddMessage = ({
     <div>
       <form className="send-text">
         <div className="send-input">
-          <label></label>
+          {/* <label></label> */}
           <input
             placeholder="Write your name"
             value={name}
@@ -59,7 +59,7 @@ const AddMessage = ({
             onChange={(e) => setName(e.target.value)}
           ></input>
           <div className="text-area">
-            <label></label>
+            {/* <label></label> */}
             <input
               placeholder="Write your message"
               value={text}

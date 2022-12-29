@@ -13,7 +13,7 @@ app.use(cors());
 const welcomeMessage = {
   id: 0,
   timeSent: new Date().toLocaleDateString(),
-  from: "Bart",
+  from: "Dawit",
   text: "Welcome to CYF chat system!",
 };
 
@@ -32,8 +32,7 @@ app.get("/messages/search", (req, res) => {
   const search = req.query.term;
   const result = messages.filter(
     (message) =>
-      message.from.toLowerCase().includes(search.toLowerCase()) ||
-      message.text.toLowerCase().includes(search.toLowerCase())
+      message.from.toLowerCase().includes(search.toLowerCase()) 
   );
   res.send(result);
 });

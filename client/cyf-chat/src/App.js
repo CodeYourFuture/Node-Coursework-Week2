@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
 import AddMessage from "./components/AddMessage";
-// import Button from "./components/Button";
 import AllMessages from "./components/AllMessages";
 import Search from "./components/Search";
 
@@ -17,7 +16,6 @@ function App() {
       <h1>CYF Chat Server</h1>
       <div className="btn-container">
         <Search setMessages={setMessages} />
-        {/* <Button /> */}
       </div>
       <AllMessages
         messages={messages}

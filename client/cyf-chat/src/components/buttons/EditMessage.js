@@ -15,7 +15,7 @@ const EditMessage = ({
   };
 
   return (
-    <div msg-btn>
+    <div>
       <button onClick={updateMessage}>Edit</button>
     </div>
   );
