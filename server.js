@@ -42,6 +42,12 @@ app.get("/messages/:id", function (request, response) {
 
 //New message
 app.post("/messages", urlencodedParser, function (request, response) {
+  if (!request.body.from || !request.body.text) {
+    response
+      .status(400)
+      .json({ msg: "Please make sure all fields are filled" });
+  }
+
   const newMessage = {
     id: uuid.v4(),
     from: request.body.from,
@@ -49,7 +55,22 @@ app.post("/messages", urlencodedParser, function (request, response) {
   };
 
   messages.push(newMessage);
-  response.send(messages);
+  response.status(200).json(messages);
+});
+
+//Delete one message by ID
+app.delete("/messages/:id", function (request, response) {
+  let messageIndex = messages.findIndex((msg) => msg.id === request.params.id);
+  if (messageIndex < 0) {
+    response.status(400).json({
+      msg: "Message with an ID " + request.params.id + " doesn't exist",
+    });
+  }
+  messages.splice(messageIndex, 1);
+  response.status(200).json({
+    msg: "Message deleted",
+    messages: messages,
+  });
 });
 
 app.listen(PORT);
