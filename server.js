@@ -28,7 +28,7 @@ app.get("/messages", function (request, response) {
   response.status(200).json(messages);
 });
 
-//One message by ID
+//Get One message by ID
 app.get("/messages/:id", function (request, response) {
   let message = messages.find((msg) => msg.id === request.params.id);
   if (message) {
@@ -38,6 +38,42 @@ app.get("/messages/:id", function (request, response) {
       msg: "Message with an ID " + request.params.id + " doesn't exist",
     });
   }
+});
+
+//Put one message by ID
+app.put("/messages/:id", function (request, response) {
+  let messageIndex = messages.findIndex((msg) => msg.id === request.params.id);
+  if (messageIndex < 0) {
+    response.status(400).json({
+      msg: "Message with an ID " + request.params.id + " doesn't exist",
+    });
+  }
+  if (request.body.text) {
+    messages[messageIndex].text = request.body.text;
+  }
+  if (request.body.from) {
+    messages[messageIndex].from = request.body.from;
+  }
+  response.status(200).json(messages);
+});
+
+//Search messages
+app.get("/messages/search", function (request, response) {
+  if (request.query.text) {
+    let filteredMessages = messages.filter((msg) =>
+      msg.text.includes(request.query.text)
+    );
+    if (filteredMessages.length === 0) {
+      response.status(400).json({ msg: "No results" });
+    } else {
+      response.status(200).json(filteredMessages);
+    }
+  }
+});
+
+//Read only the most recent 10 messages: /messages/latest
+app.get("/messages/latest", (request, response) => {
+  response.send(messages.slice(-10));
 });
 
 //New message
@@ -52,6 +88,7 @@ app.post("/messages", urlencodedParser, function (request, response) {
     id: uuid.v4(),
     from: request.body.from,
     text: request.body.text,
+    timeSent: newDate().toLocaleDateString(),
   };
 
   messages.push(newMessage);
