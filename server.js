@@ -21,21 +21,32 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.get('/messages', (req, res) => {
-  welcomeMessage.find({},(err, messages)=> {
-    res.send(messages);
-  })
-})
+// Create a new message
+app.post("/messages", function (req, res) {
+  console.log("POST /messages route");
+  let newMessage = req.body;
+  messages.push(newMessage);
+  res.status(200).send(messages);
+  console.log(req.body);
+});
 
+// Read all messages
+app.get("/messages", (req, res) => {
+  res.status(200).send(messages);
+});
 
-app.post('/messages', (req, res) => {
-  var message = new welcomeMessage (req.body);
-  message.save((err) =>{
-    if(err)
-      sendStatus(500);
-    res.sendStatus(200);
-  })
-})
+//  Read one message specified by an ID
+app.get("/messages/:id", function (req, res) {
+  console.log(req.params.id);
+  let id = parseInt(req.params.id);
+  res.status(200).send(messages.filter((message) => message[id] === id));
+  console.log(messages.filter((message) => message[id] === id));
+});
+//  Delete a message, by ID
+app.delete("/messages/:id", function (req, res) {
+  console.log("DELETE /messages route");
+  res.status(200).send(messages.filter((message) => message[id] === id));
+});
 
 const listener = app.listen(process.env.PORT || 3000, function () {
   console.log("Your app is listening on port " + listener.address().port);
