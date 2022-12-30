@@ -10,7 +10,7 @@ const MessageList = ({
   setText,
   setIsNewMessage,
   setSelectedMessage,
-}) => {
+}, index) => {
   useEffect(() => {
     fetch("/messages")
       .then((res) => res.json())
@@ -22,7 +22,7 @@ const MessageList = ({
     <div className="dly-msg">
       {messages.map((message) => (
         <div key={message.id} className="message-content">
-          <div>
+          <div key={index}>
             <p>{message.timeSent}</p>
             <p>{message.from}</p>
             <p>{message.text}</p>
@@ -45,6 +45,14 @@ const MessageList = ({
           </div>
         </div>
       ))}
+
+      {/* <AllMessages />
+      <div className='msg-btn'>
+        <button>Edit</button>
+        <div>
+          <button>Delete</button>
+        </div>
+      </div> */}
     </div>
   );
 };
