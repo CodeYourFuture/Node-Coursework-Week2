@@ -83,7 +83,7 @@ app.post("/messages", function (request, response) {
   };
 
   messages.push(newMessage);
-  response.status(200).json(messages);
+  response.json(newMessage);
 });
 
 // Update one message by id
@@ -99,7 +99,7 @@ app.patch("/messages/:id", function (request, response) {
     messages[msgIndex].from = request.body.from;
   }
 
-  response.status(200).json(messages);
+  response.json(messages);
 });
 
 // Delete one message by id
