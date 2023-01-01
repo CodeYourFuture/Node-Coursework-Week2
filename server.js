@@ -4,8 +4,7 @@ const uuid = require("uuid");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// create application/x-www-form-urlencoded parser - middlleware function
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
 
