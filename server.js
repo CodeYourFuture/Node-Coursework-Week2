@@ -40,18 +40,16 @@ app.get("/messages", function (request, response) {
 
 // Get all messages by search term
 app.get("/messages/search", function (request, response) {
-  if (request.query.text) {
-    let filteredMessages = messages.filter((msg) =>
-      msg.text.includes(request.query.text)
-    );
-    if (filteredMessages.length == 0) {
-      response.status(400).json({ msg: "No matching results" });
-    } else {
-      response.json(filteredMessages);
-    }
-  } else {
+  if (!request.query.text) {
     response.status(400).json({ msg: "Please enter search term" });
   }
+  let filteredMessages = messages.filter((msg) =>
+    msg.text.includes(request.query.text)
+  );
+  if (filteredMessages.length == 0) {
+    return response.status(400).json({ msg: "No matching results" });
+  }
+  return response.json(filteredMessages);
 });
 
 // Get 10 latest messages
