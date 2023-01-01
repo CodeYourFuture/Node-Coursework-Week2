@@ -1,13 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const uuid = require("uuid");
-const bodyParser = require("body-parser");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // create application/x-www-form-urlencoded parser - middlleware function
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
-
+app.use(express.urlencoded());
 app.use(cors());
 app.use(express.json());
 
@@ -37,7 +35,7 @@ app.get("/", function (request, response) {
 
 // Get all messages
 app.get("/messages", function (request, response) {
-  response.status(200).json(messages);
+  response.json(messages);
 });
 
 // Get all messages by search term
@@ -49,7 +47,7 @@ app.get("/messages/search", function (request, response) {
     if (filteredMessages.length == 0) {
       response.status(400).json({ msg: "No matching results" });
     } else {
-      response.status(200).json(filteredMessages);
+      response.json(filteredMessages);
     }
   } else {
     response.status(400).json({ msg: "Please enter search term" });
@@ -59,14 +57,14 @@ app.get("/messages/search", function (request, response) {
 // Get 10 latest messages
 app.get("/messages/latest", function (request, response) {
   let latestMessages = messages.slice(-10).reverse();
-  response.status(200).json(latestMessages);
+  response.json(latestMessages);
 });
 
 // Get one message by id
 app.get("/messages/:id", function (request, response) {
   let message = messages.find((msg) => msg.id == request.params.id);
   if (message) {
-    response.status(200).json(message);
+    response.json(message);
   } else {
     response.status(400).json({
       msg: "No message with the Id '" + request.params.id + "' is found",
@@ -75,7 +73,7 @@ app.get("/messages/:id", function (request, response) {
 });
 
 // Create new message
-app.post("/messages", urlencodedParser, function (request, response) {
+app.post("/messages", function (request, response) {
   if (!request.body.from || !request.body.text) {
     response.status(400).json({ msg: "Please enter all fields" });
   }
@@ -94,7 +92,7 @@ app.post("/messages", urlencodedParser, function (request, response) {
 // Update one message by id
 app.put("/messages/:id", function (request, response) {
   let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
-  
+
   isInvalidId(request.params.id, msgIndex, response);
 
   if (request.body.text) {
@@ -114,7 +112,7 @@ app.delete("/messages/:id", function (request, response) {
   isInvalidId(request.params.id, msgIndex, response);
 
   messages.splice(msgIndex, 1);
-  response.status(200).json({
+  response.json({
     msg: "Message successfully deleted",
     messages: messages,
   });
