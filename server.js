@@ -87,7 +87,7 @@ app.post("/messages", function (request, response) {
 });
 
 // Update one message by id
-app.put("/messages/:id", function (request, response) {
+app.patch("/messages/:id", function (request, response) {
   let msgIndex = messages.findIndex((msg) => msg.id == request.params.id);
 
   isInvalidId(request.params.id, msgIndex, response);
