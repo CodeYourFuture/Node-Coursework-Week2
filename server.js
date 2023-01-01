@@ -17,7 +17,7 @@ const welcomeMessage = {
 // Functions
 function isInvalidId(id, index, response) {
   if (index < 0) {
-    response.status(400).json({
+    response.status(404).json({
       msg: "No message with the Id '" + id + "' is found",
     });
   }
@@ -63,7 +63,7 @@ app.get("/messages/:id", function (request, response) {
   if (message) {
     response.json(message);
   } else {
-    response.status(400).json({
+    response.status(404).json({
       msg: "No message with the Id '" + request.params.id + "' is found",
     });
   }
