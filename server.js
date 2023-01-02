@@ -21,7 +21,7 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 app.post("/messages", (req, res) => {
-  //validate our input
+
   if (!req.body.from || !req.body.text) {
     res.status(400).send("from must be valid");
     return;
