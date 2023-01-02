@@ -1,10 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
 const app = express();
-
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3007;
 
@@ -18,14 +15,13 @@ const welcomeMessage = {
   id: 0,
   from: "Pakize",
   text: "Welcome to CYF chat system!",
-  timeSpent: "24 / 12 / 2022"
+  timeSpent: "24 / 12 / 2022",
 };
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
-
 
 //Read only text whose text contains a given substring
 
@@ -51,9 +47,9 @@ app.get("/messages", (req, res) => {
 
 //  Read only the last 10 messages:
 
-app.get("/messages/latest",(req,res)=>{
-  res.send(messages.slice(-10))
-})
+app.get("/messages/latest", (req, res) => {
+  res.send(messages.slice(-10));
+});
 
 // A new message
 app.post("/messages", (req, res) => {
@@ -64,7 +60,7 @@ app.post("/messages", (req, res) => {
     from,
     text,
     timeSent: new Date().toLocaleDateString(),
-  }
+  };
 
   if (from.length === 0 || text.length === 0) {
     return res.status(400).send("Please, complete body...");
