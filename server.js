@@ -20,9 +20,9 @@ const welcomeMessage = {
 let messages = [welcomeMessage];
 let incrementId = 1;
 
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
-});
+// app.get("/", function (req, res) {
+//   res.sendFile(__dirname + "/index.html");
+// });
 
 app.get("/messages", (req, res) => {
   res.send(messages);
@@ -30,9 +30,8 @@ app.get("/messages", (req, res) => {
 
 app.get("/messages/search", (req, res) => {
   const search = req.query.term;
-  const result = messages.filter(
-    (message) =>
-      message.from.toLowerCase().includes(search.toLowerCase()) 
+  const result = messages.filter((message) =>
+    message.from.toLowerCase().includes(search.toLowerCase())
   );
   res.send(result);
 });
@@ -69,18 +68,6 @@ app.post("/messages", (req, res) => {
   res.json(messages);
 });
 
-// app.delete("/messages/:id", (req, res) => {
-//   const selectedId = req.params.id;
-//   const found = messages.some((message) => message.id === selectedId);
-//   if (found) {
-//     messages = messages.filter((message) => message.id !== selectedId);
-//     res.status(204).json({ msg: `Message has been deleted` });
-//   } else {
-//     res
-//       .status(400)
-//       .json({ msg: `No message with the id of ${selectedId} has been found` });
-//   }
-// });
 app.delete("/messages/:id", function (request, response) {
   const selectedId = request.params.id;
   const found = messages.some((message) => message.id == selectedId);
