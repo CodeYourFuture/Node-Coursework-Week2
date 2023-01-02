@@ -21,7 +21,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 
 //Read only text whose text contains a given substring
 
@@ -55,7 +55,7 @@ app.get("/messages/latest", (req, res) => {
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
   // console.log(req.body)
-  const ourMessageObject = {
+  const messageObject = {
     id: messages.length + 1,
     from,
     text,
@@ -65,28 +65,41 @@ app.post("/messages", (req, res) => {
   if (from.length === 0 || text.length === 0) {
     return res.status(400).send("Please, complete body...");
   } else {
-    messages.push(ourMessageObject);
+    res.json(messageObject);
   }
 });
 
 // Read one message specified by an ID
 app.get("/messages/:id", (req, res) => {
-  const foundId = messages.filter((i) => i.id === Number(req.params.id));
+  const id = req.params.id;
+  messages = messages.filter((message) => message.id === Number(id));
+  res.status(200).json(messages);
+});
 
-  if (foundId) {
-    res.status(200).send(foundId);
-  }
+app.get("/messages/search", (req, res) => {
+  let search = req.query.term;
+  let searchResult = messages.filter((msg) =>
+    msg.text.toLowerCase().includes(search.toLowerCase())
+  );
+  res.send(searchResult);
 });
 
 // Delete a message, by ID
 app.delete("/messages/:id", (req, res) => {
-  const foundId = messages.filter((i) => i.id === Number(req.params.id));
+  const id = req.params.id;
+  messages = messages.filter((msg) => msg.id !== Number(id));
+  res.send("Message deleted!");
+});
 
-  if (foundId) {
-    return res.status(200).json({
-      msg: `Message id: ${req.params.id} deleted `,
-      "All messages: ": messages.filter((i) => i.id !== Number(req.params.id)),
-    });
+app.put("/messages/:id", (req, res) => {
+  const id = req.params.id;
+  let msg = messages.filter((message) => message.id === Number(id));
+  if (msg.length > 0) {
+    msg.from = req.body.from;
+    msg.text = req.body.text;
+    res.send(msg);
+  } else {
+    res.send("Messages are not found!");
   }
 });
 
