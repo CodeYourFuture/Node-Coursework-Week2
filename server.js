@@ -28,12 +28,24 @@ app.post("/messages", (req,res) => {
 
 // read all messages
 app.get("/messages", (req, res) => {
-
+  res.json(messages)
 })
 
 // read one message specified by id
 app.get("/messages:id", (req, res) => {
-
+  messages.findOne({
+    _id: req.params.id
+  })
+  .then((message) =>{
+    res.status(200).json(message);
+  })
+  .catch(
+    (error) => {
+      res.status(404).json({
+        error: error,
+      })
+    }
+  )
 })
 // delete a message specified by id
 app.delete("/messages:id", (req,res) => {
