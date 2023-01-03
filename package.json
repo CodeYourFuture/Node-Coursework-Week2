@@ -8,7 +8,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "cd client && npm install && npm run build",
+    "build": "cd client/cyf-chat && npm install && npm run build",
     "server": "nodemon server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm start --prefix client/cyf-chat"
@@ -20,9 +20,6 @@
     "lodash": "^4.17.21",
     "url": "^0.11.0",
     "uuid": "^9.0.0"
-  },
-  "engines": {
-    "node": "8.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"
