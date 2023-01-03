@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 7000;
@@ -9,6 +10,7 @@ const port = process.env.PORT || 7000;
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, "./client/cyf-chat/build")));
 
 const welcomeMessage = {
   id: 0,
