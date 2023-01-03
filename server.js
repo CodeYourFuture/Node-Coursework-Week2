@@ -27,25 +27,25 @@ const messages = [welcomeMessage, myMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+
+// creating id number
 let maxID = Math.max(...messages.map(c => c.id));
+
 // create a message
 app.post("/messages",  (req, res) => {
-  if (!req.body.from && !req.body.text){   
-    res.status(400).send("You must include a name and text in your request")
-  } 
-else{
-  const { from, text } = req.body;
   let newMessage = {
-    id: ++maxID,
-    from,
-    text
+    "id": ++maxID,
+    "from":req.body.from,
+    "text":req.body.text,
   }
-
-  messages.push(newMessage)
-  res.send(newMessage)
-}
- 
-})
+  if (!(req.body.from || !req.body.text)) {
+    res.status(400).send("All fields are required to be entered");
+  } else {
+    messages.push(newMessage);
+    res.status(200).json(newMessage);
+  }
+  }
+)
 
 // read all messages
 app.get("/messages", (req, res) => {
@@ -53,34 +53,25 @@ app.get("/messages", (req, res) => {
 })
 
 // read one message specified by id
-app.get("/messages:id", (req, res) => {
-  messages.findOne({
-    _id: req.params.id
-  })
-  .then((message) =>{
-    res.status(200).json(message);
-  })
-  .catch(
-    (error) => {
-      res.status(404).json({
-        error: error,
-      })
-    }
-  )
-})
-// delete a message specified by id
-app.delete("/messages:id", (req,res) => {
-  messages.deleteOne({_id: req.params.id})
-  .then(() =>{
-    res.status(200).json({
-      message: "message deleted!",
-    });
-  })
-  .catch((error) =>{
-    res.status(400).json({
-      error: "error",
-    });
-  });
+app.get("/messages/:id", (req, res) => {
+ const id = Number(req.params.id);
+ const oneMessage = messages.find(message => message.id === id);
+ res.status(200).json(oneMessage);
+ })
+
+
+// // delete a message specified by id
+app.delete("/messages/:id", (req,res) => {
+  const messageId = Number(req.params.id);
+  const messageIndex = messages.findIndex(message => message.id === messageId)
+
+  if (messageIndex < 0){
+    res.sendStatus(404)
+    return
+  }
+
+  messages.splice(messageIndex, 1)
+  res.send("message deleted")
 });
 
 
