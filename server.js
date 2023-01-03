@@ -23,6 +23,9 @@ let incrementId = 1;
 // app.get("/", function (req, res) {
 //   res.sendFile(__dirname + "/index.html");
 // });
+app.get("/", (req, res) => {
+  res.send({msg: 'Server is ready to accept API requests'});
+});
 
 app.get("/messages", (req, res) => {
   res.send(messages);
