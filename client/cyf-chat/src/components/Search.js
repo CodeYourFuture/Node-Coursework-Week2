@@ -24,7 +24,7 @@ const Search = ({ setMessages }) => {
 
   return (
     <div className="search">
-      <input placeholder="Search..." type="text" onChange={handleSearch} />
+      <input placeholder="Search by name..." type="text" onChange={handleSearch} />
       <button onClick={() => setSearch(true)}>Search</button>
     </div>
   );

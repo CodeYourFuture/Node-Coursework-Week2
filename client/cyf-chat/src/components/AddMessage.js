@@ -53,7 +53,7 @@ const AddMessage = ({
         <div className="send-input">
           {/* <label></label> */}
           <input
-            placeholder="Write your name"
+            placeholder="Write your name..."
             value={name}
             type="text"
             onChange={(e) => setName(e.target.value)}
@@ -61,7 +61,7 @@ const AddMessage = ({
           <div className="text-area">
             {/* <label></label> */}
             <input
-              placeholder="Write your message"
+              placeholder="Write your message..."
               value={text}
               onChange={(e) => setText(e.target.value)}
               type="text"
