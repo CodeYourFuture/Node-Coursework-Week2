@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Welcome to CYF Chat</title>
-  </head>
-  <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
-    </form>
 
-    <a href="/messages">See all messages</a>
-  </body>
+<head>
+  <title>Welcome to CYF Chat</title>
+</head>
+
+<body>
+  <h1>
+    CYF Chat
+  </h1>
+  <h2>
+    Send a message
+  </h2>
+  <form id="form">
+    <p>
+      Name: <input type="text" id="from" placeholder="Your Name" /> <br />
+      Message: <input type="text" id="text" placeholder="The message..." />
+      <br />
+    </p>
+    <button type="submit">
+      Send
+    </button>
+  </form>
+
+  <a href="/messages">See all messages</a>
+
+  <script>
+    const form = document.querySelector("#form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const from = document.querySelector("#from").value;
+      const text = document.querySelector("#text").value;
+      console.log(from);
+
+      async function sendMessage() {
+        const res = await fetch("http://localhost:3000/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ from, text })
+        });
+
+        const data = await res.json();
+        alert(data.message);
+      }
+
+      sendMessage();
+    });
+
+  </script>
+</body>
+
 </html>
