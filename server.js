@@ -75,7 +75,7 @@ app.delete("/messages/:id", (req, res) => {
   );
   isInvalidId(request.params.id, msgIndex, response);
 
-  messages.splice(msgIndex, 1);
+  messages.splice(messageIndex, 1);
   response.json({
     msg: "Message successfully deleted",
     messages: messages,
