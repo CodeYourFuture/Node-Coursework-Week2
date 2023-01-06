@@ -1,23 +1,87 @@
 const express = require("express");
 const cors = require("cors");
+const { response } = require("express");
+let data = require("./data.json");
+const fileStream = require("fs");
+const { stringify } = require("querystring");
 
 const app = express();
 
 app.use(cors());
-
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
+//parse URL encoded bodies
+app.use(express.urlencoded({ extended: true }));
+//parse JSON bodies
+//app.use(express.json());
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+
+const save = () => {
+  fileStream.writeFileSync("data.json", JSON.stringify(data, null, 2));
+};
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+//send all messages
+
+app.get("/messages/latest", (req, res) => {
+  res.json(data.slice(data.length - 10, data.length));
+});
+
+app.get("/messages", (req, res) => {
+  const searchInput = req.query.search;
+  let searchedData;
+  if (searchInput)
+    searchedData = data.filter((x) =>
+      x.text.toLocaleLowerCase().includes(searchInput.toLocaleLowerCase())
+    );
+  else searchedData = data;
+
+  res.json(searchedData);
+});
+
+// Insert message
+
+app.post("/messages", (req, res) => {
+  const from = req.body.from;
+  const text = req.body.text;
+
+  //validating inputs
+  if (from.match(/^ *$/) !== null && text.match(/^ *$/) !== null) return;
+
+  let maxID = Math.max(...data.map((c) => c.id));
+  maxID = maxID > 0 ? maxID : 0;
+  const newMessage = {
+    id: ++maxID,
+    from: from,
+    text: text,
+    timeSent: new Date(),
+  };
+  data.push(newMessage);
+  save();
+  res.status(200).json(data);
+});
+
+//send specific message by id
+
+app.get("/messages/:id", (req, res) => {
+  res.status(200).json(data.filter((e) => e.id == req.params.id));
+});
+
+//delete a message by id
+
+app.delete("/messages/:id", (req, res) => {
+  data = data.filter((x) => x.id != req.params.id);
+  save();
+  res.status(200).json(data);
+});
+
+// Update message by id
+app.get("/upd", (req, res) => {
+  res.send(req.query.from);
+});
+
+app.listen(3000);
