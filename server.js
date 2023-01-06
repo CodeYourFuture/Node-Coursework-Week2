@@ -17,25 +17,24 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-// app.get("/", function (request, response) {
-//   response.json(welcomeMessage).sendFile(__dirname + "/index.html");
-// });
+app.get("/", function (request, response) {
+  response.json(welcomeMessage).sendFile(__dirname + "/index.html");
+});
 
 app.get("/messages", function (request, response) {
   response.json(messages);
-})
+});
 
 app.post("/messages", function (request, response) {
   console.log(request.body);
-  if(!request.body.from || !request.body.text){
-    response.status(400).json({msg: "Please provide some texts to post"});
+  if (!request.body.from || !request.body.text) {
+    response.status(400).json({ msg: "Please provide some texts to post" });
     return;
   }
   messages.push(request.body);
   response.json(request.body);
 });
 
-
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
+  console.log(`Listening on port ${port}`);
 });
