@@ -87,4 +87,4 @@ app.delete("/messages/:id", (req, res) => {
 
 
 
-app.listen(7000);
+app.listen(process.env.PORT || 7000);
