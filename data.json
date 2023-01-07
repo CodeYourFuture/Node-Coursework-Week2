@@ -53,5 +53,35 @@
     "id": 10,
     "from": "Biruk",
     "text": "Happy holidays!"
+  },
+  {
+    "id": 11,
+    "from": "Michelle",
+    "text": "Hey! I'm here"
+  },
+  {
+    "id": 12,
+    "from": "Azin",
+    "text": "I'll be on my way soon"
+  },
+  {
+    "id": 13,
+    "from": "Kosi",
+    "text": "Happy New year!"
+  },
+  {
+    "id": 14,
+    "from": "Kene",
+    "text": "How are you"
+  },
+  {
+    "id": 15,
+    "from": "Michelle",
+    "text": "Are you coming today"
+  },
+  {
+    "id": 16,
+    "from": "Jaey",
+    "text": "Are you here now?"
   }
 ]
