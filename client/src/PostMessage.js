@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-const PostMessage = () => {
+
+const PostMessage = ({setMessages, messages}) => {
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
 
@@ -9,6 +10,7 @@ const PostMessage = () => {
             from: name,
             text: message
         }
+        let allMessages = [...messages, requestBody];
         console.log(requestBody);
         fetch("/messages", {
             method: "POST",
@@ -16,7 +18,10 @@ const PostMessage = () => {
             body: JSON.stringify(requestBody)
         })
         .then((res) => res.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data);
+          setMessages(allMessages);
+        })
         .catch((error) => console.log(error))
     }
   return (

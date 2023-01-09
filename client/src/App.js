@@ -12,10 +12,10 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <PostMessage />
-      {messages.map((message) => {
+      <PostMessage setMessages={setMessages} messages={messages} />
+      {messages.map((message, index) => {
         return (
-          <div>
+          <div key={index}>
             <p>From: {message.from}</p>
             <p>Message: {message.text}</p>
           </div>
