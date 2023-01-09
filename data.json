@@ -1,0 +1,87 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 1,
+    "from": "chioma",
+    "text": "hello neill"
+  },
+  {
+    "id": 2,
+    "from": "kash",
+    "text": "Hi"
+  },
+  {
+    "id": 3,
+    "from": "Rob",
+    "text": "Merry Christmas"
+  },
+  {
+    "id": 4,
+    "from": "Emeka",
+    "text": "Hello"
+  },
+  {
+    "id": 5,
+    "from": "Hayat",
+    "text": "Enjoy"
+  },
+  {
+    "id": 6,
+    "from": "Ken",
+    "text": "Hey"
+  },
+  {
+    "id": 7,
+    "from": "Jane",
+    "text": ""
+  },
+  {
+    "id": 8,
+    "from": "Biruk",
+    "text": "Holiday week"
+  },
+  {
+    "id": 9,
+    "from": "Biruk",
+    "text": "Learn React"
+  },
+  {
+    "id": 10,
+    "from": "Biruk",
+    "text": "Happy holidays!"
+  },
+  {
+    "id": 11,
+    "from": "Michelle",
+    "text": "Hey! I'm here"
+  },
+  {
+    "id": 12,
+    "from": "Azin",
+    "text": "I'll be on my way soon"
+  },
+  {
+    "id": 13,
+    "from": "Kosi",
+    "text": "Happy New year!"
+  },
+  {
+    "id": 14,
+    "from": "Kene",
+    "text": "How are you"
+  },
+  {
+    "id": 15,
+    "from": "Michelle",
+    "text": "Are you coming today"
+  },
+  {
+    "id": 16,
+    "from": "Jaey",
+    "text": "Are you here now?"
+  }
+]
