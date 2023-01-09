@@ -10,7 +10,6 @@ function App() {
       .then((data) => setMessages(data))
       .catch((error) => console.error(error));
   }, []);
-
   return (
     <div className="App">
       <PostMessage />
