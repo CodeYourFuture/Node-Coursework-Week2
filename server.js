@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const path = require('path')
 const PORT = process.env.PORT || 5000;
 const app = express();
+app.use(express.static(path.resolve(__dirname, "./client/build")))
 const fs = require("fs");
 let data = JSON.parse(fs.readFileSync("data.json", "utf-8"));
 app.use(cors());
