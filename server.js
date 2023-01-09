@@ -1,7 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
+app.use(express.static(path.resolve(__dirname, "./client/build")));
 const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
@@ -18,7 +20,7 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
-  response.json(welcomeMessage).sendFile(__dirname + "/index.html");
+  response.json(welcomeMessage);
 });
 
 app.get("/messages", function (request, response) {
