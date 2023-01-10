@@ -7,10 +7,12 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 
 const welcomeMessage = {
-  id: 0,
+  id: 1,
   from: 'Bart',
   text: 'Welcome to CYF chat system!',
 }
+
+let props = ['id', 'from', 'text']
 
 //This array is our "data store".
 //We will start with one message in the array.
@@ -37,10 +39,9 @@ app.get(`/messages/:id`, (request, response) => {
   //create a variable to store id in, parseInt
   //if no var response.status(404).send('message)
   //otherwise response.send(variable finding id)
-  console.log(request.params.albumId)
 
   let req = request.params.id
-  let validator = messages.find((id) => messages.id === req)
+  let validator = messages.find((id) => messages[id] === req)
 
   if (!validator) {
     response.status(404).send('Not Found')
@@ -50,8 +51,17 @@ app.get(`/messages/:id`, (request, response) => {
 })
 
 app.post('/messages', (request, response) => {
-  const newMessage = req.body
+  //create a request body
+  if (!props.every((prop) => request.body.hasOwnProperty(prop))) {
+    response.status(401).send('Please fill in all fields')
+  }
 
+  const newMessage = { id: messages.length }
+  props.forEach((prop) => {
+    if (request.body[prop]) {
+      newMessage[prop] = request.body[prop]
+    }
+  })
   messages.push(newMessage)
   response.json(messages)
 })
