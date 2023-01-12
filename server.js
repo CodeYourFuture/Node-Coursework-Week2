@@ -50,6 +50,7 @@ app.post("/messages", (req, res) => {
   if (!valid) {
     res.status(400).send("missing information");
   } else {
+    msg.timeSent = getDateTime();
     messages.push(msg);
     console.log(messages);
   }
@@ -58,8 +59,17 @@ app.post("/messages", (req, res) => {
 app.delete("/messages/:id", (req, res) => {
   const msgId = req.params.id;
   messages = messages.filter((message) => message.id + "" !== msgId);
-  // res.send(messages);
   console.log(messages);
 });
 
 app.listen(5001 || process.env.PORT);
+
+const getDateTime = () => {
+  const date = new Date();
+
+  let time = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  return `${time}/${day}-${month}-${year}`;
+};
