@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(cors());
-
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -35,6 +35,28 @@ app.get("/messages/:id",(request,response)=>{
   response.status(200).json({find})
 })
 
+app.get("messages/search",(request,response)=>{
+  const searchText = request.query.text;
+  let filteredMessages = messages;
+  if(searchText) {
+    filteredMessages = messages.filter(message => message.text.includes(searchText));
+  }
+  response.json({filteredMessages});
+  }
+  
+)
+
+app.get("messages/latest",(request,response)=>{
+  const searchText = request.query.text;
+  let recentMessages = messages.slice(-10);
+  if (searchText) {
+    recentMessages = recentMessages.filter((message) =>
+      message.text.includes(searchText)
+    );
+  }
+  response.json({recentMessages});
+})
+
 app.post("/messages",(request,response)=>{
    if(request.body.from==="" || request.body.text==="" ){
     response.status(400).json({message : "fill all fields"});
@@ -48,12 +70,17 @@ app.post("/messages",(request,response)=>{
   messages.push(newMessage);
   response.status(201).json({newMessage});
 })
+
 app.delete("/messages/:id",(request,response)=>{
   const messageById=messages.find((message)=>message.id===Number(request.params.id));
   if(messageById<0) return response.status(404).json({msg : "message not found"});
   messages.splice(messageById,1);
   response.json({messages})
 })
+
+
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is listening on ${port}.Ready to accept request!`);
