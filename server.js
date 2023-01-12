@@ -56,6 +56,23 @@ app.post("/messages", (req, res) => {
   }
 });
 
+app.put("/messages/:id", (req, res) => {
+  const msgId = req.params.id;
+  const msg = req.body;
+
+  const valid = (msg.hasOwnProperty("text") && !!msg.text) || (msg.hasOwnProperty("from") && !!msg.from);
+  if (!valid) {
+    res.status(400).send("missing information");
+  } else {
+    messages.map((message) => {
+      if (message.id + "" === msgId) {
+        return (message.from = msg["from"]);
+      }
+    });
+    console.log(messages);
+  }
+});
+
 app.delete("/messages/:id", (req, res) => {
   const msgId = req.params.id;
   messages = messages.filter((message) => message.id + "" !== msgId);
