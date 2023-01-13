@@ -75,9 +75,9 @@ app.post("/messages/createNewMessage", function (request, response) {
     text: request.body.text,
   };
   if (
-    !createNewMessage.id ||
-    !createNewMessage.from ||
-    !createNewMessage.text
+    createNewMessage.id === "" ||
+    createNewMessage.from ==="" ||
+    createNewMessage.text ===""
   ) {
     return response
       .status(404)
