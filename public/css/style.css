@@ -1,4 +1,20 @@
 body {
-  background-color: #333;
-  color: #fff;
+  background-color: rgb(72, 71, 71);
+  color: #ddd;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+input[type="text"],
+label {
+  margin-bottom: 8px;
+}
+
+a {
+  color: rgb(241, 134, 134);
+  
 }
