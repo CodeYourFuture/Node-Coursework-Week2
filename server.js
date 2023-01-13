@@ -3,6 +3,13 @@ const cors = require("cors");
 const { request } = require("express");
 const port = process.env.PORT || 3001;
 const app = express();
+const fs = require("fs");
+
+let data = JSON.parse(fs.readFileSync("data.json", "utf-8"));
+
+const save = () => {
+  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+};
 
 app.use(cors());
 
@@ -28,15 +35,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/messages", (req, res) => {
-  res.json(messages);
+  res.json(data);
 });
 
 app.post("/messages", (req, res) => {
-  let newId = Math.max(...messages.map((message) => message.id)) + 1;
+  let newId = Math.max(...data.map((message) => message.id)) + 1;
   let newMessage = { id: newId, from: req.body.from, text: req.body.text };
-  messages.push(newMessage);
+  data.push(newMessage);
+  save();
   res.json(newMessage);
 });
+
+
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
