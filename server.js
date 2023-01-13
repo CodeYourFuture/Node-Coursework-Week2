@@ -65,6 +65,10 @@ app.delete('/messages/:id',(req,res)=>{
     res.status(404).send('Error')
   }
 })
+app.get('/messages/search',(req,res)=>{
+  const filteredbasedonsearch=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
+  res.send(filteredbasedonsearch)
+})
 
 
 app.listen(process.env.PORT||8000,(req,res)=>console.log('The Server is listening')
