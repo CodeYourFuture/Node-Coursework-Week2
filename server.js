@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
+const port = 9000;
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -47,10 +49,10 @@ app.delete("/deleteMessages/:id", function (request, response) {
 });
 //////////////////////////////////////////////////
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || port, () => {
   console.log("server is listening");
 });
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
-});
+// app.get("/", function (request, response) {
+//   response.sendFile(__dirname + "/index.html");
+// });
