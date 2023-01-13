@@ -33,8 +33,7 @@ app.post("/messages",(req,res)=>{
   let maxId=messages.reduce((acc,cur)=>(cur.id>= acc ? cur.id : acc,0))
 
  let newId=(maxId.id+1)
- console.log(massage1,name,newId);
- if (!massage1 && !name){
+ if (!massage1 || !name){
  res.status(400).send("input your name and message")
  
 }else{
@@ -63,6 +62,14 @@ app.delete("/messages/:id",(req,res)=>{
 }else {
   res.status(404).send("item not found")
 }
+})
+app.get("/messages/search",(req,res)=>{
+  const filtered=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
+  res.send(filtered)
+})
+app.get("/messages/latest",(req,res)=>{
+  const filterd=messages.slice(Math.max(messages.length-10),1)
+  res.send(filterd)
 })
 
 app.listen(process.env.PORT || 9080,(req,res)=>{
