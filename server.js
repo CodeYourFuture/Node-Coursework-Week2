@@ -20,4 +20,37 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+//  Create a new message
+app.use(express.json());
+
+app.post("/messages", function (req, res) {
+  const newMsg = req.body;
+  messages.push(newMsg);
+  res.status(201).send({ newMsg });
+});
+
+//  Read all messages
+app.get("/messages", function (req, res) {
+  res.status(200).send({ messages });
+});
+
+//  Read one message specified by an ID
+app.get("/messages/:msgId", function (req, res) {
+  const idToFind = Number(req.params.msgId);
+  const msg = messages.find((msg) => msg.id === idToFind);
+  res.status(200).send({ msg });
+});
+
+//  Delete a message, by ID
+app.delete("/messages/:msgId", function (req, res) {
+  const idToDel = Number(req.params.msgId);
+  const indexToDel = messages.findIndex((msg) => msg.id === idToDel);
+  if (indexToDel >= 0) {
+    messages.splice(indexToDel, 1);
+  }
+  res.status(200).send({ messages });
+});
+
+app.listen(3002, function (req, res) {
+  console.log("Server is running on port 3002...");
+});
