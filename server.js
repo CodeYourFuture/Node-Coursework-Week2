@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const { query } = require("express");
 const app = express();
 
 let counter = 0;
@@ -43,6 +44,21 @@ app.post("/messages", (req, res) => {
     res.json("Form submitted successfully!");
     console.log(messages);
   }
+});
+
+app.get("/messages/latest", (req, res) => {
+  res.json(messages.slice(-10));
+});
+
+app.get("/messages/search", (req, res) => {
+  const findItem = req.query.text;
+  console.log(findItem, "---> req query");
+
+  const selectedMessage = messages.filter((mess) =>
+    mess.text.includes(findItem)
+  );
+
+  res.status(200).json(selectedMessage);
 });
 
 app.get("/messages/:id", (req, res) => {
