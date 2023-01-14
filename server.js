@@ -25,28 +25,21 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+
 app.get("/messages",(request,response)=>{
   response.status(200).json({messages})
 })
-
-app.get("/messages/:id",(request,response)=>{
-  const id= Number(request.params.id);
-  const find= messages.find(message=>message.id===id);
-  response.status(200).json({find})
-})
-
-app.get("messages/search",(request,response)=>{
+app.get("/messages/search", (request, response) => {
   const searchText = request.query.text;
   let filteredMessages = messages;
-  if(searchText) {
-    filteredMessages = messages.filter(message => message.text.includes(searchText));
+  if (searchText) {
+    filteredMessages = messages.filter((message) =>
+      message.text.includes(searchText)
+    );
   }
-  response.json({filteredMessages});
-  }
-  
-)
-
-app.get("messages/latest",(request,response)=>{
+  response.json({ filteredMessages });
+});
+app.get("messages/latest", (request, response) => {
   const searchText = request.query.text;
   let recentMessages = messages.slice(-10);
   if (searchText) {
@@ -54,8 +47,14 @@ app.get("messages/latest",(request,response)=>{
       message.text.includes(searchText)
     );
   }
-  response.json({recentMessages});
+  response.json({ recentMessages });
+});
+app.get("/messages/:id",(request,response)=>{
+  const id= Number(request.params.id);
+  const find= messages.find(message=>message.id===id);
+  response.status(200).json({find})
 })
+
 
 app.post("/messages",(request,response)=>{
    if(request.body.from==="" || request.body.text==="" ){
