@@ -38,6 +38,7 @@ app.post("/messages", (req, res) => {
       id: counter,
       from: newMessage.from,
       message: newMessage.text,
+      date: new Date(),
     };
     messages.push(creatMessage);
 
