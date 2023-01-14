@@ -12,7 +12,8 @@ app.listen(process.env.PORT || PORT, function () {
   console.log(`Server is listening on port ${PORT}. Ready to accept requests!`);
 });
 
-let messages = require("./messages.json")
+let messages = require("./messages.json");
+const { response } = require("express");
 
 //  get the index file
 app.get("/", function (request, response) {
@@ -49,7 +50,7 @@ app.get("/messages/:id", function (request, response) {
 });
 
 //  - [ ] Create a new message /POST
-app.post("/messages/createNewMessage", function (request, response) {
+app.post("/createNewMessage", function (request, response) {
   const createNewMessage = {
     id: request.body.id,
     from: request.body.from,
@@ -95,11 +96,10 @@ app.delete("/messages/:id", function (request, response) {
 // - [ ] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
 
 app.get("/search", (request, response) => {
-
   // console.log(request.params.text)
   // response.send(messages)
 
-  console.log(request.query)
+  console.log(request.query);
   const word = request.query.word.toLowerCase();
   // console.log(word);
 
@@ -117,3 +117,45 @@ app.get("/latest", function (request, response) {
   response.send(recentMessages);
   // console.log(recentMessages);
 });
+
+// level 04
+// - [ ] store a timestamp in each message object, in a field called `timeSent`.
+
+const getTimeDate = () => {
+  let d = new Date();
+
+  let hours = d.getHours();
+  let minutes = d.getMinutes();
+  let seconds = d.getSeconds();
+
+  time = `${hours}:${minutes}: ${seconds}`;
+
+  let day = d.getDate();
+  let month = d.getMonth();
+  let year = d.getFullYear();
+  return `${time}/ ${day}- ${month}-${year}`;
+};
+
+app.post("/timestamp", (request, response) => {
+  const createNewMessage = {
+    id: request.body.id,
+    from: request.body.from,
+    text: request.body.text,
+  };
+
+  if (
+    createNewMessage.id === "" ||
+    createNewMessage.from === "" ||
+    createNewMessage.text === ""
+  ) {
+    return response.status(404).json({
+      message: `Please include a message ID, from who the message is sent & the text`,
+    });
+  } else {
+    createNewMessage.timeSent = getTimeDate();
+    messages.push(createNewMessage);
+    response.status(200).json(messages);
+  }
+});
+
+
