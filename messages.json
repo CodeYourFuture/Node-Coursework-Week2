@@ -1,0 +1,17 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+
+  { "id": 1, "from": "Eru", "text": "Hello! Mamma" },
+  {
+    "id": 2,
+    "from": "Beru",
+    "text": "I am sleepy mamma"
+  },
+  { "id": 3, "from": "Laru", "text": "Hungry!!!!" },
+  { "id": 4, "from": "Karu", "text": "Want to play outside" }
+]
+
