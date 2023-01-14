@@ -72,10 +72,15 @@ app.post("/messages",(request,response)=>{
 })
 
 app.delete("/messages/:id",(request,response)=>{
-  const messageById=messages.find((message)=>message.id===Number(request.params.id));
-  if(messageById<0) return response.status(404).json({msg : "message not found"});
-  messages.splice(messageById,1);
-  response.json({messages})
+  let requestId = Number(request.params.id);
+  let result = messages.filter((item) => item.id !== requestId);
+ 
+  if (requestId < 0)
+    return response.status(404).json({ msg: "message not found" });
+  response.json({result})
+  // const messageById=messages.find((message)=>message.id===Number(request.params.id));
+  // if(messageById<0) return response.status(404).json({msg : "message not found"});
+  // messages.splice(messageById,1);
 })
 
 
