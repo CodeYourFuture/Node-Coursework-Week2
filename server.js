@@ -27,19 +27,22 @@ app.get("/messages", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  counter++;
-
   let newMessage = req.body;
 
-  let creatMessage = {
-    id: counter,
-    from: newMessage.from,
-    message: newMessage.text,
-  };
-  messages.push(creatMessage);
+  if (newMessage.from.trim() === "" || newMessage.text.trim() === "") {
+    res.status(400).json("Please fill the form");
+  } else {
+    counter++;
+    let creatMessage = {
+      id: counter,
+      from: newMessage.from,
+      message: newMessage.text,
+    };
+    messages.push(creatMessage);
 
-  res.json("Form submitted successfully!");
-  console.log(messages);
+    res.json("Form submitted successfully!");
+    console.log(messages);
+  }
 });
 
 app.get("/messages/:id", (req, res) => {
