@@ -158,4 +158,25 @@ app.post("/timestamp", (request, response) => {
   }
 });
 
+// ## Level 5 - Optional - add message _update_ functionality
 
+app.put("/updateMessages/:id", (request, response) => {
+  const found = messages.filter(
+    (eachmessage) => eachmessage.id === parseInt(request.params.id)
+  );
+  // console.log(found);
+  if (found) {
+    const updatedMessages = request.body;
+    messages.map((eachmessage) => {
+      if (eachmessage.id === parseInt(request.params.id)) {
+        (eachmessage.text = updatedMessages.text),
+          (eachmessage.from = updatedMessages.from);
+        response.status(202).json({ message: `message updated`, eachmessage });
+      }
+    });
+  } else {
+    response.status(400).json({
+      message: `No message with the id of ${request.params.id}`,
+    });
+  }
+});
