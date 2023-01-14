@@ -3,6 +3,8 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.json())
+
 app.use(cors());
 
 const welcomeMessage = {
@@ -19,5 +21,13 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+app,get("/messages",function(request,response){
+  response.send({messages})
+})
+app,get("/messages/:id",function(request,response){
 
-app.listen(process.env.PORT);
+  const messageId=request.params.id;
+  response.send({messageId})
+})
+
+app.listen(9090);
