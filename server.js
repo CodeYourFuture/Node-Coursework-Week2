@@ -9,6 +9,7 @@ app.use(express.json());
 const welcomeMessage = {
   id: 0,
   from: "Bart",
+  timeSent: "15:10/1-1-2023",
   text: "Welcome to CYF chat system!",
 };
 
@@ -27,8 +28,9 @@ app.get("/messages", (req, res) => {
 
 app.get("/messages/search", (req, res) => {
   const keyword = req.query.text;
+  console.log("keyword:", keyword);
   if (keyword) {
-    const matched = messages.filter((message) => message.text.includes(keyword));
+    const matched = messages.filter((message) => message.text.toLoweCase().includes(keyword.toLoweCase()));
     res.send(matched);
   }
 });
@@ -50,6 +52,7 @@ app.post("/messages", (req, res) => {
   if (!valid) {
     res.status(400).send("missing information");
   } else {
+    msg.id = messages.length;
     msg.timeSent = getDateTime();
     messages.push(msg);
     console.log(messages);
@@ -74,8 +77,8 @@ app.put("/messages/:id", (req, res) => {
 });
 
 app.delete("/messages/:id", (req, res) => {
-  const msgId = req.params.id;
-  messages = messages.filter((message) => message.id + "" !== msgId);
+  const msgId = +req.params.id;
+  messages = messages.filter((message) => message.id !== msgId);
   console.log(messages);
 });
 
