@@ -30,7 +30,7 @@ app.get("/messages/search", (req, res) => {
   const keyword = req.query.text;
   console.log("keyword:", keyword);
   if (keyword) {
-    const matched = messages.filter((message) => message.text.toLoweCase().includes(keyword.toLoweCase()));
+    const matched = messages.filter((message) => message.text.toLowerCase().includes(keyword.toLowerCase()));
     res.send(matched);
   }
 });
