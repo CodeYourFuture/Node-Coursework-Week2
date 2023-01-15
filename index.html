@@ -4,23 +4,44 @@
     <title>Welcome to CYF Chat</title>
   </head>
   <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
+    <h1>CYF Chat</h1>
+    <h2>Send a message</h2>
+    <form id="form">
       <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
+        Name: <input type="text" id="from" placeholder="Your Name" /> <br />
+        Message: <input type="text" id="text" placeholder="The message..." />
         <br />
       </p>
-      <button type="submit">
-        Send
-      </button>
+      <button type="submit">Send</button>
     </form>
 
     <a href="/messages">See all messages</a>
+
+    <!-- code to Javascript -->
+    <script>
+      const form = document.querySelector("#form");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const from = document.querySelector("#from").value;
+        const text = document.querySelector("#text").value;
+
+        async function sendMessage() {
+          const response = await fetch(
+            "https://luan-chat-server.glitch.me/messages",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ from, text }),
+            }
+          );
+
+          const data = await response.json();
+        }
+
+        sendMessage();
+      });
+    </script>
   </body>
 </html>

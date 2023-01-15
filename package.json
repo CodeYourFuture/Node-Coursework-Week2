@@ -5,9 +5,9 @@
   "name": "hello-express",
   "version": "0.0.1",
   "description": "A simple Node app built on Express, instantly up and running.",
-  "main": "server.js",
+  "main": "luan-chat-server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node luan-chat-server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
