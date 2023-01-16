@@ -6,16 +6,12 @@ app.use(express.json()); // before our routes definition
 app.use(cors());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
+
 let count = 0;
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = [];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -23,6 +19,11 @@ app.get("/", function (request, response) {
 // show all massages
 app.get("/messages", (res, resp) => {
   resp.send({ messages });
+});
+app.get("/messages/:id", (req, resp) => {
+  const massageId = Number(req.params.id);
+  const showMassage = messages.filter((massge) => massge.id === massageId);
+  resp.send(showMassage);
 });
 // add new massages
 app.post("/messages", (rec, resp) => {
@@ -45,6 +46,7 @@ app.post("/messages", (rec, resp) => {
     resp.send({ usermassage });
   }
 });
+
 //process.env.PORT
 app.listen(5500, () => {
   console.log("I'm Listen now :) ");
