@@ -17,7 +17,13 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+  response.sendFile(
+    "/home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project/Node-Coursework-Week2/index.html"
+  );
+  // response.json(messages);
+  // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
 });
 
-app.listen(5500);
+app.listen(5501, () => { 
+  console.log("Server started on 5501");
+});
