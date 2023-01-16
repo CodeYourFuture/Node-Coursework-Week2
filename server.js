@@ -18,12 +18,12 @@ app.get("/", function (request, response) {
 });
 // show all massages
 app.get("/messages", (res, resp) => {
-  resp.send({ messages });
+  resp.json({ messages });
 });
 app.get("/messages/:id", (req, resp) => {
   const massageId = Number(req.params.id);
   const showMassage = messages.filter((massge) => massge.id === massageId);
-  resp.send(showMassage);
+  resp.json(showMassage);
 });
 
 app.delete("/messages/:id", (req, res) => {
@@ -49,7 +49,7 @@ app.post("/messages", (rec, resp) => {
       text: newMasseg.text,
     };
     messages.push(usermassage);
-    resp.send({ usermassage });
+    resp.json({ usermassage });
   }
 });
 
