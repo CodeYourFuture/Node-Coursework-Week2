@@ -26,11 +26,26 @@ app.get("/", function (request, response) {
 
 
 app.get("/messages", function (request, response) {
-  // response.sendFile(
-  //   "/home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project/Node-Coursework-Week2/index.html"
-  // );
+ 
   response.json(messages);
-  // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
+});
+
+
+app.post("/messages", function (request, response) {
+ 
+  // response.json(messages);
+  messages.push(request.query);
+  response.send(messages);
+  // console.log(messages);
+  console.log(request.query);
+
+});
+
+app.delete("/messages", function (request, response) {
+ 
+  messages.pop();
+  response.send(messages);
+  console.log(messages);
 });
 
 app.listen(5501, () => { 
