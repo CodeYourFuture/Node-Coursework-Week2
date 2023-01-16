@@ -1,1 +1,27 @@
-
+[
+	{
+		"id": 0,
+		"name": "Bart",
+		"message": "Welcome to CYF chat system!"
+	},
+	{
+		"id": 1,
+		"name": "Jane",
+		"message": "Hello Everyone!!"
+	},
+	{
+		"id": 2,
+		"name": "Beth",
+		"message": "Happy to be here!!"
+	},
+	{
+		"id": 3,
+		"name": "Meron",
+		"message": "Welcome to the Family!"
+	},
+    {
+        "id": 4,
+        "name": "Anosh",
+        "message": "Happy for you to join us!"
+    }
+]
