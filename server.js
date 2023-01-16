@@ -24,6 +24,15 @@ app.get("/", function (request, response) {
   // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
 });
 
+
+app.get("/messages", function (request, response) {
+  // response.sendFile(
+  //   "/home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project/Node-Coursework-Week2/index.html"
+  // );
+  response.json(messages);
+  // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
+});
+
 app.listen(5501, () => { 
   console.log("Server started on 5501");
 });
