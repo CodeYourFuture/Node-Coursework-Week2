@@ -43,9 +43,19 @@ app.post("/messages", function (request, response) {
 
 app.delete("/messages", function (request, response) {
  
-  messages.pop();
-  response.send(messages);
-  console.log(messages);
+
+  messages.filter(message => { 
+    if (message.id == request.query.id) { 
+      console.log("before delete : -->" + messages);
+      let indexVal = messages.indexOf(message);
+      let newVal = messages.splice(indexVal, 1);
+      console.log("after delete : -->" + newVal);
+    }
+  })
+
+  // messages.pop();
+  // response.send(messages);
+  // console.log(messages);
 });
 
 app.listen(5501, () => { 
