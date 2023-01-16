@@ -25,6 +25,12 @@ app.get("/messages/:id", (req, resp) => {
   const showMassage = messages.filter((massge) => massge.id === massageId);
   resp.send(showMassage);
 });
+
+app.delete("/messages/:id", (req, res) => {
+  const massageId = Number(req.params.id);
+  messages = messages.filter((mass) => mass.id !== massageId);
+});
+
 // add new massages
 app.post("/messages", (rec, resp) => {
   const newMasseg = rec.body;
