@@ -3,12 +3,20 @@ const cors = require("cors");
 const app = express(); // creates an instance of an express server
 
 
-
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(cors()); // Cross Origin Resource Sharing
 
 
 
+
+
+
+
+
+
+//This array is our "data store".
+//We will start with one message in the array.
+//Note: messages will be lost when Glitch restarts our server.
 
 const welcomeMessage = {
   id: 0,
@@ -17,13 +25,12 @@ const welcomeMessage = {
 };
 
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
 
 const messages = [welcomeMessage];
 
-// Create a new message
+// challenge 1
+
+// 1- Create a new message +  validation 
 
 app.post("/messages", function (request, response) {
   const newMessage = {
@@ -43,7 +50,7 @@ app.post("/messages", function (request, response) {
 
 
 
-// read all messages
+//  2- read all messages
 app.get("/Messages", function (request, response) {
   response.send({ messages }).json;
 });
@@ -55,7 +62,9 @@ app.get("/readMessages/:id", function (request, response) {
   response.send(message);
 });
 
-//delete a message, by ID
+
+// 3- delete a message, by ID
+
 app.delete("/deleteMessages/:id", function (request, response) {
   const id = Number(request.params.id);
   const message = messages.find((message) => message.id === id);
@@ -70,6 +79,13 @@ app.get("/search", function (request, response) {
   );
   response.send(filteredMessages);
 });
+
+// read only the most recent 10 messages: /messages/latest
+app.get("/messages/latest", function (request, response) {
+  const latestMessages = messages.slice(-10);
+  response.send(latestMessages);
+});
+
 
 
 
