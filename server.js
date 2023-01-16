@@ -1,14 +1,17 @@
 const express = require("express");
 const cors = require("cors");
-
-// const port = 9000;
-
 const app = express(); // creates an instance of an express server
+
+
+
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(cors()); // Cross Origin Resource Sharing
 
+
+
+
 const welcomeMessage = {
-  // id: 0,
+  id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
 };
@@ -23,23 +26,10 @@ const messages = [welcomeMessage];
 // Create a new message
 
 app.post("/messages", function (request, response) {
-  const error = new error("message not valid");
-
-  const message = messages.filter((message) => {
-    if (message.id === "") {
-      return console.log("error");
-    } else {
-      return response.send({ messages }).json;
-    }
-  });
-});
-app.post("/messages", function (request, response) {
   const newMessage = {
-    // id: uuid.v4(), //==> random id generator <==
-    id: messages.length + 1,
+    id: messages.length,
     from: request.body.from,
     text: request.body.text,
-    status: "active",
   };
 
   if (!newMessage.from || !newMessage.text) {
@@ -50,7 +40,10 @@ app.post("/messages", function (request, response) {
   response.json(messages);
 });
 
-//read all messages
+
+
+
+// read all messages
 app.get("/Messages", function (request, response) {
   response.send({ messages }).json;
 });
@@ -67,6 +60,18 @@ app.delete("/deleteMessages/:id", function (request, response) {
   const id = Number(request.params.id);
   const message = messages.find((message) => message.id === id);
 });
+
+// search for messages containing a given string
+app.get("/search", function (request, response) {
+  
+  const search = request.query.text;
+  const filteredMessages = messages.filter((message) =>
+    message.text.toLowerCase().includes(search.toLowerCase())
+  );
+  response.send(filteredMessages);
+});
+
+
 
 /////////////////////// DO NOT TOUCH BELOW CODE ///////////////////////////
 
