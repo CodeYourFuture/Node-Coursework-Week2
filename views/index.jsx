@@ -20,6 +20,16 @@
       </button>
     </form>
 
+      <form action="/messages/search" method="get">
+      <p>
+        Name: <input type="text" name="text" placeholder="Your Text" /> <br />
+        <br />
+      </p>
+      <button type="submit">
+        Search
+      </button>
+    </form>
+
     <a href="/messages">See all messages</a>
   </body>
 </html>

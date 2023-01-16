@@ -29,12 +29,17 @@ app.get("/", function (request, response) {
 app.post("/messages", function (request, response) {
   const fromUser = request.body.from;
   const userText = request.body.text;
-  const message = {
-    id: messages.length + 1,
-    from: fromUser,
-    text: userText
-  };
-  messages.push(message);
+  if (userText.length > 0) {
+    const message = {
+      id: messages.length + 1,
+      from: fromUser,
+      text: userText
+   };
+    messages.push(message);
+  } else {
+    response.status = 400
+  }
+
   response.render("messages", {messages: messages});
 });
 app.get("/messages", function (request, response) {
@@ -53,6 +58,18 @@ app.get("/messages/:messageId", function (request, response) {
   let result = messages.filter(message => message.id == messageId)
   response.render("messages", {messages: result});
 });
+
+app.get("/messages/search", function (request, response) {
+  response.render("
+  ", {messages: result});
+});
+
+app.get("/messages/latest", function (request, response) {
+  
+  response.render("messages", {messages: result});
+});
+
+
 
 
 app.listen(3000, () => {
