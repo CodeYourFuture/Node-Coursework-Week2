@@ -35,6 +35,14 @@ app.get("/messages/:id", function (request, response) {
   response.status(200).send({ message })
 });
 
+app.delete('/messages/:id', (request, response) => {
+  const idToFind = +request.params.id
+  const filtered = messages.filter(item => item.id !== idToFind)
+
+  response.status(200).send(filtered)
+
+})
+
 app.post("/messages", function (request, response) {
   console.log(request.body)
   const newMessage = request.body;
