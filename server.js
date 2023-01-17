@@ -50,6 +50,7 @@ app.delete("/messages", function (request, response) {
       let indexVal = messages.indexOf(message);
       let newVal = messages.splice(indexVal, 1);
       console.log("after delete : -->" + newVal);
+      response.json(messages);
     }
   })
 
