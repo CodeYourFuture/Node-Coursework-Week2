@@ -23,10 +23,20 @@ app.get("/", function (request, response) {
 //  Create a new message
 app.use(express.json());
 
+
+
 app.post("/messages", function (req, res) {
   const newMsg = req.body;
-  messages.push(newMsg);
-  res.status(201).send({ newMsg });
+  // Level 2 - simple validation
+  if (
+    !newMsg.from ||
+    !newMsg.text
+  ) {
+    res.status(400).send("Rejected: empty or missing text or from property.");
+  } else {
+    messages.push(newMsg);
+    res.status(201).send(`Request accepted`);
+  }
 });
 
 //  Read all messages
@@ -51,6 +61,6 @@ app.delete("/messages/:msgId", function (req, res) {
   res.status(200).send({ messages });
 });
 
-app.listen(3002, function (req, res) {
-  console.log("Server is running on port 3002...");
+app.listen(3031, function (req, res) {
+  console.log("Server is running on port 3031...");
 });
