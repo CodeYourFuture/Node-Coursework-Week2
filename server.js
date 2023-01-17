@@ -11,6 +11,11 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors());
 app.use(express.json());
 
+app.use((request, response, next) => {
+  request.body.timeSent = new Date();
+  next();
+});
+
 const welcomeMessage = {
   id: 0,
   from: "Neill",
@@ -27,6 +32,7 @@ app.get("/", function (request, response) {
 
 
 app.get("/messages",(request,response)=>{
+  console.log(request.body.timeSent);
   response.status(200).json({messages})
 })
 app.get("/messages/search", (request, response) => {
@@ -77,9 +83,7 @@ app.delete("/messages/:id",(request,response)=>{
   if (requestId < 0)
     return response.status(404).json({ msg: "message not found" });
   response.json({result})
-  // const messageById=messages.find((message)=>message.id===Number(request.params.id));
-  // if(messageById<0) return response.status(404).json({msg : "message not found"});
-  // messages.splice(messageById,1);
+
 })
 
 
