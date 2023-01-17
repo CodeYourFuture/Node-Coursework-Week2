@@ -57,7 +57,7 @@ app.get("/messages/search", function (request, response) {
 });
 
 app.get("/messages/latest", function (request, response) {
-  const latestMessages = messages.slice(-10);
+  const latestMessages = messages.slice(-1).pop();
   response.json(latestMessages);
 });
 
