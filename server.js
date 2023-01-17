@@ -24,41 +24,57 @@ app.get("/", function (request, response) {
   // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
 });
 
-
 app.get("/messages", function (request, response) {
+  // response.json(messages);
+
  
-  response.json(messages);
+messages.filter((message) => {
+  if (message.id == request.query.id) {
+    response.json(message);
+  } else {
+    response.json(messages);
+  }
 });
 
 
+});
+
+// app.get("/messages/", function (request, response) {
+
+//  messages.filter((message) => {
+//    if (message.id == request.query.id) {
+//      response.json(message);
+//    } else {
+//      response.json(messages);
+//    }
+//  });
+
+// });
+
 app.post("/messages", function (request, response) {
- 
   // response.json(messages);
   messages.push(request.query);
   response.send(messages);
   // console.log(messages);
   console.log(request.query);
-
 });
 
 app.delete("/messages", function (request, response) {
- 
-
-  messages.filter(message => { 
-    if (message.id == request.query.id) { 
+  messages.filter((message) => {
+    if (message.id == request.query.id) {
       console.log("before delete : -->" + messages);
       let indexVal = messages.indexOf(message);
       let newVal = messages.splice(indexVal, 1);
       console.log("after delete : -->" + newVal);
       response.json(messages);
     }
-  })
+  });
 
   // messages.pop();
   // response.send(messages);
   // console.log(messages);
 });
 
-app.listen(5501, () => { 
+app.listen(5501, () => {
   console.log("Server started on 5501");
 });
