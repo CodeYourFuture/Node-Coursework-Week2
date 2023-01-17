@@ -15,7 +15,7 @@ const welcomeMessage = {
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
-
+console.log(messages);
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
