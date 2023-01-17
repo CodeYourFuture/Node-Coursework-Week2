@@ -11,7 +11,7 @@ let count = 0;
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [];
+const messages = [{ id: 20, from: "Alaa", text: "sd" }];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -19,6 +19,15 @@ app.get("/", function (request, response) {
 // show all massages
 app.get("/messages", (res, resp) => {
   resp.json({ messages });
+});
+app.get("/messages/search", (req, res) => {
+  const sText = req.query.text;
+  const matched = messages.filter((message) => {
+    const resultSearch = message.text.includes(sText);
+    return resultSearch;
+  });
+  console.log(matched);
+  res.json({ matched });
 });
 app.get("/messages/:id", (req, resp) => {
   const massageId = Number(req.params.id);
@@ -30,6 +39,15 @@ app.delete("/messages/:id", (req, res) => {
   const massageId = Number(req.params.id);
   messages = messages.filter((mass) => mass.id !== massageId);
 });
+
+// app.get("/messages/search", (req, rep) => {
+//   const sText = req.query.search;
+//   console.log("keyword:", sText);
+//   const matched = messages.filter((message) => {
+//     message.text.toLowerCase().includes(sText.toLocaleLowerCase());
+//   });
+//   rep.send(matched);
+// });
 
 // add new massages
 app.post("/messages", (rec, resp) => {
