@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json())
 
 app.use(cors());
-
+app.use(express.urlencoded());
 const welcomeMessage = {
   id: 0,
   from: "Bart",
@@ -21,9 +21,13 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+
+
 app,get("/messages",function(request,response){
   response.send({messages})
 })
+
+
 app,get("/messages/:id",function(request,response){
 
   const messageId=request.params.id;
