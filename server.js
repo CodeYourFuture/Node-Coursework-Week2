@@ -28,6 +28,11 @@ app.get("/", function (request, response) {
 app.get("/messages", function (request, response) {
   response.status(200).send({ messages })
 });
+app.get("/messages/search", (request, response) => {
+  const term = request.query.term.toLocaleLowerCase();
+  const filter = messages.filter(eachMessage => eachMessage.from.toLocaleLowerCase().includes(term) || eachMessage.text.toLocaleLowerCase().includes(term));
+  response.status(200).send(filter);
+});
 
 app.get("/messages/:id", function (request, response) {
   const idToFind = Number(request.params.id);
@@ -49,6 +54,9 @@ app.post("/messages", function (request, response) {
   messages.push(newMessage);
   response.status(201).send({ newMessage })
 });
+
+
+
 app.listen(port, function () {
   console.log("Your app is listening on port " + port);
 });
