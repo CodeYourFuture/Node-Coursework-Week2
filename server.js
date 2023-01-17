@@ -4,8 +4,6 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
-app.use(express.json());
-
 
 const welcomeMessage = {
   id: 0,
@@ -17,56 +15,102 @@ const welcomeMessage = {
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
+let maxID = Math.max(...messages.map((c) => c.id));
+
+//validation function
+function validateInputData(name, text, res) {
+  if (!name || !text) {
+    res.status(400).send("Please add all fields");
+    return;
+  }
+}
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.post("/messages", (request, response) => {
-  if (!request.body.from || !request.body.text) {
-    response.sendStatus(400);
+//Read all messages
+app.get("/messages", (req, res) => {
+  res.json(messages);
+});
+
+//Read all messages by search item
+app.get("/messages/search", (req, res) => {
+  if (!req.query.text) {
+    res.status(400).send("Please add search item");
     return;
   }
-  const createdMessage = {
-    id: Number(new Date()),
-    from: request.body.from,
-    text: request.body.text,
+  let searchedMessages = messages.filter((msg) =>
+    msg.text.includes(req.query.text)
+  );
+  if (searchedMessages.length === 0) {
+    res.status(404).json({ msg: `Message not found` });
+    return;
+  }
+  res.json(searchedMessages);
+});
+
+//Read latest 10 messages
+app.get("/messages/latest", (req, res) => {
+  let latestMessages = messages.slice(-10).reverse();
+  res.json(latestMessages);
+});
+
+//Read one message specified by an ID
+app.get("/messages/:id", (req, res) => {
+  let chatID = parseInt(req.params.id);
+  let chats = messages;
+  let message = chats.find((c) => c.id === chatID);
+  if (!message) {
+    res.status(404).json({ msg: `Message not found with the id ${chatID}` });
+    return;
+  }
+  res.json(message);
+});
+
+// Create a new message
+app.use(express.json());
+app.post("/messages", (req, res) => {
+  validateInputData(req.body.from, req.body.text, res);
+  const newMessage = {
+    id: ++maxID,
+    from: req.body.from,
+    text: req.body.text,
+    timSent: new Date(),
   };
-
-  messages.push(createdMessage);
-  console.log(createdMessage);
-  response.status(201).json(createdMessage);
+  messages.push(newMessage);
+  res.json(messages);
 });
 
-app.get("/messages", function (request, response) {
-  response.json(messages);
-});
-
-app.get("/messages/:id", (request, response) => {
-  const foundMessage = messages.find(
-    (message) => message.id === Number(request.params.id)
-  );
-  if (!foundMessage) {
-    response.sendStatus(404);
+//Delete a message, by ID
+app.delete("/messages/:id", (req, res) => {
+  const chatID = parseInt(req.params.id);
+  const chatIndex = messages.findIndex((c) => c.id === chatID);
+  if (chatIndex < 0) {
+    res.status(404).json({ msg: `Message not found with the id ${chatID}` });
     return;
   }
-  response.json(foundMessage);
+  messages.splice(chatIndex, 1);
+  res.json({ msg: "chat deleted", messages });
 });
 
-app.delete("/messages/:id", (request, response) => {
-  const delMessageId = Number(request.params.id);
-  const foundMessageId = messages.findIndex(
-    (message) => message.id === delMessageId
-  );
-
-  if (foundMessageId < 0) {
-    response.sendStatus(404);
-    return;
+//Update one message by id
+app.put("/messages/:id", (req, res) => {
+  const found = messages.some((msg) => msg.id === parseInt(req.params.id));
+  if (found) {
+    const updateMessage = req.body;
+    messages.forEach((msg) => {
+      if (msg.id === parseInt(req.params.id)) {
+        msg.from = updateMessage.from ? updateMessage.from : msg.from;
+        msg.text = updateMessage.text ? updateMessage.text : msg.text;
+        res.json({ result: "Message is updated", messages });
+        return;
+      }
+    });
   }
-
-  messages.splice(foundMessageId, 1);
-  response.sendStatus(204);
+  res
+    .status(404)
+    .json({ msg: `Message is not found with the id ${req.params.id}` });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server started on port: ${port}`));
+app.listen(process.env.PORT || 5000);
