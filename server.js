@@ -33,6 +33,7 @@ messages.filter((message) => {
     response.json(message);
   } else {
     response.json(messages);
+    console.log("GET METHOD --> " + request.query);
   }
 });
 
@@ -51,12 +52,12 @@ messages.filter((message) => {
 
 // });
 
-app.post("/messages", function (request, response) {
+app.put("/messages", function (request, response) {
   // response.json(messages);
   messages.push(request.query);
   response.send(messages);
   // console.log(messages);
-  console.log(request.query);
+  console.log("PUT METHOD --> " + request.query);
 });
 
 app.delete("/messages", function (request, response) {
