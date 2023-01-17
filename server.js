@@ -32,6 +32,7 @@ app.get("/messages", function (request, response) {
 });
 
 app.post("/messages", (req, res) => {
+  // console.log(req);
   if (!req.body.from || !req.body.text)
     return res.status(400).json({ message: "Please enter from and text." });
 
@@ -50,8 +51,8 @@ app.post("/messages", (req, res) => {
 
 app.get("/messages/search", function (request, response) {
   const search = request.query.text;
-  const filteredMessages = messages.filter(message =>
-    message.text.toLowerCase().includes(search.toLowerCase())
+  const filteredMessages = messages.find(
+    message => message.text.toLowerCase() === search.toLowerCase()
   );
   response.json(filteredMessages);
 });
@@ -98,3 +99,8 @@ app.listen(3000, function () {
   console.log("Example app listening on port 3000!");
 });
 // app.listen(process.env.PORT);
+// body-parser is a piece of express middleware that reads a form's input and stores it as a javascript object accessible through req.body
+// action in a form is the url that the form data will be sent to when the form is submitted
+//(in this case, the url is /messages) and method is the HTTP method that will be used to
+//send the data (in this case, POST) - the method and action together tell the form where to
+//send the data when the form is submitted and how to send it (in this case, as JSON data)
