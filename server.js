@@ -20,46 +20,30 @@ app.get("/", function (request, response) {
   response.sendFile(
     "/home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project/Node-Coursework-Week2/index.html"
   );
-  // response.json(messages);
-  // /home/codeyourfuture/Documents/GitHub/HTML-CSS-Coursework-Week4/Grid Project
 });
 
+// GET METHOD MESSAGES ENDPOINT
 app.get("/messages", function (request, response) {
-  // response.json(messages);
-
- 
-messages.filter((message) => {
-  if (message.id == request.query.id) {
-    response.json(message);
-  } else {
-    response.json(messages);
-    console.log("GET METHOD --> " + request.query);
-  }
+  // const filteredValue =
+  messages.filter((message) => {
+    if (message.id == request.query.id) {
+      console.log("GET METHOD --> QUERY WORKED");
+      response.send(message);
+    } else {
+      console.log("GET METHOD --> QUERY DIDNT PASS");
+      response.send(messages);
+    }
+  });
 });
 
-
-});
-
-// app.get("/messages/", function (request, response) {
-
-//  messages.filter((message) => {
-//    if (message.id == request.query.id) {
-//      response.json(message);
-//    } else {
-//      response.json(messages);
-//    }
-//  });
-
-// });
-
+// PUT METHOD
 app.put("/messages", function (request, response) {
-  // response.json(messages);
   messages.push(request.query);
   response.send(messages);
-  // console.log(messages);
   console.log("PUT METHOD --> " + request.query);
 });
 
+// DELETE METHOD
 app.delete("/messages", function (request, response) {
   messages.filter((message) => {
     if (message.id == request.query.id) {
@@ -68,12 +52,11 @@ app.delete("/messages", function (request, response) {
       let newVal = messages.splice(indexVal, 1);
       console.log("after delete : -->" + newVal);
       response.json(messages);
+    } else {
+      response.send("YOUR MESSAGE WAS NOT DELETED");
+      console.log("YOUR MESSAGE WAS NOT DELETED");
     }
   });
-
-  // messages.pop();
-  // response.send(messages);
-  // console.log(messages);
 });
 
 app.listen(5501, () => {
