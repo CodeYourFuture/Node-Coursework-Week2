@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 
+const bodyParser = require("body-parser")
+let changeID = 0;
 
 
 const app = express();
@@ -9,6 +11,8 @@ const port = process.env.PORT || 9090;
 app.use(cors());
 app.use(express.json());
 
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const welcomeMessage = {
   id: 0,
