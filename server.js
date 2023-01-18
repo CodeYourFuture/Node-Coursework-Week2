@@ -32,7 +32,6 @@ app.get("/messages", function (request, response) {
 });
 
 app.post("/messages", (req, res) => {
-  // console.log(req);
   if (!req.body.from || !req.body.text)
     return res.status(400).json({ message: "Please enter from and text." });
 
@@ -40,11 +39,12 @@ app.post("/messages", (req, res) => {
 
   const message = {
     id: idCount,
-    from: req.body.from,
-    text: req.body.text,
+    // from: req.body.from,
+    // text: req.body.text,
   };
 
-  messages.push(message);
+  // messages.push(message);
+  messages.push(Object.assign(message, req.body));
   console.log("message added");
   res.redirect("/");
 });
@@ -58,8 +58,9 @@ app.get("/messages/search", function (request, response) {
 });
 
 app.get("/messages/latest", function (request, response) {
-  const latestMessages = messages.slice(-1).pop();
+  const latestMessages = messages.slice(-10);
   response.json(latestMessages);
+  //
 });
 
 app.get("/messages/:id", function (request, response) {
