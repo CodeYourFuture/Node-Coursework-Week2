@@ -3,7 +3,7 @@ const cors = require("cors");
 const PORT = 5000;
 const app = express();
 const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 app.use(express.json());
@@ -50,17 +50,14 @@ app.get("/messages/:id", function (request, response) {
 });
 
 //  - [ ] Create a new message /POST
-app.post("/createNewMessage", function (request, response) {
+app.post("/CreateNewMessages", function (request, response) {
   const createNewMessage = {
-    id: request.body.id,
     from: request.body.from,
     text: request.body.text,
   };
-  if (
-    createNewMessage.id === "" ||
-    createNewMessage.from === "" ||
-    createNewMessage.text === ""
-  ) {
+  createNewMessage.id = messages.length 
+  console.log(createNewMessage);
+  if (!createNewMessage.from || !createNewMessage.text) {
     return response.status(404).json({
       message: `Please include a message ID, from who the message is sent & the text`,
     });

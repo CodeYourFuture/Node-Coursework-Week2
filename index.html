@@ -4,22 +4,16 @@
     <title>Welcome to CYF Chat</title>
   </head>
   <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
+    <h1>CYF Chat</h1>
+    <h2>Send a message to the</h2>
+    <form action="/CreateNewMessages" method="post">
       <p>
-        Id: <input type="number" name="number" placeholder="Id " /> <br />
+        <!-- Id: <input type="number" name="number" placeholder="Id " /> <br /> -->
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
         Message: <input type="text" name="text" placeholder="The message..." />
         <br />
       </p>
-      <button type="submit">
-        Send
-      </button>
+      <button type="submit">Send</button>
     </form>
 
     <a href="/messages">See all messages</a>
