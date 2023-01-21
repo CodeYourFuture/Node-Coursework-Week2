@@ -28,18 +28,17 @@ app.get("/messages", function (request, response) {
   response.send({ messages });
 });
 
-app.get("/messages/:id", function (request, response) {
-  const messageId = +request.params.id;
-  const oneMessage = messages.find((item) => item.id === messageId);
-  response.send({ oneMessage });
-});
 
 app.get("/messages/search", (request, response) => {
+  console.log("search");
+
   const term = request.query.term;
-  response.send(messages.filter((eachMessage) => eachMessage.quote.includes(term)));
+  response.send(messages.filter((eachMessage) => eachMessage.text.includes(term)));
 });
 
 app.get("/messages/latest", (request, response) => {
+  console.log("hello");
+
   response.send(messages.slice(-10));
 });
 
