@@ -25,15 +25,23 @@ app.get("/", function (request, response) {
 });
 
 app.get("/messages", function (request, response) {
-  response.send({ messages });
+  if (messages.length === 0) {
+    response.send("There is no data to view.");
+  } else {
+    response.send(messages);
+  }
 });
 
-
 app.get("/messages/search", (request, response) => {
-  console.log("search");
-
   const term = request.query.term;
-  response.send(messages.filter((eachMessage) => eachMessage.text.includes(term)));
+  let filteredMessages = messages.filter((eachMessage) =>
+    eachMessage.text.includes(term)
+  );
+  if (filteredMessages.length === 0) {
+    response.send("Nothing found including this word!");
+  } else {
+    response.send(filteredMessages);
+  }
 });
 
 app.get("/messages/latest", (request, response) => {
@@ -58,16 +66,25 @@ app.post("/messages", function (request, response) {
     let createMessage = {
       id: changeID,
       from: from,
-      message: text,
+      text: text,
     };
     messages.push(createMessage);
-    response.status(200).send("Successfully added");
+    response
+      .status(200)
+      .send(
+        `Your message has been successfully added ${JSON.stringify(messages)}`
+      );
   }
 });
-app.delete("/messages/:id",(request,response)=>{
-const messageID =+ request.params.id;
-messages = messages.filter(item => item.id !== messageID)
-response.send({ messages });
+
+app.delete("/messages/:id", (request, response) => {
+  const messageID = +request.params.id;
+  messages = messages.filter((item) => item.id !== messageID);
+  if (messages.length === 0) {
+    response.send("There is no data to view.");
+  } else {
+    response.send(messages);
+  }
 });
 
 app.listen(9090);
