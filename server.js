@@ -40,10 +40,25 @@ app.post("/messages",(req,res)=>{
   let newMassage={
     id: newId
    , from: name
-   ,text:massage1}
+   ,text:massage1,
+   timeSent:new Date(),
+  }
   messages.push(newMassage)
   res.json(newMassage)
 }
+})
+app.put('/messages/:id',(req,res)=>{
+  const updatedIndex=+req.params.id
+  const updateBody=req.body
+  const findIndex=messages.find(item=>item.id===updatedIndex)
+  // if(updatedIndex>=0){
+  //   welcomeMessage={id: updatedIndex,...updateBody}
+  // }
+  // messages[findIndex]=welcomeMessage
+  // res.send(welcomeMessage)
+  const newmessage={...req.params,...req.body}
+  messages.splice(findIndex,1,newmessage)
+  res.send(messages)
 })
 app.get("/messages/:id",(req,res)=>{
    let idFound=Number(req.params.id)
@@ -64,7 +79,7 @@ app.delete("/messages/:id",(req,res)=>{
 }
 })
 app.get("/messages/search",(req,res)=>{
-  const filtered=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
+  const filtered=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.text.toLocaleLowerCase()))
   res.send(filtered)
 })
 app.get("/messages/latest",(req,res)=>{
