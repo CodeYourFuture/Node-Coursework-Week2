@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended:true}))
-const welcomeMessage = {
+let welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
@@ -17,7 +17,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -45,6 +45,21 @@ app.post('/messages',(req,res)=>{
     res.status(404).send('It is not compeleted')
   }else{ messages.push(newmessage)
     res.json({messages})}
+
+})
+//update the message
+app.put('/messages/:id',(req,res)=>{
+  const updatedIndex=+req.params.id
+  const updateBody=req.body
+  const findIndex=messages.find(item=>item.id===updatedIndex)
+  // if(updatedIndex>=0){
+  //   welcomeMessage={id: updatedIndex,...updateBody}
+  // }
+  // messages[findIndex]=welcomeMessage
+  // res.send(welcomeMessage)
+  const newmessage={...req.params,...req.body}
+  messages.splice(findIndex,1,newmessage)
+  res.send(messages)
 
 })
 app.get("/messages/latest",(req,res)=>{
