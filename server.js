@@ -38,7 +38,8 @@ app.post('/messages',(req,res)=>{
   let newmessage={
     'id':Math.max(...arrayone)+1,
     'from':from,
-    'text':text
+    'text':text,
+    'time-sent':new Date()
   }
   if(!from || !text ){
     res.status(404).send('It is not compeleted')
@@ -46,7 +47,15 @@ app.post('/messages',(req,res)=>{
     res.json({messages})}
 
 })
+app.get("/messages/latest",(req,res)=>{
+  
+  // const filterd=messages.slice(Math.max(messages.length - 5, 1))
+  const filterd=messages.slice(-1)
+  res.json(filterd)
+})
+
 app.get('/messages/:id',(req,res)=>{
+
   let inputid=+req.params.id
   let foundItem=messages.find(item=>item.id===inputid)
   if(foundItem){
@@ -56,6 +65,8 @@ app.get('/messages/:id',(req,res)=>{
   }
 
 })
+
+
 app.delete('/messages/:id',(req,res)=>{
   let inputedid=+req.params.id
   let filtered=messages.filter(item=>item.id!==inputedid)
@@ -69,6 +80,8 @@ app.get('/messages/search',(req,res)=>{
   const filteredbasedonsearch=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
   res.send(filteredbasedonsearch)
 })
+
+
 
 
 app.listen(process.env.PORT||8000,(req,res)=>console.log('The Server is listening')
