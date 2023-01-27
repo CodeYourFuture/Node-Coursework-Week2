@@ -15,12 +15,11 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-
-let messages = [welcomeMessage];
-
-//[3] read one message specified by id
 app.get("/messages/:id", function (req, res) {
   const { id } = req.params;
+let messages = [welcomeMessage];
+//[3] read one message specified by id
+
   const messageToReturn = messages.filter(
     (message) => message.id === Number(id)
   );
@@ -68,5 +67,5 @@ app.get("/", function (req, res) {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("server running! http://localhost:3000");
-  });
+  console.log("server running!");
+});
