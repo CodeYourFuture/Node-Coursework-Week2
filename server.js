@@ -2,7 +2,6 @@
 
 const express = require("express");
 const cors = require("cors");
-const { urlencoded } = require("express");
 const bodyParser=require('body-parser')
 
 const app = express();
@@ -16,12 +15,10 @@ let welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
+
 let messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
+app.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });
 
@@ -31,14 +28,14 @@ app.get('/messages',(req,res)=>{
 
 app.post('/messages',(req,res)=>{
   
-  let from=(req.body.from)
+  let from=req.body.from
   let text=req.body.text
-  let arrayone=[]
-  for(let item of messages){
-      arrayone.push(item.id)
+  let arr=[]
+  for(let elements of messages){
+      arr.push(elements.id)
   }
   let newmessage={
-    'id':Math.max(...arrayone)+1,
+    'id':Math.max(...arr)+1,
     'from':from,
     'text':text,
     'time-sent':new Date()
@@ -54,11 +51,6 @@ app.put('/messages/:id',(req,res)=>{
   const updatedIndex=+req.params.id
   const updateBody=req.body
   const findIndex=messages.find(item=>item.id===updatedIndex)
-  // if(updatedIndex>=0){
-  //   welcomeMessage={id: updatedIndex,...updateBody}
-  // }
-  // messages[findIndex]=welcomeMessage
-  // res.send(welcomeMessage)
   const newmessage={...req.params,...req.body}
   messages.splice(findIndex,1,newmessage)
   res.send(messages)
@@ -100,6 +92,6 @@ app.get('/messages/search',(req,res)=>{
 
 
 
-
-app.listen(process.env.PORT||8000,(req,res)=>console.log('The Server is listening')
+const PORT = process.env.PORT || 5000
+app.listen(PORT,()=>console.log(`Your server on ${PORT}  `)
   );
