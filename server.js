@@ -18,6 +18,7 @@ let welcomeMessage = {
 
 let messages = [welcomeMessage];
 
+// GET
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });
@@ -25,42 +26,35 @@ app.get("/", (request, response) => {
 app.get('/messages',(req,res)=>{
   res.json({messages})
 })
-
+// POST
 app.post('/messages',(req,res)=>{
   
   let from=req.body.from
   let text=req.body.text
-  let arr=[]
-  for(let elements of messages){
-      arr.push(elements.id)
-  }
-  let newmessage={
-    'id':Math.max(...arr)+1,
+  let newMessage={
+    'id':messages.length,
     'from':from,
     'text':text,
-    'time-sent':new Date()
+
   }
   if(!from || !text ){
-    res.status(404).send('It is not compeleted')
-  }else{ messages.push(newmessage)
+    res.status(404).send('Complete the form')
+  }else{ messages.push(newMessage)
     res.json({messages})}
 
 })
-//update the message
+
 app.put('/messages/:id',(req,res)=>{
   const updatedIndex=+req.params.id
-  const updateBody=req.body
   const findIndex=messages.find(item=>item.id===updatedIndex)
   const newmessage={...req.params,...req.body}
   messages.splice(findIndex,1,newmessage)
   res.send(messages)
 
 })
-app.get("/messages/latest",(req,res)=>{
-  
-  // const filterd=messages.slice(Math.max(messages.length - 5, 1))
-  const filterd=messages.slice(-1)
-  res.json(filterd)
+app.get("/messages/lastMessage",(req,res)=>{
+  const lastMessage=messages[0]
+  res.json(lastMessage)
 })
 
 app.get('/messages/:id',(req,res)=>{
@@ -77,12 +71,12 @@ app.get('/messages/:id',(req,res)=>{
 
 
 app.delete('/messages/:id',(req,res)=>{
-  let inputedid=+req.params.id
-  let filtered=messages.filter(item=>item.id!==inputedid)
+  let input=+req.params.id
+  let filtered=messages.filter(item=>item.id!==input)
   if(filtered){
     res.status(200).send(filtered)
   }else{
-    res.status(404).send('Error')
+    res.status(404).send('Something went wrong')
   }
 })
 app.get('/messages/search',(req,res)=>{
