@@ -19,8 +19,8 @@ let welcomeMessage = {
 let messages = [welcomeMessage];
 
 // GET
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/index.html");
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.get('/messages',(req,res)=>{
@@ -44,14 +44,11 @@ app.post('/messages',(req,res)=>{
 
 })
 
-app.put('/messages/:id',(req,res)=>{
-  const updatedIndex=+req.params.id
-  const findIndex=messages.find(item=>item.id===updatedIndex)
-  const newmessage={...req.params,...req.body}
-  messages.splice(findIndex,1,newmessage)
-  res.send(messages)
-
+app.delete("/messages", (res,req) => {
+  console.log("DELETE Request Called for /deleteAll endpoint")
+  res.send("DELETE Request Called")
 })
+
 app.get("/messages/lastMessage",(req,res)=>{
   const lastMessage=messages[0]
   res.json(lastMessage)
@@ -59,29 +56,19 @@ app.get("/messages/lastMessage",(req,res)=>{
 
 app.get('/messages/:id',(req,res)=>{
 
-  let inputid=+req.params.id
-  let foundItem=messages.find(item=>item.id===inputid)
+  let inputId=+req.params.id
+  let foundItem=messages.find(item=>item.id===inputId)
   if(foundItem){
     res.status(200).send(foundItem)
   }else{
-    res.status(404).send('Error')
+    res.status(404).send('Nothing matched !')
   }
 
 })
 
-
-app.delete('/messages/:id',(req,res)=>{
-  let input=+req.params.id
-  let filtered=messages.filter(item=>item.id!==input)
-  if(filtered){
-    res.status(200).send(filtered)
-  }else{
-    res.status(404).send('Something went wrong')
-  }
-})
 app.get('/messages/search',(req,res)=>{
-  const filteredbasedonsearch=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
-  res.send(filteredbasedonsearch)
+  const searchedItem=messages.filter(item=>item.text.toLocaleLowerCase().includes(req.query.term.toLocaleLowerCase()))
+  res.send(searchedItem)
 })
 
 
