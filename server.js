@@ -3,13 +3,13 @@ const cors = require('cors');
 const PORT = 5000;
 const app = express();
 const bodyParser = require('body-parser');
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 app.use(express.json());
 
 app.listen(process.env.PORT || PORT, function () {
-	console.log(`Server is listening on port ${PORT}. Ready to accept requests!`);
+	console.log(`Server is listening on port ${PORT}. Please send a Request!`);
 });
 
 let messages = require('./messages.json');
@@ -50,17 +50,14 @@ app.get('/messages/:id', function (request, response) {
 });
 
 //  - [ ] Create a new message /POST
-app.post('/createNewMessage', function (request, response) {
+app.post('/CreateNewMessages', function (request, response) {
 	const createNewMessage = {
-		id: request.body.id,
-		name: request.body.name,
+		sender: request.body.sender,
 		message: request.body.message,
 	};
-	if (
-		createNewMessage.id === '' ||
-		createNewMessage.name === '' ||
-		createNewMessage.message === ''
-	) {
+	createNewMessage.id = messages.length;
+	console.log(createNewMessage);
+	if (!createNewMessage.sender || !createNewMessage.message) {
 		return response.status(404).json({
 			message: `Please include a message ID, from who the message is sent & the text`,
 		});
@@ -139,13 +136,13 @@ const getTimeDate = () => {
 app.post('/timestamp', (request, response) => {
 	const createNewMessage = {
 		id: request.body.id,
-		name: request.body.name,
+		sender: request.body.sender,
 		message: request.body.message,
 	};
 
 	if (
 		createNewMessage.id === '' ||
-		createNewMessage.name === '' ||
+		createNewMessage.sender === '' ||
 		createNewMessage.message === ''
 	) {
 		return response.status(404).json({
@@ -169,8 +166,8 @@ app.put('/updateMessages/:id', (request, response) => {
 		const updatedMessages = request.body;
 		messages.map((eachmessage) => {
 			if (eachmessage.id === parseInt(request.params.id)) {
-				(eachmessage.text = updatedMessages.text),
-					(eachmessage.from = updatedMessages.from);
+				(eachmessage.message = updatedMessages.message),
+					(eachmessage.sender = updatedMessages.sender);
 				response.status(202).json({ message: `message updated`, eachmessage });
 			}
 		});
