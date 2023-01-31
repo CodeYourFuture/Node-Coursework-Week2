@@ -23,13 +23,16 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
+
 
 app.get("/", function (request, response) {
-  response.status(200).send("response is sending")
   response.sendFile(__dirname + "/index.html");
+
+
 });
 app.get("/messages", function (request, response) {
+
   response.status(200).send({ messages })
 });
 app.get("/messages/search", (request, response) => {
@@ -46,9 +49,8 @@ app.get("/messages/:id", function (request, response) {
 
 app.delete('/messages/:id', (request, response) => {
   const idToFind = +request.params.id
-  const filtered = messages.filter(item => item.id !== idToFind)
-
-  response.status(200).send(filtered)
+  messages = messages.filter(item => item.id !== idToFind)
+  response.status(200).send(messages)
 
 })
 
@@ -60,7 +62,4 @@ app.post("/messages", function (request, response) {
 });
 
 
-
-app.listen(port, function () {
-  console.log("Your app is listening on port " + port);
-});
+app.listen(port);
