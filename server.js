@@ -42,10 +42,15 @@ app.get("/messages/latest", (req,res)=>{
   res.json(data.slice(Math.max(data.length - 10, 0)));
 })
 
-app.get("/messages/search?text=express", (req,res)=>{
-  res.json(data.filter(item=>{
-    item.text.includes()
-  }))
+app.get("/messages/search/:key", (req,res)=>{
+  let searchTerm = req.params.key;
+  let foundMessages = data.filter( item=>item.text.includes(searchTerm)
+  )
+
+  res.json(foundMessages)
+
+  //res.send(req.params.key)
+
 })
 
 
