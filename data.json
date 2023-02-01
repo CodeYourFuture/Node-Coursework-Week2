@@ -23,5 +23,42 @@
     "id": 4,
     "from": "Jane ",
     "text": "Merry Christmas"
+  },
+  {
+    "id": 5
+  },
+  {
+    "id": 6
+  },
+  {
+    "id": 7
+  },
+  {
+    "id": 8,
+    "from": "Robert",
+    "text": "Hello World"
+  },
+  {
+    "id": 9
+  },
+  {
+    "id": 10,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 11,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 12,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 13,
+    "from": "rob",
+    "text": "hello"
   }
 ]

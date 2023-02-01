@@ -38,16 +38,28 @@ app.get("/messages", (req, res) => {
   res.json(data);
 });
 
+app.get("/messages/latest", (req,res)=>{
+  res.json(data.slice(Math.max(data.length - 10, 0)));
+})
+
+app.get("/messages/search?text=express", (req,res)=>{
+  res.json(data.filter(item=>{
+    item.text.includes()
+  }))
+})
+
+
 app.post("/messages", (req, res) => {
   let newId = Math.max(...data.map((message) => message.id)) + 1;
   let newMessage = { id: newId, from: req.body.from, text: req.body.text };
+  if(!newMessage.from || !newMessage.text){
+    res.send(400)
+    return
+  }
   data.push(newMessage);
   save();
   res.json(newMessage);
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
