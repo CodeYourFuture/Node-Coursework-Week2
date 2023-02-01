@@ -1,0 +1,52 @@
+[
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 1,
+    "from": "Rob",
+    "text": "Merry Christmas"
+  },
+  {
+    "id": 2,
+    "from": "Biruk",
+    "text": "Merry Christmas"
+  },
+  {
+    "id": 3,
+    "from": "John",
+    "text": "Merry Christmas"
+  },
+  {
+    "id": 4,
+    "from": "Jane ",
+    "text": "Merry Christmas"
+  },
+  {
+    "id": 8,
+    "from": "Robert",
+    "text": "Hello World"
+  },
+  {
+    "id": 10,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 11,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 12,
+    "from": "",
+    "text": "Welcome to CYF chat system!"
+  },
+  {
+    "id": 13,
+    "from": "rob",
+    "text": "hello"
+  }
+]
