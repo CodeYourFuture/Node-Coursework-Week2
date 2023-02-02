@@ -16,7 +16,15 @@ let welcomeMessage = {
 };
 
 
-let messages = [welcomeMessage];
+let welcomeMessage2 = {
+  id: 1,
+  from: "Bart",
+  text: "Welcome to CYF chat system!",
+};
+let messages = [welcomeMessage2,welcomeMessage];
+
+
+
 
 // GET
 app.get("/", (req, res) => {
@@ -46,7 +54,11 @@ app.post('/messages',(req,res)=>{
 
 app.delete("/messages", (res,req) => {
   console.log("DELETE Request Called for /deleteAll endpoint")
-  res.send("DELETE Request Called")
+  res.send("DELETE Request Called");
+  let id = req.params.id;
+  messages.filter(message => {
+   return message.id !== id;
+  })
 })
 
 app.get("/messages/lastMessage",(req,res)=>{
