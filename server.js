@@ -2,7 +2,8 @@
 
 const express = require("express");
 const cors = require("cors");
-const bodyParser=require('body-parser')
+const bodyParser=require('body-parser');
+const { json } = require("express");
 
 const app = express();
 
@@ -16,27 +17,26 @@ let welcomeMessage = {
 };
 
 
-let welcomeMessage2 = {
-  id: 1,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
-let messages = [welcomeMessage2,welcomeMessage];
+
+let messages = [welcomeMessage];
 
 
 
 
-// GET
+// implement HTML
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
-
+// GET
 app.get('/messages',(req,res)=>{
+  
   res.json({messages})
+  
 })
 // POST
 app.post('/messages',(req,res)=>{
   
+  // console.log(req.body)
   let from=req.body.from
   let text=req.body.text
   let newMessage={
@@ -51,16 +51,32 @@ app.post('/messages',(req,res)=>{
     res.json({messages})}
 
 })
+// PUT
 
-app.delete("/messages", (res,req) => {
-  console.log("DELETE Request Called for /deleteAll endpoint")
-  res.send("DELETE Request Called");
-  let id = req.params.id;
-  messages.filter(message => {
-   return message.id !== id;
-  })
+app.put("/messages/:id", (req,res) => {
+  let selectedId = req.params.id;
+  messages[selectedId] = req.body
+  if(req.params.id){
+    res.status(200).send(messages);
+    console.log("your changing request received !")
+    // console.log(req.params) the object which only includes parametre (id) you entered
+    // console.log(req.body)  the object which includes all keys and values entered on postman
+    // console.log(messages)  the array which includes all inputs
+  }else return res.status(404).send("noothing matched")
 })
+// DELETE
+app.delete("/messages/:id", (req,res) => {
+  console.log("DELETE Request Called")
+  let id = +req.params.id;
 
+  messages = messages.filter(message =>  message.id !== id)
+  
+  console.log(id)
+  res.status(200).send("your selected id has deleted")
+  
+  
+})
+// LAST MESSAGE
 app.get("/messages/lastMessage",(req,res)=>{
   const lastMessage=messages[0]
   res.json(lastMessage)
