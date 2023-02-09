@@ -1,9 +1,7 @@
 const express = require("express");
-const cors = require("cors");
-
+const PORT = 3000;
 const app = express();
-
-app.use(cors());
+app.use(express.json());
 
 const welcomeMessage = {
   id: 0,
@@ -11,13 +9,30 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+app.get("/messages", function (req, res) {
+  res.send(messages);
 });
 
-app.listen(process.env.PORT);
+app.post("/messages", function (req, res) {
+  const newMessage = req.body;
+  messages.push(newMessage);
+  res.send(messages);
+});
+
+app.get("/messages/:id", (req, res) => {
+  const findMessageId = req.params.id;
+  const message = messages.find((message) => message.id === findMessageId);
+
+  if (!message) {
+    res.status(404).send("message not found.");
+    return;
+  } else {
+    res.send(message);
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`listen to port ${PORT}`);
+});
