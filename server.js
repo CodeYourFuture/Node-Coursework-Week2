@@ -31,8 +31,13 @@ app.get("/messages", function (req, res) {
 
 app.post("/messages", function (req, res) {
   const newPost = req.body;
+  console.log(newPost);
+  if (newPost.text && newPost.from) {
   newPost.id = messages.length;
   messages.push(newPost);
+  } else {
+    res.status(400).send('please enter a valid message')
+  }
 })
 
 app.get("/messages/:id", function (req, res) {
@@ -42,6 +47,15 @@ app.get("/messages/:id", function (req, res) {
   });
   res.send(message);
 })
+
+app.post("/messages/delete", function (req, res) {
+  const id = req.body.id;
+  const message = messages.find((mes) => {
+    mes.id.toString() === id;
+  })
+  messages.splice(message, 1);
+  res.send('Message deleted')
+  })
 
 app.listen(3000, function () {
   console.log('Server is listening on port 3000');
