@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Welcome to CYF Chat</title>
+    <title>Welcome to CYF Chat Alex Phillip</title>
   </head>
   <body>
     <h1>
@@ -10,7 +10,7 @@
     <h2>
       Send a message
     </h2>
-    <form action="/messages" method="post">
+    <form action="/messages" method="post" name="form">
       <p>
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
         Message: <input type="text" name="text" placeholder="The message..." />
@@ -20,7 +20,14 @@
         Send
       </button>
     </form>
-
+    <br />
     <a href="/messages">See all messages</a>
+
+    <form action="/messages/delete" method="post">
+      <p>
+        Id: <input type="text" name="id" placeholder="Id of message to be deleted">
+      </p>
+      <button type="submit">Delete</button>
+    </form>
   </body>
 </html>
