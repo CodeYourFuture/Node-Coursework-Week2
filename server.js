@@ -25,10 +25,13 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+
+// Read all messages
 app.get("/messages", function (req, res) {
   res.send(messages)
 })
 
+// Create a new message
 app.post("/messages", function (req, res) {
   const newPost = req.body;
   console.log(newPost);
@@ -40,6 +43,7 @@ app.post("/messages", function (req, res) {
   }
 })
 
+// Read message specified by Id
 app.get("/messages/:id", function (req, res) {
   const id = req.params.id;
   const message = messages.find((mes) => {
@@ -48,6 +52,7 @@ app.get("/messages/:id", function (req, res) {
   res.send(message);
 })
 
+// Delete message specified by Id
 app.post("/messages/delete", function (req, res) {
   const id = req.body.id;
   const message = messages.find((mes) => {
