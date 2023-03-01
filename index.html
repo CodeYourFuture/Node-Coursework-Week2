@@ -7,12 +7,15 @@
     <h1>
       CYF Chat
     </h1>
+    <hr>
+    <a href="/messages"><h2>See all messages</h2></a>
+    <hr>
     <h2>
       Send a message
     </h2>
     <form action="/messages" method="post" name="form">
       <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+        Name: <input type="text" name="from" placeholder="Your Name" /> <br /><br />
         Message: <input type="text" name="text" placeholder="The message..." />
         <br />
       </p>
@@ -21,8 +24,30 @@
       </button>
     </form>
     <br />
-    <a href="/messages">See all messages</a>
-
+    <hr>
+    <h2>Search messages by Id</h2>
+    <form action="/messages/:id" method="get">
+      <p>
+        Id: <input type="text" name="searchId" placeholder="Enter Id..." /> <br />
+      </p>
+      <button type="submit">
+        Search
+      </button>
+    </form>
+    <br />
+      <hr>
+    <h2>Search messages</h2>
+    <form action="/messages/search" method="get">
+      <p>
+        Name: <input type="text" name="search" placeholder="Enter search term..." /> <br />
+      </p>
+      <button type="submit">
+        Search
+      </button>
+    </form>
+    <br />
+    <hr>
+    <h2>Delete a message by Id</h2>
     <form action="/messages/delete" method="post">
       <p>
         Id: <input type="text" name="id" placeholder="Id of message to be deleted">
