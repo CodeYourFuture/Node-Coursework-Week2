@@ -57,9 +57,11 @@ app.get("/messages/:id", function (req, res) {
 
 // Read a message by given substring (query paramaters)
 app.get("/messages/search", (req, res) => {
-  let searchQuery = req.query.text;
-  console.log(searchQuery)
-  res.send("Hello World! You searched for " + searchQuery);
+  console.log(messages)
+  const term = req.query.term;
+  const message = messages.filter((mes) => mes.from.includes(term) || mes.text.includes(term))
+  console.log(message)
+  res.json(searchQuery);
 });
 
 
