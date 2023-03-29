@@ -25,11 +25,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+// POST MESSAGES IN JSON FORMAT
 app.post("/messages", function (request, response) {
   const newWelcomeMessage = {
     id: Math.floor(Math.random() * messages.length) + messages.length,
     from: request.body.from,
     text: request.body.text,
+    timeSent: new Date().toLocaleString(),
   };
 
   if (!newWelcomeMessage.from || !newWelcomeMessage.text) {
@@ -42,10 +44,25 @@ app.post("/messages", function (request, response) {
   response.send(messages);
 });
 
+// GET ALL MESSAGES
 app.get("/messages", function (request, response) {
   response.send(messages);
 });
 
+// SEARCH MESSAGES THAT CONTAIN SEARCH TERM
+app.get("/messages/search", function (request, response) {
+  const searchQuery = request.query.term;
+
+  function searchedWord(arr) {
+    return arr.filter((item) =>
+      item.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  response.send(searchedWord(messages));
+});
+
+// FIND MESSAGES BY ID
 app.get("/messages/:id", function (request, response) {
   const foundMessage = messages.find(
     (eachMessage) => eachMessage.id === parseInt(request.params.id)
@@ -56,6 +73,15 @@ app.get("/messages/:id", function (request, response) {
     : response.status(400).json({ message: "Message not found" });
 });
 
+// READ ONLY 10 RECENT MESSAGES
+app.get("/messages/latest", function (request, response) {
+  function lastTenMessages(arr) {
+    return arr.filter((eachMessage, index) => messages.length - 10 <= index);
+  }
+  response.send(lastTenMessages(messages));
+});
+
+// DELETE MESSAGES BY ID
 app.delete("/messages/:id", function (request, response) {
   const foundMessage = messages.find(
     (eachMessage) => eachMessage.id === parseInt(request.params.id)
