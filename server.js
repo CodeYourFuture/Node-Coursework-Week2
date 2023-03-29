@@ -101,6 +101,28 @@ app.delete("/messages/:id", function (request, response) {
   }
 });
 
+// UPDATE MESSAGES
+app.put("/messages/:id", function (request, response) {
+  const foundMessage = messages.find(
+    (eachMessage) => eachMessage.id === parseInt(request.params.id)
+  );
+
+  if (foundMessage) {
+    const updateInfo = request.body;
+
+    messages.forEach((eachMessage) => {
+      if (eachMessage.id === parseInt(request.params.id)) {
+        eachMessage.from = updateInfo.from ? updateInfo.from : eachMessage.from;
+        eachMessage.text = updateInfo.text ? updateInfo.text : eachMessage.text;
+
+        response.json({ msg: "Message updated", eachMessage });
+      } else {
+        response.status(400).json({ message: "Message not found" });
+      }
+    });
+  }
+});
+
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 });
