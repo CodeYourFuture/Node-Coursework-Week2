@@ -18,9 +18,22 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 //create message
 app.post("/messages", (req, res) => {
-  const newMessage = req.body;
-  messages.push(newMessage);
-  res.status(201).send(newMessage);
+  if (
+    !req.body.from ||
+    !req.body.text ||
+    req.body.text === "" ||
+    req.body.from === ""
+  ) {
+    res.status(400).send("write a correct text and from");
+  } else {
+    const newMessage = {
+      id: messages.length,
+      from: req.body.from,
+      text: req.body.text,
+    };
+    messages.push(newMessage);
+    res.status(201).send(newMessage);
+  }
 });
 
 //read all message
