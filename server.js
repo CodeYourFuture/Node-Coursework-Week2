@@ -91,15 +91,14 @@ app.listen(8080);
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
   const { id, from, text } = request.body;
-  const newMessage = {};
+  const newMessage = { id, from, text };
   if (
     "from" in newMessage &&
     "text" in newMessage &&
     newMessage.from.length > 0 &&
     newMessage.text.length > 0
   ) {
-    const newMessage = { id, from, text };
-
+    newMessage.timeSent = new Date();
     messages.push(newMessage);
     response.status(201).send(newMessage);
   } else {
