@@ -3,7 +3,7 @@ const cors = require("cors");
 const { request, response } = require("express");
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,7 +28,8 @@ app.get("/", function (request, response) {
 // POST MESSAGES IN JSON FORMAT
 app.post("/messages", function (request, response) {
   const newWelcomeMessage = {
-    id: Math.floor(Math.random() * messages.length) + messages.length,
+    // id: Math.floor(Math.random() * messages.length) + messages.length,
+    id: messages.length,
     from: request.body.from,
     text: request.body.text,
     timeSent: new Date().toLocaleString(),
@@ -42,6 +43,7 @@ app.post("/messages", function (request, response) {
 
   messages.push(newWelcomeMessage);
   response.send(messages);
+  // response.redirect("/");
 });
 
 // GET ALL MESSAGES
@@ -62,6 +64,12 @@ app.get("/messages/search", function (request, response) {
   response.send(searchedWord(messages));
 });
 
+// READ ONLY 10 RECENT MESSAGES
+app.get("/messages/latest", function (request, response) {
+  const latestMessages = messages.slice(-10);
+  response.send(latestMessages);
+});
+
 // FIND MESSAGES BY ID
 app.get("/messages/:id", function (request, response) {
   const foundMessage = messages.find(
@@ -71,14 +79,6 @@ app.get("/messages/:id", function (request, response) {
   foundMessage
     ? response.json(foundMessage)
     : response.status(400).json({ message: "Message not found" });
-});
-
-// READ ONLY 10 RECENT MESSAGES
-app.get("/messages/latest", function (request, response) {
-  function lastTenMessages(arr) {
-    return arr.filter((eachMessage, index) => messages.length - 10 <= index);
-  }
-  response.send(lastTenMessages(messages));
 });
 
 // DELETE MESSAGES BY ID
