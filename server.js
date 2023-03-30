@@ -51,6 +51,7 @@ app.post("/messages", (req, res) => {
       id: messages.length,
       from: req.body.from,
       text: req.body.text,
+      timeSent: new Date(),
     };
     messages.push(newMessage);
     res.status(201).send(newMessage);
@@ -74,6 +75,7 @@ app.delete("/messages/:id", (req, res) => {
   const filteredMessages = messages.filter(
     (message) => message.id !== Number(req.params.id)
   );
+  res.status(200).send({ filteredMessages });
 });
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
