@@ -48,6 +48,22 @@ app.get("/messages", function (req, res) {
   res.status(200).send(messages);
 });
 
+// Read only messages whose text contains a given substring /messages/search?text=express
+app.get("/messages/search", function (req, res) {
+  const searchTerm = req.query.text.toLowerCase();
+  const foundedMessages = messages.filter((message) =>
+    message.text.toLowerCase().includes(searchTerm)
+  );
+  res.status(200).send(foundedMessages);
+  // res.json(foundedMessages);
+});
+
+//Read only the most recent 10 messages
+app.get("/messages/latest", function (req, res) {
+  const latestMessages = messages.slice(-10);
+  res.status(200).send(latestMessages);
+});
+
 //Read one message specified by an ID
 app.get("/messages/:id", function (req, res) {
   const userId = Number(req.params.id);
