@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { response } = require("express");
 
 const app = express();
 app.use(express.json());
@@ -15,15 +16,78 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = [
+  welcomeMessage,
+  {
+    id: 1,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 2,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 3,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 4,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 5,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 6,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 7,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 8,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 9,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 10,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 11,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 12,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-const listener = app.listen(process.env.PORT, function () {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+// const listener = app.listen(process.env.PORT, function () {
+//   console.log("Your app is listening on port " + listener.address().port);
+// });
+app.listen(8080);
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
   const { id, from, text } = request.body;
@@ -50,6 +114,22 @@ app.post("/messages", (request, response) => {
 // 2.Read all messages
 app.get("/messages", (request, response) => {
   response.status(200).send({ messages });
+});
+
+// 7.Read-only te most recent 10 messages
+app.get("/messages/latest", (request, response) => {
+  let newArray = [...messages];
+  newArray = newArray.slice(-10);
+  response.send(newArray);
+});
+
+//6.Read-only messages containing a specific 'substring'
+app.get("/messages/search", (request, response) => {
+  const requestQuery = request.query.text;
+  const newArray = messages.filter((message) =>
+    message.text.includes(requestQuery)
+  );
+  response.send(newArray);
 });
 
 //3.Read one message specified by an ID
