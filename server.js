@@ -49,3 +49,11 @@ app.delete("/messages/:id", (request, response) => {
   messages.splice(messages.indexOf(deletedMessage), 1);
   response.send(deletedMessage);
 });
+
+//5.UPDATE a message by ID=>PUT
+app.put("/messages/:id", (request, response) => {
+  const requestId = Number(request.params.id);
+  const updatedMessage = messages.find((message) => message.id === requestId);
+  messages.splice(messages.indexOf(updatedMessage), 1, request.body);
+  response.send(request.body);
+});
