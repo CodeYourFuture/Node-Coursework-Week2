@@ -23,27 +23,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
-//Create a new message
-app.post("/messages", function (req, res) {
-  const { text, from } = req.body;
-
-  //checking if the message objects have an empty or missing text or from property
-  if (!text || !from || text.trim() === "" || from.trim() === "") {
-    return res
-      .status(400)
-      .json({ error: "text and from properties are required" });
-  } else {
-    let newMessage = {
-      text: text,
-      from: from,
-      timeSent: new Date().toISOString(), // adding timestamp using Date object
-    };
-
-    messages.push(newMessage);
-    res.status(201).send(newMessage);
-  }
-});
-
 //Read all messages
 app.get("/messages", function (req, res) {
   res.status(200).send(messages);
@@ -69,6 +48,47 @@ app.get("/messages/:id", function (req, res) {
   const userId = Number(req.params.id);
   const foundedMessage = messages.find((message) => message.id === userId);
   res.status(200).send(foundedMessage);
+});
+
+//Create a new message
+app.post("/messages", function (req, res) {
+  const { text, from } = req.body;
+
+  //checking if the message objects have an empty or missing text or from property
+  if (!text || !from || text.trim() === "" || from.trim() === "") {
+    return res
+      .status(400)
+      .json({ error: "text and from properties are required" });
+  } else {
+    const newMessage = {
+      from: from,
+      text: text,
+      timeSent: new Date().toISOString(), // adding timestamp using Date object
+    };
+
+    messages.push(newMessage);
+    res.status(201).send(newMessage);
+  }
+});
+
+//update a message's text or from property
+app.put("/messages/:id", function (req, res) {
+  const searchId = Number(req.params.id);
+  const newFrom = req.body.from;
+  const newText = req.body.text;
+
+  const messageToUpdate = messages.find((message) => message.id === searchId);
+
+  if (!messageToUpdate) {
+    res.status(404).send("Message is not found");
+    return;
+  }
+
+  //if newText is provided, it will update the text property to that value.
+  // If newText is not provided or is a falsy value, it will keep the existing text value.
+  messageToUpdate.from = newFrom || messageToUpdate.from;
+  messageToUpdate.text = newText || messageToUpdate.text;
+  res.status(200).send(messageToUpdate);
 });
 
 //Delete a message, by ID
