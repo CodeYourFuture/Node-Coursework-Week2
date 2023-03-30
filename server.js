@@ -71,16 +71,14 @@ app.get("/messages/:id", (req, res) => {
 });
 //delete message
 app.delete("/messages/:id", (req, res) => {
-  const message = messages.find(
-    (message) => message.id === Number(req.params.id)
+  const filteredMessages = messages.filter(
+    (message) => message.id !== Number(req.params.id)
   );
-  messages.splice(message, 1);
-  res.status(204).send("delete");
 });
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(8081, () => {
+app.listen(9090, () => {
   console.log("Server started on port 8081");
 });
