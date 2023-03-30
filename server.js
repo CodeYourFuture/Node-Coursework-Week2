@@ -21,8 +21,9 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(9090);
-
+const listener = app.listen(process.env.PORT, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
   const newMessage = request.body;
