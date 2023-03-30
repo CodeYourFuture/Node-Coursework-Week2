@@ -25,21 +25,22 @@ app.get("/", function (req, res) {
 
 //Create a new message
 app.post("/messages", function (req, res) {
-  const newUser = req.body;
+  const { text, from } = req.body;
 
   //checking if the message objects have an empty or missing text or from property
-  if (
-    !newUser.text ||
-    !newUser.from ||
-    newUser.text.trim() === "" ||
-    newUser.from.trim() === ""
-  ) {
+  if (!text || !from || text.trim() === "" || from.trim() === "") {
     return res
       .status(400)
       .json({ error: "text and from properties are required" });
   } else {
-    messages.push(newUser);
-    res.status(201).send(newUser);
+    let newMessage = {
+      text: text,
+      from: from,
+      timeSent: new Date().toISOString(), // adding timestamp using Date object
+    };
+
+    messages.push(newMessage);
+    res.status(201).send(newMessage);
   }
 });
 
@@ -55,7 +56,6 @@ app.get("/messages/search", function (req, res) {
     message.text.toLowerCase().includes(searchTerm)
   );
   res.status(200).send(foundedMessages);
-  // res.json(foundedMessages);
 });
 
 //Read only the most recent 10 messages
