@@ -26,9 +26,25 @@ const listener = app.listen(process.env.PORT, function () {
 });
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
-  const newMessage = request.body;
-  messages.push(newMessage);
-  response.status(201).send(newMessage);
+  const { id, from, text } = request.body;
+  const newMessage = {};
+  if (
+    "from" in newMessage &&
+    "text" in newMessage &&
+    newMessage.from.length > 0 &&
+    newMessage.text.length > 0
+  ) {
+    const newMessage = { id, from, text };
+
+    messages.push(newMessage);
+    response.status(201).send(newMessage);
+  } else {
+    response
+      .status(400)
+      .send(
+        `CHECK IF:\n\t-->Object contains FROM and TEXT keys \n\t -->TEXT and FROM have a value`
+      );
+  }
 });
 
 // 2.Read all messages
