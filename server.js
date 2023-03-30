@@ -12,7 +12,17 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+  timeSent: "2023-03-30T21:39:18.764Z",
 };
+
+//for creating new Id for new message
+function getNewUniqueId(array) {
+  let newId;
+  do {
+    newId = Math.floor(Math.random() * 1000) + 1; // generate a random number between 1 and 1000
+  } while (array.some((obj) => obj.id === newId)); // check if the id already exists in the array
+  return newId;
+}
 
 //This array is our "data store".
 //We will start with one message in the array.
@@ -61,6 +71,7 @@ app.post("/messages", function (req, res) {
       .json({ error: "text and from properties are required" });
   } else {
     const newMessage = {
+      id: getNewUniqueId(messages),
       from: from,
       text: text,
       timeSent: new Date().toISOString(), // adding timestamp using Date object
