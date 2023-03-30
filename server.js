@@ -26,8 +26,21 @@ app.get("/", function (req, res) {
 //Create a new message
 app.post("/messages", function (req, res) {
   const newUser = req.body;
-  messages.push(newUser);
-  res.status(201).send(newUser);
+
+  //checking if the message objects have an empty or missing text or from property
+  if (
+    !newUser.text ||
+    !newUser.from ||
+    newUser.text.trim() === "" ||
+    newUser.from.trim() === ""
+  ) {
+    return res
+      .status(400)
+      .json({ error: "text and from properties are required" });
+  } else {
+    messages.push(newUser);
+    res.status(201).send(newUser);
+  }
 });
 
 //Read all messages
