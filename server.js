@@ -12,18 +12,10 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
-const allMessages = [
-  { id: 0, from: "baz", text: "hi" },
-  { id: 1, from: "bob", text: "hi" },
-  { id: 2, from: "baz", text: "bye" },
-  { id: 3, from: "bob", text: "bye" },
-];
-
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-// const messages = [welcomeMessage];
-const messages = allMessages;
+const messages = [welcomeMessage];
 
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
@@ -31,20 +23,27 @@ app.get("/", (request, response) => {
 });
 
 app.get("/messages", (req, res) => {
-  res.status(200).send(messages);
+  res.status(200).json(messages);
 });
 
 app.get("/messages/:id", (req, res) => {
   // you need to check that the value of "idToFind" is actually a number, so we have to use the "Number()" method.
   const idToFind = Number(req.params.id);
   const message = messages.find((msg) => msg.id === idToFind);
-  res.status(200).send({ message });
+  res.status(200).json({ message });
 });
 
 app.post("/messages", (req, res) => {
   const newMessage = req.body;
-  messages.push(newMessage);
-  res.status(201).send({ newMessage });
+
+  if (newMessage.from === "" || newMessage.text === "") {
+    res
+      .status(400)
+      .json({ success: false, error: "Please provide all fields" });
+  } else {
+    messages.push(newMessage);
+    res.status(200).json({ newMessage });
+  }
 });
 
 app.delete("/messages/:id", (req, res) => {
@@ -56,6 +55,14 @@ app.delete("/messages/:id", (req, res) => {
     (msg) => msg.id === idToDelete
   );
   console.log(indexOfMessageToDelete);
+  if (indexOfMessageToDelete === -1) {
+    res
+      .status(404)
+      .json({ success: false, error: "No message with that ID was found" });
+  } else {
+    messages.splice(indexOfMessageToDelete);
+    res.status(200).json({ success: true });
+  }
 });
 
 app.listen(3000, () => {
