@@ -26,11 +26,35 @@ app.get("/messages", (req, res) => {
   res.status(200).json(messages);
 });
 
+app.get("/messages/search", (req, res) => {
+  const searchQuery = req.query.text;
+
+  const matchedMessages = messages.filter((x) =>
+    x.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  res.status(200).json(matchedMessages);
+});
+
+app.get("/messages/latest", (req, res) => {
+  if (messages.length < 10) {
+    res.status(200).json(messages);
+  } else if (messages.length === 0) {
+    res.status(200).send("There are no messages");
+  } else {
+    const latestMessages = messages.slice(
+      messages.length - 10,
+      messages.length
+    );
+    res.status(200).json(latestMessages);
+  }
+});
+
 app.get("/messages/:id", (req, res) => {
   // you need to check that the value of "idToFind" is actually a number, so we have to use the "Number()" method.
   const idToFind = Number(req.params.id);
   const message = messages.find((msg) => msg.id === idToFind);
-  res.status(200).json({ message });
+  res.status(200).json(message);
 });
 
 app.post("/messages", (req, res) => {
