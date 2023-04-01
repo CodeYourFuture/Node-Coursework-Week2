@@ -5,6 +5,7 @@ const { response } = require("express");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 const welcomeMessage = {
   id: 0,
@@ -20,6 +21,25 @@ const messages = [welcomeMessage];
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
   response.send("You are now live");
+});
+
+app.post("/messages", (req, res) => {
+  let newMessage = req.body;
+
+  if (!newMessage.from || !newMessage.text) {
+    res
+      .status(400)
+      .json({ success: false, error: "Please provide all fields" });
+  } else {
+    let newMessage = {
+      id: messages.length,
+      from: req.body.from,
+      text: req.body.text,
+      time: new Date().toLocaleString(),
+    };
+    messages.push(newMessage);
+    res.status(200).json({ newMessage });
+  }
 });
 
 app.get("/messages", (req, res) => {
@@ -38,7 +58,7 @@ app.get("/messages/search", (req, res) => {
 
 app.get("/messages/latest", (req, res) => {
   if (messages.length === 0) {
-    res.status(200).send("There are no messages");
+    res.status(200).send(error, "There are no messages");
   } else if (messages.length < 10) {
     res.status(200).json(messages);
   } else {
@@ -57,34 +77,12 @@ app.get("/messages/:id", (req, res) => {
   res.status(200).json(message);
 });
 
-app.post("/messages", (req, res) => {
-  let newMessage = req.body;
-
-  if (!newMessage.from || !newMessage.text) {
-    res
-      .status(400)
-      .json({ success: false, error: "Please provide all fields" });
-  } else {
-    let newMessage = {
-      id: messages.length,
-      from: req.body.from,
-      text: req.body.text,
-      time: new Date(),
-    };
-    messages.push(newMessage);
-    res.status(200).json({ newMessage });
-  }
-});
-
 app.delete("/messages/:id", (req, res) => {
   const idToDelete = Number(req.params.id);
-  console.log(idToDelete);
-  console.log(typeof idToDelete);
-
   const indexOfMessageToDelete = messages.findIndex(
     (msg) => msg.id === idToDelete
   );
-  console.log(indexOfMessageToDelete);
+
   if (indexOfMessageToDelete === -1) {
     res
       .status(404)
