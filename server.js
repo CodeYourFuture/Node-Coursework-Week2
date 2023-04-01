@@ -37,20 +37,25 @@ app.get("/messages/:messageId", (req, res) => {
   });
   res.json(foundMessage);
 });
-
+//post and validate(level 1, 2)
 app.post("/messages", function (req, res) {
   const newMessage = req.body;
-  newMessage.id = messages.length;
-  messages.push(newMessage);
-  res.json("messageCreate");
+  if (!newMessage.from || !newMessage.text) {
+    return res.status(400).json({ message: "please do it again" });
+  } else {
+    newMessage.id = messages.length;
+    messages.push(newMessage);
+    return res.json(messages);
+  }
 });
-// notice .delete
+
+// delete
 app.delete("/messages/:messageId", function (req, res) {
   const messageId = parseInt(req.params.messageId);
   messages = messages.filter((messageItem) => {
     return messageItem.id !== messageId;
   });
-  res.json("message deleted");
+  res.json({ message: `message${messageId} deleted`, messages });
 });
 
 //app.listen(process.env.PORT);
