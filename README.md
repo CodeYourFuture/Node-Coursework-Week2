@@ -32,7 +32,7 @@ If you want to share your server with other people the easiest way to do this is
 - [ ] Remix https://glitch.com/~cyf-chat-start
 - [ ] Name your new server `yourname-chat-server`
 - [ ] Make sure you're logged in so that it saves
-- [ ] Check that it is working by making a request to `/`
+- [ ] Check that it is working by making a req to `/`
 - [ ] Take time to read the comments
 - [ ] Copy the code you've written to Glitch
 
@@ -83,7 +83,7 @@ What to do now:
 
 For this level, your server must:
 
-- [ ] _reject_ requests to create messages if the message objects have an empty or missing `text` or `from` property.
+- [ ] _reject_ reqs to create messages if the message objects have an empty or missing `text` or `from` property.
   - [ ] In this case your server should return a status code of `400`.
 
 (Advanced note: people don't actually agree on the best status code for this situation.)
@@ -153,7 +153,7 @@ To make code review easier for us, please:
 
 The repo is here: https://github.com/CodeYourFuture/cyf-chat-react
 
-- [ ] Follow the "Making a Pull Request" guide on https://codeyourfuture.github.io/syllabus-master/others/making-a-pull-request.html
+- [ ] Follow the "Making a Pull req" guide on https://codeyourfuture.github.io/syllabus-master/others/making-a-pull-req.html
 
 - [ ] Then run `npm install` after opening a terminal in the new project directory.
 
