@@ -37,10 +37,10 @@ app.get("/messages/search", (req, res) => {
 });
 
 app.get("/messages/latest", (req, res) => {
-  if (messages.length < 10) {
-    res.status(200).json(messages);
-  } else if (messages.length === 0) {
+  if (messages.length === 0) {
     res.status(200).send("There are no messages");
+  } else if (messages.length < 10) {
+    res.status(200).json(messages);
   } else {
     const latestMessages = messages.slice(
       messages.length - 10,
@@ -58,13 +58,19 @@ app.get("/messages/:id", (req, res) => {
 });
 
 app.post("/messages", (req, res) => {
-  const newMessage = req.body;
+  let newMessage = req.body;
 
-  if (newMessage.from === "" || newMessage.text === "") {
+  if (!newMessage.from || !newMessage.text) {
     res
       .status(400)
       .json({ success: false, error: "Please provide all fields" });
   } else {
+    let newMessage = {
+      id: messages.length,
+      from: req.body.from,
+      text: req.body.text,
+      time: new Date(),
+    };
     messages.push(newMessage);
     res.status(200).json({ newMessage });
   }
