@@ -1,6 +1,6 @@
 <!--
 
-The title for your pull request should be made in this format
+The title for your pull req should be made in this format
 
 CITY CLASS_NO - FIRST_NAME LAST_NAME - MODULE - WEEK_NO
 
