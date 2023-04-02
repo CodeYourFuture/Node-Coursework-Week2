@@ -8,12 +8,7 @@ app.use(express.json());
 
 app.use(cors());
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-  timeSent: "2023-03-30T21:39:18.764Z",
-};
+const messages = require("/messages.json");
 
 //for creating new Id for new message
 function getNewUniqueId(array) {
@@ -23,11 +18,6 @@ function getNewUniqueId(array) {
   } while (array.some((obj) => obj.id === newId)); // check if the id already exists in the array
   return newId;
 }
-
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
 
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");

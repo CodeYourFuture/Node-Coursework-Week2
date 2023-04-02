@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "from": "Vitalina",
+    "text": "Hello, guys! There is my Chat App. Please Enjoy!",
+    "timeSent": "14:30"
+  },
+  {
+    "id": 0,
+    "from": "Bart",
+    "text": "Welcome to CYF chat system!",
+    "timeSent": "2023-03-30T21:39:18.764Z"
+  }
+]
