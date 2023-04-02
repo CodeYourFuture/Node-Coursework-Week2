@@ -1,10 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
 
 app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const welcomeMessage = {
   id: 0,
@@ -21,21 +23,28 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-const getAllMessages = (req, res) => res.status(200).json(messages);
+const getAllMessages = (req, res) => res.status(200).json({ data: messages });
 
 const postMessage = (req, res) => {
+  const { from, text } = req.body;
+
+  from.trim() === "" ? res.status(200).json("Fill from field please!") : null;
+  text.trim() === "" ? res.status(200).json("Fill text field please!") : null;
+
   const newMessage = {
-    id: messages.length,
-    from: req.body.from,
-    text: req.body.text
+    id: messages[messages.length - 1].id + 1,
+    from: from,
+    text: text
   }
   messages.push(newMessage);
   res.status(200).json("Your message added!");
 };
 
 const getOneMessage = (req, res) => {
-  const message = messages.find(eachMessage => eachMessage.id === Number(req.params.id));
-  res.status(200).json(message);
+  const { id } = req.params;
+  const message = messages.find(eachMessage => eachMessage.id === Number(id));
+  !message ? res.status(200).json("Please enter a valid Id") :
+    res.status(200).json({ data: message });
 };
 
 const deleteMessage = (req, res) => {
@@ -46,7 +55,6 @@ const deleteMessage = (req, res) => {
     }
   })
   res.status(404).json("Your message not found!")
-
 }
 
 app.route("/messages")
@@ -57,4 +65,4 @@ app.route("/messages/:id")
   .get(getOneMessage)
   .delete(deleteMessage);
 
-app.listen(process.env.PORT ?? 3000);
+app.listen(process.env.PORT ?? 4000);
