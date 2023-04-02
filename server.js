@@ -30,9 +30,9 @@ const postMessage = (req, res) => {
 
   from.trim() === "" ? res.status(200).json("Fill from field please!") : null;
   text.trim() === "" ? res.status(200).json("Fill text field please!") : null;
-
+  const newId = messages.length !== 0 ? messages[messages.length - 1].id + 1 : 0;
   const newMessage = {
-    id: messages[messages.length - 1].id + 1,
+    id: newId,
     from: from,
     text: text
   }
@@ -48,14 +48,10 @@ const getOneMessage = (req, res) => {
 };
 
 const deleteMessage = (req, res) => {
-  const message = messages.forEach((eachMessage, index) => {
-    if (eachMessage.id === Number(req.params.id)) {
-      messages.splice(index, 1);
-      res.status(200).json("Your message deleted!");
-    }
-  })
-  res.status(404).json("Your message not found!")
-}
+  const index = messages.findIndex(eachMessage =>
+    eachMessage.id === Number(req.params.id));
+  index === -1 ? res.status(404).json("Your message not found!") : messages.splice(index, 1) && res.status(200).json("Your message deleted!");
+};
 
 app.route("/messages")
   .get(getAllMessages)
