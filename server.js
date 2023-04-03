@@ -19,5 +19,8 @@ const messages = [welcomeMessage];
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
+app.post("/messages", (req, res) => {
+  res.send("i've got the message");
+});
 
 app.listen(process.env.PORT);
