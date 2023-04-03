@@ -20,6 +20,10 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+app.get("/messages", function (request, response) {
+  response.send(messages);
+});
+
 const listener = app.listen(process.env.PORT || 3001, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
