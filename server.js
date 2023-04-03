@@ -51,6 +51,25 @@ app.get("/messages/:id", function (request, response) {
 });
 
 
+
+//DELETE:
+app.delete("/albums/:albumID", function (req, res) {
+  console.log("DELETE /albums route");
+});
+// Route to delete a message specified by ID
+app.delete("/messages/:id", (req, res) => {
+  const messageIndex = messages.findIndex(
+    (message) => message.id === parseInt(req.params.id)
+  );
+  if (messageIndex === -1) {
+    return res.status(404).send("Message not found");
+  }
+  messages.splice(messageIndex, 1);
+  res.sendStatus(204); // Send a "No Content" response
+});
+
+//end of DELETE
+
 app.listen(PORT, function() {
   console.log("server running")
 });
