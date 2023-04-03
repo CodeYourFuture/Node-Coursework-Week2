@@ -5,8 +5,7 @@
 }
 
 body {
-    background-color: #DE3163;
-    /* border: solid white 2px; */
+    background-image: linear-gradient(to bottom right, #e46d8f, white);;
     height: 100vh;
 }
 
@@ -19,6 +18,7 @@ header {
     font-family: 'Titan One', cursive;
 }
 
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -27,11 +27,18 @@ header {
     justify-content: center;
     align-items: center;
     border: solid white 2px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+    border-top-right-radius: 25rem;
+    border-bottom-left-radius: 15rem;
+    border-top-left-radius: 25rem;
     margin: 2rem;
-    background-color: pink;
+    background-color: white;
     max-width: 750px;
     height: 85vh;
+}
+
+main {
+    border: solid 3px red;
 }
 
 form p {
@@ -57,4 +64,11 @@ button {
     border: solid white 1px;
     border-radius: 20px;
     background-color: #e46d8f;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    background-color: pink;
+    padding: 2rem
 }
