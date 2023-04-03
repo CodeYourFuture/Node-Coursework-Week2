@@ -16,6 +16,7 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+  timeSent: new Date(),
 };
 
 //This array is our "data store".
@@ -69,6 +70,7 @@ app.get("/messages/latest", (req, res) => {
   const latestMessages = messages.slice(-10);
   res.send(latestMessages);
 });
+
 
 
 // app.get("/messages/:id", function (request, response) {
