@@ -51,6 +51,26 @@ app.post("/messages", function (req, res) {
 });
 
 
+app.get("/messages/search", (req, res) => {
+  const { text } = req.query;
+  if (!text || text.trim() === "") {
+    res.status(400).send("error");
+  } else {
+    const searchedMessage = messages.filter((message) =>
+      message.text.toLowerCase().includes(text.toLowerCase())
+    );
+    console.log(searchedMessage);
+    res.send({ searchedMessage });
+  }
+});
+
+//Read only the most recent 10 messages
+app.get("/messages/latest", (req, res) => {
+  const latestMessages = messages.slice(-10);
+  res.send(latestMessages);
+});
+
+
 // app.get("/messages/:id", function (request, response) {
 //   const id = request.params.id;
 //   console.log(id);
