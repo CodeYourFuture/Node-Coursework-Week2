@@ -99,7 +99,7 @@ app.put("/messages/:id", (req, res) => {
   if (indexOfMessageToUpdate === -1) {
     res
       .status(404)
-      .json({ success: false, error: "No message with that ID was found" });
+      .json({ success: false, error: "ID not found" });
   } else if (indexOfMessageToUpdate === 0) {
     res
       .status(404)
@@ -108,7 +108,7 @@ app.put("/messages/:id", (req, res) => {
     messages.splice(indexOfMessageToUpdate, 1, updatedMessage);
   }
 
-  res.status(200).json({ success: true, updatedMessage });
+  res.status(200).json({ success: true, message: "Message updated", updatedMessage });
 });
 
 //DELETE message specified by ID
