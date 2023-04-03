@@ -25,6 +25,10 @@ app.get("/messages", function (request, response) {
   response.send(messages);
 }); 
 
+app.post("/messages", function (request, response) {
+  response.push(request.body);
+}); 
+
 
 
 
