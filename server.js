@@ -36,7 +36,19 @@ app.post("/messages", function (request, response) {
   messages.push(request.body);
 }); 
 
+app.get("/messages/:id", function (request, response) {
+  const id = request.params.id;
+  console.log(id);
+  filteredms = messages.find((item) => item.id === id);
+  response.json(filteredms);
 
+  //james solution:
+  // app.get("/messages/:id", function (req, res) {
+  //   id = req.params.id
+  //   const filtered = messages.filter(item =>item.id ===id);
+  //     res.json(messages[id])
+  //   console.log(req.params.id);
+});
 
 
 app.listen(PORT, function() {
