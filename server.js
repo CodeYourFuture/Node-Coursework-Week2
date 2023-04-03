@@ -32,7 +32,22 @@ const messages = [welcomeMessage];
   });
 
 app.post("/messages", function (req, res) {
-  messages.push(req.body);
+  if (
+    !req.body.from ||
+    !req.body.text ||
+    req.body.text === "" ||
+    req.body.from === ""
+  ) {
+    res.status(400).send("write a correct text and from");
+  } else {
+    const newMessage = {
+      id: messages.length,
+      from: req.body.from,
+      text: req.body.text,
+    };
+    messages.push(newMessage);
+    res.status(201).send(newMessage);
+  }
 });
 
 
