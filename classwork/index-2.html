@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <h1 id="heading"></h1>
+    <script>
+      fetch("http://localhost:3000/people")
+        .then((response) => response.json())
+        .then((data) => (document.getElementById("heading").innerHTML = data));
+    </script>
+  </body>
+</html>
