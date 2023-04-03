@@ -21,6 +21,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+app.get("/messages", function (request, response) {
+  response.send(messages);
+}); 
+
+
+
+
 app.listen(PORT, function() {
   console.log("server running")
 });
