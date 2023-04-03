@@ -4,6 +4,13 @@ const cors = require("cors");
 const app = express();
 const PORT = 3001;
 
+//to pars what we push to messages
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+//
+
 app.use(cors());
 
 const welcomeMessage = {
@@ -26,7 +33,7 @@ app.get("/messages", function (request, response) {
 }); 
 
 app.post("/messages", function (request, response) {
-  response.push(request.body);
+  messages.push(request.body);
 }); 
 
 
