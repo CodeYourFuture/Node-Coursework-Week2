@@ -21,11 +21,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+
+// Read all messages
 app.get("/messages", function (request, response) {
   response.send(messages);
 });
 
-
+//Create a new message
 app.post("/messages", (request, response) => {
   const message = {
     id: messages[messages.length - 1].id + 1,
@@ -37,6 +39,12 @@ app.post("/messages", (request, response) => {
   response.json(messages)
 })
 
+//Read one message specified by an ID
+app.get("/messages/:messageId", (req, res) => {res.send(
+  messages.filter(item => item["id"] == req.params.messageId))})
+
+
+//listening on port number
 const listener = app.listen(process.env.PORT || 3001, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
