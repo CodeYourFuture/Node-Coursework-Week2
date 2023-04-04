@@ -4,6 +4,9 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 const welcomeMessage = {
   id: 0,
@@ -18,6 +21,17 @@ const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
+});
+
+app.get("/messages", function(request,response) {
+  response.json(messages);
+})
+
+app.post("/messages", function (request, response) {
+  console.log(request.body);
+  response.json(request.body);
+  messages.push(request.body);
+  console.log(messages);
 });
 
 app.listen(process.env.PORT);
