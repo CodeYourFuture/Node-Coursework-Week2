@@ -1,14 +1,122 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "from": "Vitalina",
     "text": "Hello, guys! There is my Chat App. Please Enjoy!",
-    "timeSent": "14:30"
+    "timeSent": "05-04-2023 10:38"
   },
   {
-    "id": 0,
+    "id": 1,
     "from": "Bart",
     "text": "Welcome to CYF chat system!",
-    "timeSent": "2023-03-30T21:39:18.764Z"
+    "timeSent": "05-01-2023 09:38"
+  },
+  {
+    "id": 2,
+    "from": "Rachel",
+    "text": "Well, maybe I don’t need your money. Wait, wait, I said maybe!",
+    "timeSent": "01-04-2023 18:38"
+  },
+  {
+    "id": 3,
+    "from": "Ross",
+    "text": "We were on a break!",
+    "timeSent": "01-03-2023 18:38"
+  },
+  {
+    "id": 4,
+    "from": "Phoebe",
+    "text": "See? He’s her lobster.",
+    "timeSent": "25-01-2023 02:00"
+  },
+  {
+    "id": 5,
+    "from": "Joey",
+    "text": "Joey doesn’t share food!",
+    "timeSent": "05-01-2022 09:02"
+  },
+  {
+    "id": 6,
+    "from": "Chandler",
+    "text": "Hi, I’m Chandler. I make jokes when I’m uncomfortable.",
+    "timeSent": "05-01-2021 12:24"
+  },
+  {
+    "id": 7,
+    "from": "Phoebe",
+    "text": "I wish I could, but I don’t want to.",
+    "timeSent": "08-05-2022 14:23"
+  },
+  {
+    "id": 8,
+    "from": "Monica",
+    "text": "Seven!",
+    "timeSent": "05-03-2023 15:00"
+  },
+  {
+    "id": 9,
+    "from": "Joey",
+    "text": "Could I be wearing any more clothes?",
+    "timeSent": "15-03-2023 10:38"
+  },
+  {
+    "id": 10,
+    "from": "Ross",
+    "text": "It tastes like feet!",
+    "timeSent": "01-03-2023 10:00"
+  },
+  {
+    "id": 11,
+    "from": "Monica",
+    "text": "And I have to live with a boy!",
+    "timeSent": "20-03-2023 02:03"
+  },
+  {
+    "id": 12,
+    "from": "Joey",
+    "text": "How you doin'?",
+    "timeSent": "20-12-2021 12:33"
+  },
+  {
+    "id": 13,
+    "from": "Phoebe",
+    "text": "I don’t even have a ‘pla.’",
+    "timeSent": "20-03-2023 05:03"
+  },
+  {
+    "id": 14,
+    "from": "Chandler",
+    "text": "Okay, you have to stop the Q-Tip when there’s resistance.",
+    "timeSent": "30-03-2023 20:53"
+  },
+  {
+    "id": 15,
+    "from": "Phoebe",
+    "text": "They don’t know that we know they know we know.",
+    "timeSent": "30-03-2023 12:13"
+  },
+  {
+    "id": 16,
+    "from": "Joey",
+    "text": "You can’t just give up. Is that what a dinosaur would do?",
+    "timeSent": "22-11-2022 13:03"
+  },
+  {
+    "id": 17,
+    "from": "Phoebe",
+    "text": "Come on, Ross, you’re a paleontologist. Dig a little deeper.",
+    "timeSent": "06-06-2020 06:06"
+  },
+  {
+    "id": 18,
+    "from": "Rachel",
+    "text": "I got off the plane.",
+    "timeSent": "03-10-2020 15:23"
+  },
+  {
+    "id": 19,
+    "from": "Chandler",
+    "text": "I'm hopeless and awkward and desperate for love!",
+    "timeSent": "10-02-2023 20:15"
   }
 ]
