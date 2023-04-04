@@ -56,7 +56,7 @@ app.delete("/messages/:messageId", (req, res) => {
 });
 
 //Level 3 - more "read" functionality
-app.get('/quotes/search', (request, response) => {
+app.get('/messages/search', (request, response) => {
   let searchQuery = request.query.text.toLowerCase()
   response.send(messages.filter(item => 
      item.text.toLowerCase().includes(searchQuery) 
