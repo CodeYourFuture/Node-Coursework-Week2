@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.use(cors());
 
-const messages = require("/messages.json");
+const messages = require("./messages.json");
 
 //for creating new Id for new message
 function getNewUniqueId(array) {
@@ -34,6 +34,7 @@ app.get("/messages/search", function (req, res) {
   const foundedMessages = messages.filter((message) =>
     message.text.toLowerCase().includes(searchTerm)
   );
+  console.log(foundedMessages);
   res.status(200).send(foundedMessages);
 });
 
@@ -41,6 +42,15 @@ app.get("/messages/search", function (req, res) {
 app.get("/messages/latest", function (req, res) {
   const latestMessages = messages.slice(-10);
   res.status(200).send(latestMessages);
+});
+
+//Read all messages specified by name
+app.get("/messages/name/:name", function (req, res) {
+  const userName = req.params.name.toLowerCase();
+  const foundedMessage = messages.filter(
+    (message) => message.from.toLowerCase() === userName
+  );
+  res.status(200).send(foundedMessage);
 });
 
 //Read one message specified by an ID
@@ -52,7 +62,7 @@ app.get("/messages/:id", function (req, res) {
 
 //Create a new message
 app.post("/messages", function (req, res) {
-  const { text, from } = req.body;
+  const { from, text } = req.body;
 
   //checking if the message objects have an empty or missing text or from property
   if (!text || !from || text.trim() === "" || from.trim() === "") {
