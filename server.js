@@ -43,6 +43,18 @@ app.post("/messages", (request, response) => {
 app.get("/messages/:messageId", (req, res) => {res.send(
   messages.filter(item => item["id"] == req.params.messageId))})
 
+//Delete a message, by ID
+app.delete("/messages/:messageId", (req, res) => {
+  const id = Number(req.params.messageId);
+  const index = messages.findIndex((msg) => msg.id === id);
+  if (index >= 0) {
+    messages.splice(index, 1);
+    res.status(204).send("Message deleted");
+  } else {
+    res.status(404).send("Message not found");
+  }
+});
+
 
 //listening on port number
 const listener = app.listen(process.env.PORT || 3001, function () {
