@@ -74,7 +74,7 @@ app.post("/messages", function (req, res) {
       id: getNewUniqueId(messages),
       from: from,
       text: text,
-      timeSent: new Date().toISOString(), // adding timestamp using Date object
+      timeSent: new Date(), // adding timestamp using Date object
     };
 
     messages.push(newMessage);
