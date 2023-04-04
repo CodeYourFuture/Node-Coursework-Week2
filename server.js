@@ -70,11 +70,21 @@ app.post("/messages", function (req, res) {
       .status(400)
       .json({ error: "text and from properties are required" });
   } else {
+    const date = new Date();
+    const formattedDate = date.toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
     const newMessage = {
       id: getNewUniqueId(messages),
       from: from,
       text: text,
-      timeSent: new Date(), // adding timestamp using Date object
+      timeSent: formattedDate, // adding timestamp using Date object
     };
 
     messages.push(newMessage);
