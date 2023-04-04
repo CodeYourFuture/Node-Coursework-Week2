@@ -46,7 +46,7 @@ app.get("/messages/:messageId", (req, res) => {res.send(
 //Delete a message, by ID
 app.delete("/messages/:messageId", (req, res) => {
   const id = Number(req.params.messageId);
-  const index = messages.findIndex((msg) => msg.id === id);
+  const index = messages.findIndex((message) => message.id === id);
   if (index >= 0) {
     messages.splice(index, 1);
     res.status(204).send("Message deleted");
@@ -55,6 +55,13 @@ app.delete("/messages/:messageId", (req, res) => {
   }
 });
 
+//Level 3 - more "read" functionality
+app.get('/quotes/search', (request, response) => {
+  let searchQuery = request.query.text.toLowerCase()
+  response.send(messages.filter(item => 
+     item.text.toLowerCase().includes(searchQuery) 
+  ))
+})
 
 //listening on port number
 const listener = app.listen(process.env.PORT || 3001, function () {
