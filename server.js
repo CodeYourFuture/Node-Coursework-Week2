@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-
+const {request,response, urlencoded} = require ('express');
 const app = express();
+const PORT= process.env.PORT || 3001;
 
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 app.use(cors());
 
 const welcomeMessage = {
@@ -20,4 +23,12 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-app.listen(process.env.PORT);
+
+// Create a new message
+// - [ ] Read all messages
+// - [ ] Read one message specified by an ID
+// - [ ] Delete a message, by ID
+
+app.listen(PORT, function () {
+  console.log(`Listening on ${PORT}`);
+});
