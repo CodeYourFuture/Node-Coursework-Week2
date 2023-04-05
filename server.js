@@ -25,8 +25,24 @@ app.get("/", function (request, response) {
 
 
 // Create a new message
+app.post('/messages', function(req,res) =>{
+const newMessage = {
+  id:messages.length,
+  from:req.body.from,
+  text: req.body.text,
+  timeSent:newD
+}  
+})
+
+
 // - [ ] Read all messages
+
+
+
 // - [ ] Read one message specified by an ID
+
+
+
 // - [ ] Delete a message, by ID
 
 app.listen(PORT, function () {
