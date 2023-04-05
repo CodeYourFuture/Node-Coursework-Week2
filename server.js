@@ -31,7 +31,7 @@ app.get("/messages", function(req,res) {
 // read a message by id
 app.get("/messages/:id", function(req, res) {
   const messageId = req.params.id;
-  const findId = messages.find((message) => message.id === messageId);
+  const findId = messages.find((message) => { return message.id === Number(messageId) });
     if (findId) {
     res.json(findId);
     console.log(findId);
@@ -61,7 +61,7 @@ app.post("/messages", function (req, res) {
 // delete message by id
 app.delete("/messages/:id", function (req, res) {
   const messageId = req.params.id;
-  const findIndex = messages.findIndex((message) => message.id === messageId);
+  const findIndex = messages.findIndex((message) => { return message.id === Number(messageId) });
 
   if (findIndex === -1) {
     res.status(404).send("Message not found");
