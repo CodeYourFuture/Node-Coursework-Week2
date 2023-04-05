@@ -3,10 +3,9 @@ const cors = require("cors");
 
 const app = express();
 
-// const port = 3000;
-
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const welcomeMessage = {
   id: 0,
@@ -26,7 +25,8 @@ app.get("/", (req, res) => {
 
 // Create a new message
 app.post("/messages", (req, res) => {
-  const { id, from, text } = req.body;
+  const { from, text } = req.body;
+  console.log(req.body);
 
   const newMessage = {
     id: nextMessageId++,
@@ -66,8 +66,8 @@ app.delete("/messages/:id", (req, res) => {
   }
 });
 
-app.listen(process.env.PORT);
+// app.listen(process.env.PORT);
 
-// app.listen(port, () => {
-//   console.log("Server listening on port 3000...");
-// });
+app.listen(3000, () => {
+  console.log("Server listening on port 3000...");
+});
