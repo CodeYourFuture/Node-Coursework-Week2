@@ -1,0 +1,30 @@
+body {
+  font-family: "Helvetica", Sans-Serif;
+  background-image: url("https://c4.wallpaperflare.com/wallpaper/312/851/784/dolomiti-italy-autumn-lago-antorno-landscape-photography-desktop-hd-wallpaper-for-pc-tablet-and-mobile-3840%C3%972400-wallpaper-preview.jpg");
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+}
+h1,
+h2,
+p {
+  color: white;
+}
+.main {
+  display: grid;
+  justify-content: center;
+}
+
+.signup-text-input {
+}
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  width: 150px;
+  padding: 0;
+  margin: 5px;
+  box-sizing: border-box;
+}
