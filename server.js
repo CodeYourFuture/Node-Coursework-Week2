@@ -12,6 +12,7 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+  timeSent: new Date().toGMTString()
 };
 
 //This array is our "data store".
@@ -37,6 +38,7 @@ app.post("/messages", function (req, res) {
      id: messages.length,
      from,
      text,
+     timeSent: new Date().toGMTString()
    };
 
   if (!newMessage.text || !newMessage.from) {
