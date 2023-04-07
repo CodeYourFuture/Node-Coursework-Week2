@@ -59,6 +59,7 @@ app.get('/messages/search', (req, res) => {
   res.json(result);
 });
 
+// read the latest messages
 app.get('/messages/latest', (req, res) => {
   const latest = messages.slice(-10);
   res.json(latest);
@@ -74,6 +75,24 @@ app.get("/messages/:id", function(req, res) {
   } else {
     res.status(404).send("Message not found");
   }
+});
+
+// update messages
+app.put("messages/:id", function(req, res) {
+const messageId = req.params.id;
+  const { from, text } = req.body;
+  const findIndex = messages.findIndex(
+    message => message.id === Number(messageId)
+  );
+
+  if (findIndex === -1) {
+    return res.status(404).send("Message not found");
+  }
+  
+  messages[findIndex].text = text;
+  messages[findIndex].from = from;
+
+  res.json(messages[findIndex]);
 });
 
 // delete message by id
