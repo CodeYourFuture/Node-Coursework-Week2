@@ -71,14 +71,16 @@ app.post("/messages", function (req, res) {
       .json({ error: "text and from properties are required" });
   } else {
     const date = new Date();
-    const formattedDate = date.toLocaleString("en-US", {
+    const options = {
+      timeZone: "Europe/London",
       month: "2-digit",
       day: "2-digit",
       year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-    });
+    };
+    const formattedDate = date.toLocaleString("en-US", options);
 
     const newMessage = {
       id: getNewUniqueId(messages),
@@ -88,7 +90,7 @@ app.post("/messages", function (req, res) {
     };
 
     messages.push(newMessage);
-    res.status(201).send(newMessage);
+    res.status(201).send(messages);
   }
 });
 
