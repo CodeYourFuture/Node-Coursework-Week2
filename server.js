@@ -26,19 +26,8 @@ app.get("/", function (req, res) {
 // read all messages
 app.get("/messages", function(req,res) {
   res.json(messages);
-})
-
-// read a message by id
-app.get("/messages/:id", function(req, res) {
-  const messageId = req.params.id;
-  const findId = messages.find((message) => { return message.id === Number(messageId) });
-    if (findId) {
-    res.json(findId);
-    console.log(findId);
-  } else {
-    res.status(404).send("Message not found");
-  }
 });
+
 
 
 // create a new message
@@ -58,6 +47,31 @@ app.post("/messages", function (req, res) {
   // response.json(request.body);
   // messages.push(request.body);
   //console.log(messages);
+});
+
+// Search messages by text substring
+app.get('/messages/search', (req, res) => {
+  const searchText = req.query.text.toLowerCase();
+  console.log(searchText)
+  const result = messages.filter(msg => msg.text.toLowerCase().includes(searchText));
+  res.json(result);
+});
+
+app.get('/messages/latest', (req, res) => {
+  const latest = messages.slice(-10);
+  res.json(latest);
+});
+
+//read a message by id
+app.get("/messages/:id", function(req, res) {
+  const messageId = req.params.id;
+  const findId = messages.find((message) => { return message.id === Number(messageId) });
+    if (findId) {
+    res.json(findId);
+    console.log(findId);
+  } else {
+    res.status(404).send("Message not found");
+  }
 });
 
 // delete message by id
