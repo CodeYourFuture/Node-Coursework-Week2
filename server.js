@@ -97,7 +97,6 @@ app.post("/messages", function (req, res) {
 //update a message's text or from property
 app.put("/messages/:id", function (req, res) {
   const searchId = Number(req.params.id);
-  const newFrom = req.body.from;
   const newText = req.body.text;
 
   const messageToUpdate = messages.find((message) => message.id === searchId);
@@ -109,9 +108,20 @@ app.put("/messages/:id", function (req, res) {
 
   //if newText is provided, it will update the text property to that value.
   // If newText is not provided or is a falsy value, it will keep the existing text value.
-  messageToUpdate.from = newFrom || messageToUpdate.from;
   messageToUpdate.text = newText || messageToUpdate.text;
-  res.status(200).send(messageToUpdate);
+  res.status(200).send(messages);
+});
+
+//Delete a message, by ID
+app.delete("/messages/:id", function (req, res) {
+  const userId = Number(req.params.id);
+  messages.forEach((message) => {
+    if (message.id === userId) {
+      const index = messages.indexOf(message);
+      messages.splice(index, 1);
+    }
+  });
+  res.status(200).send(messages);
 });
 
 //Delete a message, by ID
