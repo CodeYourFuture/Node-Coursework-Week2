@@ -123,7 +123,7 @@ app.delete("/messages/:id", function (req, res) {
       messages.splice(index, 1);
     }
   });
-  res.status(204).send("The message was deleted");
+  res.status(200).send(messages);
 });
 
 app.listen(port, () => {
