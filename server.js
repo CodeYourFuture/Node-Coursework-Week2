@@ -50,7 +50,9 @@ app.post("/messages", function (req, res) {
      text,
    };
 
-  console.log(newMessage);
+  if (!newMessage.text || !newMessage.from) {
+    return res.status(400).json({msg: 'please fill in information in the from and text input'});
+  }
   messages.push(newMessage);
   res.status(201).json({ success: true, data: messages });
   // response.json(request.body);
