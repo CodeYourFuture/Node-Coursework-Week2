@@ -78,7 +78,7 @@ app.get("/messages/:id", function(req, res) {
 });
 
 // update messages
-app.put("messages/:id", function(req, res) {
+app.put("/messages/:id", function(req, res) {
 const messageId = req.params.id;
   const { from, text } = req.body;
   const findIndex = messages.findIndex(
@@ -88,7 +88,7 @@ const messageId = req.params.id;
   if (findIndex === -1) {
     return res.status(404).send("Message not found");
   }
-  
+
   messages[findIndex].text = text;
   messages[findIndex].from = from;
 
