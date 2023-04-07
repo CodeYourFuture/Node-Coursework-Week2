@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const port = 3001;
 
 const app = express();
 
@@ -16,8 +17,13 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + "/index.html");
+// Read all the messages
+app.get("/messages", function (requests, response) {
+  response.json({ messages });
 });
+app.get("/messages/:id");
 
-app.listen(process.env.PORT);
+// app.get("/", function (request, response) {
+//   response.sendFile(__dirname + "/index.html");
+// });
+app.listen(port);
