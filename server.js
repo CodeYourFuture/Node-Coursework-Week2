@@ -19,6 +19,25 @@ function getNewUniqueId(array) {
   return newId;
 }
 
+function formatDate(date) {
+  let now = date;
+  let year = now.getFullYear();
+  let month = now.getMonth() + 1;
+  let day = now.getDate();
+  let hours = now.getHours() + 1;
+  let minutes = now.getMinutes();
+
+  //adding 0 to day if the number is less than 10
+  let newDay = ("0" + day).slice(-2);
+  let newMonth = ("0" + month).slice(-2);
+  let newHours = ("0" + hours).slice(-2);
+  let newHMinutes = ("0" + minutes).slice(-2);
+
+  let myDate = `${newDay}-${newMonth}-${year} ${newHours}:${newHMinutes}`;
+
+  return myDate;
+}
+
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/index.html");
 });
@@ -71,16 +90,8 @@ app.post("/messages", function (req, res) {
       .json({ error: "text and from properties are required" });
   } else {
     const date = new Date();
-    const options = {
-      timeZone: "Europe/London",
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    };
-    const formattedDate = date.toLocaleString("en-US", options);
+
+    const formattedDate = formatDate(date);
 
     const newMessage = {
       id: getNewUniqueId(messages),
@@ -109,18 +120,6 @@ app.put("/messages/:id", function (req, res) {
   //if newText is provided, it will update the text property to that value.
   // If newText is not provided or is a falsy value, it will keep the existing text value.
   messageToUpdate.text = newText || messageToUpdate.text;
-  res.status(200).send(messages);
-});
-
-//Delete a message, by ID
-app.delete("/messages/:id", function (req, res) {
-  const userId = Number(req.params.id);
-  messages.forEach((message) => {
-    if (message.id === userId) {
-      const index = messages.indexOf(message);
-      messages.splice(index, 1);
-    }
-  });
   res.status(200).send(messages);
 });
 
