@@ -66,7 +66,7 @@ app.get("/messages/search", function (request, response) {
 
 // READ ONLY 10 RECENT MESSAGES
 app.get("/messages/latest", function (request, response) {
-  const latestMessages = messages.slice(-10);
+  const latestMessages = [...messages.slice(-10)];
   response.send(latestMessages);
 });
 
