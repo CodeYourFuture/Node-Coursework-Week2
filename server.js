@@ -24,15 +24,18 @@ app.get("/", function (request, response) {
 });
 
 app.post("/message", (req, res) => {
-  const newMessage = req.body;
-  console.log(newMessage);
-  nextMessageID++;
-  const message = {};
-  message.id = nextMessageID;
-  message.from = req.body.from;
-  message.text = req.body.text;
-  messages.push(message);
-  res.send(messages);
+  if (req.body.from !== "" && req.body.text !== "") {
+  
+    nextMessageID++;
+    const message = {};
+    message.id = nextMessageID;
+    message.from = req.body.from;
+    message.text = req.body.text;
+    messages.push(message);
+    res.send(messages);
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 app.get("/messages", (req, res) => {
