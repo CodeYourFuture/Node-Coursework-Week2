@@ -55,6 +55,22 @@ app.delete("/message/:id", (req, res) => {
   res.json(messageById);
 });
 
+app.get("/messages/search", (req, res) => {
+  console.log(req.query)
+  const text = req.query.text;
+  const messageText = messages.filter(message => message.text.includes(text));
+  res.json(messageText);
+});
+
+app.get("/messages/latest", (req, res) => {
+  if (messages.length >= 10) {
+    const latestMessages = messages.slice(-10)
+    res.json(latestMessages)
+  } else {
+    res.json(messages)
+  }
+});
+
 // {
 //   path: /messages/1,
 //   method: DELETE
