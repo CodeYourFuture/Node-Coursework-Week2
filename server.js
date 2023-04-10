@@ -31,6 +31,11 @@ app.post("/message", (req, res) => {
     message.id = nextMessageID;
     message.from = req.body.from;
     message.text = req.body.text;
+    // message.timeSent = Date.now();
+    // message.timeSent = new Date().toDateString();
+    // message.timeSent = new Date().toISOString();
+    message.timeSent = new Date().toString();
+    // message.timeSent = new Date().toLocaleDateString();
     messages.push(message);
     res.send(messages);
   } else {
