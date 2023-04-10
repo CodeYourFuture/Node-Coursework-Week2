@@ -25,7 +25,6 @@ app.get("/", function (request, response) {
 
 app.post("/message", (req, res) => {
   if (req.body.from !== "" && req.body.text !== "") {
-  
     nextMessageID++;
     const message = {};
     message.id = nextMessageID;
@@ -56,27 +55,40 @@ app.get("/message/:id", (req, res) => {
 app.delete("/message/:id", (req, res) => {
   const userId = req.params.id;
 
-  const messageById = messages.filter((message) => message.id !== Number(userId));
+  const messageById = messages.filter(
+    (message) => message.id !== Number(userId)
+  );
   res.json(messageById);
 });
 
 app.get("/messages/search", (req, res) => {
-  console.log(req.query)
+  console.log(req.query);
   const text = req.query.text;
-  const messageText = messages.filter(message => message.text.includes(text));
+  const messageText = messages.filter((message) => message.text.includes(text));
   res.json(messageText);
 });
 
 app.get("/messages/latest", (req, res) => {
   if (messages.length >= 10) {
-    const latestMessages = messages.slice(-10)
-    res.json(latestMessages)
+    const latestMessages = messages.slice(-10);
+    res.json(latestMessages);
   } else {
-    res.json(messages)
+    res.json(messages);
   }
 });
 
-
+app.put("/messages/update/:id", (req, res) => {
+  console.log(req.body);
+  const userId = req.params.id;
+  const findIndex = messages.filter((message) => message.id === Number(userId));
+  findIndex[0].from = req.body.from;
+  findIndex[0].text = req.body.text;
+  // const findIndex = messages.findIndex((message) => message.id === Number(userId));
+  // messages[findIndex].from = req.body.from;
+  // messages[findIndex].text = req.body.text;
+  // res.json(messages[findIndex]);
+  res.json(findIndex);
+});
 
 // if user wants to get random latest messages
 
@@ -88,8 +100,6 @@ app.get("/messages/latest", (req, res) => {
 //     res.json(messages);
 //   }
 // });
-
-
 
 //app.listen(process.env.PORT)
 app.listen(port, () => {
