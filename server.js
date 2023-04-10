@@ -62,7 +62,7 @@ app.get("/messages/search", (req, res) => {
   res.json(messageText);
 });
 
-app.get("/messages/latest", (req, res) => {
+app.get("/messages/latest/:number", (req, res) => {
   if (messages.length >= 10) {
     const latestMessages = messages.slice(-10)
     res.json(latestMessages)
@@ -71,10 +71,20 @@ app.get("/messages/latest", (req, res) => {
   }
 });
 
-// {
-//   path: /messages/1,
-//   method: DELETE
-// }
+
+
+// if user wants to get random latest messages
+
+// app.get("/messages/latest/:number", (req, res) => {
+//   if (messages.length >= req.params.number) {
+//     const latestMessages = messages.slice(-Number(req.params.number));
+//     res.json(latestMessages);
+//   } else {
+//     res.json(messages);
+//   }
+// });
+
+
 
 //app.listen(process.env.PORT)
 app.listen(port, () => {
