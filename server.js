@@ -62,7 +62,7 @@ app.get("/messages/search", (req, res) => {
   res.json(messageText);
 });
 
-app.get("/messages/latest/:number", (req, res) => {
+app.get("/messages/latest", (req, res) => {
   if (messages.length >= 10) {
     const latestMessages = messages.slice(-10)
     res.json(latestMessages)
