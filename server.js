@@ -19,7 +19,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -42,7 +42,7 @@ app.post("/messages", function (request, response) {
   }
 
   messages.push(newWelcomeMessage);
-  response.send(messages);
+  response.json(messages);
   // response.redirect("/");
 });
 
@@ -88,11 +88,12 @@ app.delete("/messages/:id", function (request, response) {
   );
 
   if (foundMessage) {
+    messages = messages.filter(
+      (eachMessage) => eachMessage.id !== parseInt(request.params.id)
+    );
     response.json({
       message: `Message ${request.params.id} deleted`,
-      messages: messages.filter(
-        (eachMessage) => eachMessage.id !== parseInt(request.params.id)
-      ),
+      messages: messages,
     });
   } else {
     response
