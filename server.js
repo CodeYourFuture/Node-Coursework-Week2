@@ -17,8 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-
-
 // parse application/x-www-form-urlencoded - for accessing form
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -43,6 +41,13 @@ app.post("/messages", function (req, res) {
 
   /*merged objects in the final one*/
   const newMessageWithId = { ...newMessage, id: currentId };
+
+  /*validate message text and from properties*/
+  if (!newMessageWithId.text || !newMessageWithId.from) {
+    return res.status(400).json({
+      error: "Both name and message are required",
+    });
+  }
 
   messages.push(newMessageWithId);
   res.status(201).send({ newMessageWithId });
