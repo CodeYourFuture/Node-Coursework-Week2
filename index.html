@@ -4,23 +4,42 @@
     <title>Welcome to CYF Chat</title>
   </head>
   <body>
-    <h1>
+    <h1 id ="heading">
       CYF Chat
     </h1>
     <h2>
       Send a message
     </h2>
-    <form action="/messages" method="post">
+    <form id="message-form">
       <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
+        Name: <input type="text" name="from" placeholder="Your Name" id ="name-id" value =""/> <br />
+        Message: <input type="text" name="text" placeholder="The message..." id ="message-id" value =""/>
         <br />
       </p>
-      <button type="submit">
+      <button type="submit" id = "send-id">
         Send
       </button>
     </form>
 
-    <a href="/messages">See all messages</a>
-  </body>
+    <div style="display: flex; flex-direction: row;justify-content: space-evenly;" >
+      
+      <div class="messages-containre"  style="border:1px solid black">
+        <p>all the messages</p>
+        <div id="message-containre" >
+        </div>
+      </div>
+      <div class="latest-messages-containre" style="border: 1px black solid;">
+        <p>last 10 messages</p>
+        <button id="latest-button">Latest</button>
+        <div id="latest-message-containre" >
+        </div>
+      </div>
+    </div>
+
+    <!-- <a href="/messages">See all messages</a> -->
+
+
+<script src="./script.js"></script>
+</body>
+
 </html>
