@@ -15,7 +15,7 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-let messages = [welcomeMessage];
+const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -57,7 +57,7 @@ app.delete("/messages/:messageId", (req, res) => {
 
 //Level 3 - more "read" functionality
 app.get('/messages/search', (request, response) => {
-  let searchQuery = request.query.text.toLowerCase()
+  const searchQuery = request.query.text.toLowerCase()
   response.send(messages.filter(item => 
      item.text.toLowerCase().includes(searchQuery) 
   ))
