@@ -17,31 +17,64 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+
+
+// parse application/x-www-form-urlencoded - for accessing form
+app.use(bodyParser.urlencoded({ extended: false }));
+
 const messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
-  response.json(messages);
+  response.status(200).send("Welcome to my message App");
 });
 
 /*to get all the messages*/
 app.get("/messages", function (request, response) {
-  response.json(messages);
-});
-
-/*To get by ID*/ 
-app.get("/messages/:id", function (request, response) {
-console.log(req.params, "<------- req params")
+  response.status(200).send({ messages });
 });
 
 /*to post a message*/
 app.post("/messages", function (req, res) {
-  // console.log("req->", req.body);
-  // console.log("POST /message route");
   const newMessage = req.body;
-  messages.push(newMessage);
-  res.status(201).send({newMessage});
-  console.log(messages);
+  /*access Id */
+  const previousMessage = messages[messages.length - 1];
+  const currentId = previousMessage.id + 1;
+
+  /*merged objects in the final one*/
+  const newMessageWithId = { ...newMessage, id: currentId };
+
+  messages.push(newMessageWithId);
+  res.status(201).send({ newMessageWithId });
+});
+
+/*To get by ID*/
+app.get("/messages/:id", function (request, response) {
+  // console.log(request.params, "<------- req params");
+  const idToFind = Number(request.params.id);
+  const message = messages.find((message) => message.id === idToFind);
+  console.log(message);
+  response.status(200).send({ message });
+});
+
+/*to delete a message by ID */
+app.delete("/messages/:id", function (request, response) {
+  const idToFind = Number(request.params.id);
+  const message = messages.find((message) => message.id === idToFind);
+  const indexOfMessage = messages.indexOf(message);
+
+  if (indexOfMessage !== -1) {
+    messages.splice(indexOfMessage, 1);
+    response
+      .status(200)
+      .send({ message: `Message with ID ${indexOfMessage} has been deleted` });
+  } else {
+    response
+      .status(404)
+      .send({ message: `Message with ID ${indexOfMessage} not found` });
+  }
+
+  // response.status(200).send({ message });
 });
 
 // const PORT = 9090;
