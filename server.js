@@ -82,6 +82,21 @@ app.delete("/messages/:id", function (request, response) {
   // response.status(200).send({ message });
 });
 
+/*to search messages by text*/
+app.get("/messages/search", function (req, res) {
+  const searchText = req.query.text;
+  const matchingMessages = messages.filter(
+    (message) => message.text.indexOf(searchText) !== -1
+  );
+  res.status(200).send({ messages: matchingMessages });
+});
+
+/*to get the latest 10 messages*/
+app.get("/messages/latest", function (req, res) {
+  const latestMessages = messages.slice(-10);
+  res.status(200).send({ messages: latestMessages });
+});
+
 // const PORT = 9090;
 // app.listen(process.env.PORT);
 
