@@ -13,7 +13,7 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
-//This array is our "data store".
+// This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
@@ -27,6 +27,9 @@ app.get("/", (req, res) => {
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
 
+  // Adding timestamp to each message
+  const timeSent = new Date();
+
   // reject requests to create messages if the message objects have an empty or missing text or from property.
   if (!from || !text || from.trim() === "" || text.trim() === "") {
     res.status(400).send("Missing required property: from or text");
@@ -37,13 +40,13 @@ app.post("/messages", (req, res) => {
     id: nextMessageId++,
     from,
     text,
+    timeSent,
   };
   messages.push(newMessage);
 
   res.json(messages);
 });
 
-//  Read all messages
 // Read only messages whose text contains a given substring: /messages/search?text=express
 app.get("/messages", (req, res) => {
   const { search, latest } = req.body;
@@ -76,6 +79,29 @@ app.get("/messages/:id", (req, res) => {
   } else {
     res.status(404).send("Message not found");
   }
+});
+
+// Update a message by ID
+app.put("/messages/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { from, text } = req.body;
+
+  const messageIndex = messages.findIndex((message) => message.id === id);
+
+  if (messageIndex === -1) {
+    res.status(404).send("Message not found");
+    return;
+  }
+
+  const updatedMessage = {
+    ...messages[messageIndex],
+    from: from || messages[messageIndex].from,
+    text: text || messages[messageIndex].text,
+  };
+
+  messages(messageIndex) = updatedMessage;
+
+  res.json(updatedMessage)
 });
 
 // Delete a message, by ID
