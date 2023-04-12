@@ -44,8 +44,27 @@ app.post("/messages", (req, res) => {
 });
 
 //  Read all messages
+// Read only messages whose text contains a given substring: /messages/search?text=express
 app.get("/messages", (req, res) => {
-  res.json(messages);
+  const { search, latest } = req.body;
+
+  // Filtering messages by search text
+  let filteredMessages = messages;
+
+  if (search) {
+    const searchText = search.toLowerCase();
+    filteredMessages = messages.filter((msg) =>
+      msg.text.toLocaleLowerCase().includes(searchText)
+    );
+  }
+
+  // Limit messages to 10 most recent
+  let limitedMessages = filteredMessages.slice(-10);
+
+  // reverse messages so that most recent appear first
+  limitedMessages = limitedMessages.reverse();
+
+  res.json(limitedMessages);
 });
 
 // Read one message specified by an ID
