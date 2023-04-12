@@ -26,7 +26,12 @@ app.get("/", (req, res) => {
 // Create a new message
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
-  console.log(req.body);
+
+  // reject requests to create messages if the message objects have an empty or missing text or from property.
+  if (!from || !text || from.trim() === "" || text.trim() === "") {
+    res.status(400).send("Missing required property: from or text");
+    return;
+  }
 
   const newMessage = {
     id: nextMessageId++,

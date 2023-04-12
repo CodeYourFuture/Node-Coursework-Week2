@@ -16,5 +16,31 @@
     </form>
 
     <a href="/messages">See all messages</a>
+
+    <h2>All messages</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody id="message-table"></tbody>
+    </table>
+
+    <script>
+      fetch("https://momahboobian-chat-server.glitch.me/messages")
+        .then((response) => response.json())
+        .then((data) => {
+          const messageTable = document.getElementById("message-table");
+          data.forEach((message) => {
+            const row = messageTable.insertRow();
+            const fromCell = row.insertCell();
+            const textCell = row.insertCell();
+            fromCell.innerHTML = message.from;
+            textCell.innerHTML = message.text;
+          });
+        });
+    </script>
   </body>
 </html>
