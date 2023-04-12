@@ -13,9 +13,6 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
 const messages = [
   welcomeMessage,
   {
@@ -87,10 +84,12 @@ app.get("/", function (request, response) {
 // const listener = app.listen(process.env.PORT, function () {
 //   console.log("Your app is listening on port " + listener.address().port);
 // });
-app.listen(8080);
+app.listen(3000);
+
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
-  const { id, from, text } = request.body;
+  let id = messages.length;
+  const { from, text } = request.body;
   const newMessage = { id, from, text };
   if (
     "from" in newMessage &&
@@ -100,7 +99,7 @@ app.post("/messages", (request, response) => {
   ) {
     newMessage.timeSent = new Date();
     messages.push(newMessage);
-    response.status(201).send(newMessage);
+    response.status(201).send(messages);
   } else {
     response
       .status(400)
@@ -112,7 +111,7 @@ app.post("/messages", (request, response) => {
 
 // 2.Read all messages
 app.get("/messages", (request, response) => {
-  response.status(200).send({ messages });
+  response.status(200).send(messages);
 });
 
 // 7.Read-only te most recent 10 messages
@@ -143,7 +142,7 @@ app.delete("/messages/:id", (request, response) => {
   const requestId = Number(request.params.id);
   const deletedMessage = messages.find((message) => message.id === requestId);
   messages.splice(messages.indexOf(deletedMessage), 1);
-  response.send(deletedMessage);
+  response.send(messages);
 });
 
 //5.UPDATE a message by ID=>PUT Level 5
@@ -151,5 +150,5 @@ app.put("/messages/:id", (request, response) => {
   const requestId = Number(request.params.id);
   const updatedMessage = messages.find((message) => message.id === requestId);
   messages.splice(messages.indexOf(updatedMessage), 1, request.body);
-  response.send(request.body);
+  response.send(messages);
 });
