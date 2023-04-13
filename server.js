@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
+const fs = require("fs").promises;
 
 const welcomeMessage = {
   id: 0,
@@ -29,6 +30,8 @@ app.get("/", function (request, response) {
 
 /*to get all the messages*/
 app.get("/messages", function (request, response) {
+
+
   response.status(200).send({ messages });
 });
 
