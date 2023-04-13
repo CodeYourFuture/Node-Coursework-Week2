@@ -97,6 +97,15 @@ app.get("/messages/latest", function (req, res) {
   res.status(200).send({ messages: latestMessages });
 });
 
+app.put("/messages/:id", function (req, res) {
+  const id = parseInt(req.params.id); // get the ID from the URL parameters and convert it to a number
+
+  const newMessage = { ...req.body, id: Number(req.params.id) };
+  const messageIndex = quotes.findIndex((q) => q.id === Number(req.params.id));
+  quotes.splice(messageIndex, 1, newMessage);
+  res.status(200).send({ success: true });
+});
+
 // const PORT = 9090;
 // app.listen(process.env.PORT);
 
