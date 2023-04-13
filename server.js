@@ -12,8 +12,8 @@ app.use(cors());
 
 const welcomeMessage = {
   id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
+  from: "Andriana",
+  text: "Welcome to Andriana's Hub chat system!",
 };
 
 //This array is our "data store".
