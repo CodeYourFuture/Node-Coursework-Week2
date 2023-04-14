@@ -17,6 +17,28 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
+//Create a message + simple validation
+app.post("/messages", function (request, response) {
+  if(!request.body.from || !request.body.text){
+      return response
+      .status(400)
+      .send("Bad Request: from and text are required fields.");
+  }
+  const newMessage = {
+    id: messages.length,
+    from: req.body.from,
+    text: req.body.text,
+    timeSent: new Date(),
+  };
+  messages.push(newMessage);
+  response
+    .status(200)
+    .json({ message: "Message created successfully", newMessage });
+});
+
+
+
+
 // Read all the messages
 app.get("/messages", function (request, response) {
   response.json({ messages });
