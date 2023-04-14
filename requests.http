@@ -1,0 +1,35 @@
+### 
+
+# Root (index.html)
+get http://localhost:4000/
+
+
+### 
+
+# Get All Messages
+get http://localhost:4000/messages
+
+
+### 
+
+#Get One Message
+get http://localhost:4000/messages/1
+
+
+###
+
+# Post One Message
+post http://localhost:4000/messages
+Content-Type: application/json
+
+{
+  "from":"Farzaneh",
+  "text":"Hello"
+}
+
+
+###
+
+# Delete One Message
+delete http://localhost:4000/messages/0
+
