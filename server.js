@@ -18,10 +18,25 @@ const welcomeMessage = {
 const messages = [welcomeMessage];
 
 // Read all the messages
-app.get("/messages", function (requests, response) {
+app.get("/messages", function (request, response) {
   response.json({ messages });
 });
-app.get("/messages/:id");
+
+// Read a message by ID
+app.get("/messages/:id", function (request, response) {
+  let message = messages.filter(
+    (message) => message.id === Number(request.params.id)
+  );
+  response.status(200).send(messages);
+});
+
+// Delete a message by ID
+app.delete("/messages/:id", function (request, response) {
+  let message = messages.filter(
+    (message) => message.id === Number(request.params.id)
+  );
+  response.json({ messages });
+});
 
 // app.get("/", function (request, response) {
 //   response.sendFile(__dirname + "/index.html");
