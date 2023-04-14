@@ -19,10 +19,10 @@ const messages = [welcomeMessage];
 
 //Create a message + simple validation
 app.post("/messages", function (request, response) {
-  if(!request.body.from || !request.body.text){
-      return response
+  if (!request.body.from || !request.body.text) {
+    return response
       .status(400)
-      .send("Bad Request: from and text are required fields.");
+      .send("From and text are required fields.");
   }
   const newMessage = {
     id: messages.length,
@@ -35,9 +35,6 @@ app.post("/messages", function (request, response) {
     .status(200)
     .json({ message: "Message created successfully", newMessage });
 });
-
-
-
 
 // Read all the messages
 app.get("/messages", function (request, response) {
@@ -58,6 +55,27 @@ app.delete("/messages/:id", function (request, response) {
     (message) => message.id === Number(request.params.id)
   );
   response.json({ messages });
+});
+
+//Read only messages containing a substring in the text
+app.get("/messages/search", function (request, response) {
+  const searchText = request.query.text;
+
+  if (!searchText) {
+    return response.status(400).send("error");
+  } else {
+    const filteredMessages = messages.filter((message) => {
+      return message.text.includes(searchText);
+    });
+
+    response.json({ messages: filteredMessages });
+  }
+});
+
+// Read only the 10 recent messages
+
+app.get("/messages/latest", function(request, response){
+  response.json({messages: messages.slice(- 10)})
 });
 
 // app.get("/", function (request, response) {
