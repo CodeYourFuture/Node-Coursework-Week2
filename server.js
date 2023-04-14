@@ -38,7 +38,7 @@ app.get("/messages", (req, res) => {
   res.json({ messages });
 });
 
-app.get("/messages/id", (req, res) => {
+app.get("/messages/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
   const message = messages.find((item) => item.id === id);
