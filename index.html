@@ -10,7 +10,7 @@
     <h2>
       Send a message
     </h2>
-    <form action="/messages" method="post">
+    <form action="/messages" method="post" id="form">
       <p>
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
         Message: <input type="text" name="text" placeholder="The message..." />
@@ -22,5 +22,14 @@
     </form>
 
     <button><a href="/messages">See all messages</a></button>
+
+    <!-- <script> 
+    const form = document.querySelector("#form");
+      if (form) {
+        form.addEventListener("submit", function(event) {
+          send(event, this);
+        });
+      };</script> -->
+
   </body>
 </html>

@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 const welcomeMessage = {
   id: 0,
@@ -30,6 +31,8 @@ app.get("/", function (request, response) {
 //   response.send(`Hello, welcome to node ${messages}`);
 // });
 
+ 
+
 app.get("/messages", function (request, response) {
   response.json(messages);
 });
@@ -40,9 +43,12 @@ app.post("/messages", function (request, response) {
     from: request.body.from,
     text: request.body.text,
   };
-  if (!NewMessage.from || !NewMessage.text){
-    return response.status(400).json({message:"Please fill out all areas"});
-  }
+  console.log(request.body);
+  console.log(request.body.text);
+  console.log(request.body.from);
+  // if (!NewMessage.from || !NewMessage.text){
+  //   return response.status(400).json({message:"Please fill out all areas"});
+  // }
   messages.push(NewMessage);
   response.json(messages);
 });
@@ -71,7 +77,7 @@ app.delete("/messages/:id", function (request, response) {
     response.json({ message: "message not found" });
   }
 });
-
+ 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}. Ready to accept requests!`);
 });
