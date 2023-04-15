@@ -40,6 +40,9 @@ app.post("/messages", function (request, response) {
     from: request.body.from,
     text: request.body.text,
   };
+  if (!NewMessage.from || !NewMessage.text){
+    return response.status(400).json({message:"Please fill out all areas"});
+  }
   messages.push(NewMessage);
   response.json(messages);
 });
