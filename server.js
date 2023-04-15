@@ -30,8 +30,6 @@ app.get("/", function (request, response) {
 
 /*to get all the messages*/
 app.get("/messages", function (request, response) {
-
-
   response.status(200).send({ messages });
 });
 
