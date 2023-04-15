@@ -15,8 +15,15 @@ app.put("/people", (request, response) => {
   response.json(people);
 });
 
-app.delete("/people", (request, response) => {
-res.send("DELETE Request Called");
+app.delete("/people/:name", (request, response) => {
+  const nameToDelete = request.params.name;
+  const indexToDelete = people.findIndex((name) => name === nameToDelete);
+  if (indexToDelete === -1) {
+    response.status(404).send("Person not found");
+  } else {
+    people.splice(indexToDelete, 1);
+    response.send("Person deleted");
+  }
 });
 
 const port = 3000;
