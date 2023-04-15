@@ -89,7 +89,7 @@ app.get("/hello", function (request, response) {
 //app.use(express.urlencoded({ extended: true })); // for parsing application/json
 app.use(bodyParser.json());
 
-let idCounter = 1;
+let idCounter = 11;
 
 // create a new message
 app.post("/messages", function (request, response) {
@@ -105,10 +105,12 @@ app.post("/messages", function (request, response) {
     id: idCounter++,
     from: request.body.from,
     text: request.body.text,
+    timeSent: new Date(),
   };
   messages.push(newMessage);
   console.log(messages);
-  response.redirect("/");
+  response.json(messages);
+  //response.redirect("/");
 });
 
 //read all messages
@@ -155,5 +157,8 @@ app.delete("/messages/:id", function (req, res) {
     res.status(204).send();
   }
 });
+
+//timestamp, `timeSent`
+//the server must store a timestamp in each message object, in a field called `timeSent`
 
 app.listen(process.env.PORT || 4000);
