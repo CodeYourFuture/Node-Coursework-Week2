@@ -18,7 +18,7 @@ let messages = [
   {
     id: 1,
     from: "Joe",
-    text: "New Message!",
+    text: "New Message!"
   },
 ];
 
@@ -30,6 +30,15 @@ app.get("/", function (request, response) {
 app.get("/messages", (req, res) => {
   res.status(200).json(messages);
 });
+//level 3 [2]read only the most recent 10 messages
+app.get("/messages/latest", (req, res) => {
+  const filterMessages = messages.slice(
+    0, 10
+    );
+  res.send(filterMessages);
+});
+
+
 //[3] read one message specified by id
 app.get("/messages/:messageId", (req, res) => {
   const messageId = parseInt(req.params.messageId);
@@ -67,14 +76,6 @@ app.get("/messages/search", (req, res) => {
     message.text.toLowerCase().includes(term.toLowerCase());
   });
   console.log(filterMessages);
-  res.send(filterMessages);
-});
-
-//level 3 [2]read only the most recent 10 messages
-app.get("/messages/latest", (req, res) => {
-  const filterMessages = messages.filter(
-    (message, index) => messages.length - 10 <= index
-  );
   res.send(filterMessages);
 });
 
