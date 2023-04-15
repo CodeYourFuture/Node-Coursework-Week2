@@ -113,6 +113,18 @@ app.post("/messages", function (request, response) {
   //response.redirect("/");
 });
 
+app.put("/messages/:id", function (req, res) {
+  const messageId = req.params.id;
+  const findIndex = messages.findIndex((message) => {
+    return message.id === Number(messageId);
+  });
+
+  messages[findIndex].text = req.body.text;
+  messages[findIndex].from = req.body.from;
+  res.json(messages);
+  console.log(messages);
+});
+
 //read all messages
 app.get("/messages", function (request, response) {
   response.json(messages);
