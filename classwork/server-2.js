@@ -15,6 +15,7 @@ app.put("/people", (request, response) => {
   response.json(people);
 });
 
+
 app.delete("/people/:name", (request, response) => {
   const nameToDelete = request.params.name;
   const indexToDelete = people.findIndex((name) => name === nameToDelete);

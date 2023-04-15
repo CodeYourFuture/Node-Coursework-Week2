@@ -101,8 +101,18 @@ app.get("/messages/latest", function (req, res) {
 app.put("/messages/:id", function (req, res) {
   const id = parseInt(req.params.id); // get the ID from the URL parameters and convert it to a number
 
+
+  if (isNaN(id)) {
+    return res.status(400).send({ error: "Invalid ID" });
+  }
+
   const newMessage = { ...req.body, id: Number(req.params.id) };
   const messageIndex = messages.findIndex((q) => q.id === Number(req.params.id));
+
+   if (messageIndex === -1) {
+     return res.status(404).send({ error: "Message not found" });
+   }
+   
   messages.splice(messageIndex, 1, newMessage);
   res.status(200).send({ success: true });
 });
