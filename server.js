@@ -15,7 +15,68 @@ const welcomeMessage = {
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage];
+const messages = [
+  {
+    id: 0,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 1,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 2,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 3,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 0,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 4,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 5,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 6,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 7,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 8,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 9,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+  {
+    id: 10,
+    from: "Bart",
+    text: "Welcome to CYF chat system!",
+  },
+];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
@@ -61,6 +122,13 @@ app.get("/messages/search", function (request, response) {
   );
 
   response.json(filteredMessages);
+});
+
+//API _must_ also allow a client to:
+//Read only the most recent 10 messages: `/messages/latest`
+app.get("/messages/latest", (req, res) => {
+  let latestMessages = messages.slice(-10);
+  res.json(latestMessages);
 });
 
 // read a message by id
