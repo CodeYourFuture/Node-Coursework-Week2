@@ -112,7 +112,7 @@ app.put("/messages/:id", function (req, res) {
    if (messageIndex === -1) {
      return res.status(404).send({ error: "Message not found" });
    }
-   
+
   messages.splice(messageIndex, 1, newMessage);
   res.status(200).send({ success: true });
 });
@@ -123,3 +123,8 @@ app.put("/messages/:id", function (req, res) {
 app.listen(9090, () => {
   console.log("listening on port 9090");
 });
+
+
+// Comment from Jack: you can listen to port specified by process.env.port when it is present or port 9090 by saying
+// app.listen( process.env.port || 9090, 
+// its better to use a variable to store the default port number 9090
