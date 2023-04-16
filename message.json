@@ -1,0 +1,38 @@
+[
+{
+  "id": 0,
+  "from": "Bart",
+  "text": "Welcome to CYF chat system!"
+},
+
+{
+  "id": 1,
+  "from": "Joy",
+  "text": "Welcome!"
+},
+
+{
+  "id": 2,
+  "from": "Gayle",
+  "text": "Hello Everyone!"
+},
+
+{
+  "id": 3,
+  "from": "Theo",
+  "text": "Yo yo yooo!"
+},
+
+{
+  "id": 4,
+  "from": "Sloz",
+  "text": "Hey How are you?!"
+},
+
+{
+  "id": 5,
+  "from": "Hector",
+  "text": "Happy to be here guys!"
+}
+
+]

@@ -3,35 +3,35 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.get("/index.css", function (req, res) {
+  res.type("text/css");
+  res.sendFile(__dirname + "/index.css");
+});
+
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!",
-};
+const welcomeMessage = require("./message.json")
+
+// const welcomeMessage = {
+//   id: 0,
+//   from: "Bart",
+//   text: "Welcome to CYF chat system!",
+// };
+
+
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
 
-// app.get("/", function (request, response) {
-//   response.send("Yay Node!");
-// });
-
 let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
-  // response.send("hello gayle");
 });
-// app.get("/", function (request, response) {
-//   response.send(`Hello, welcome to node ${messages}`);
-// });
-
- 
 
 app.get("/messages", function (request, response) {
   response.json(messages);
@@ -46,11 +46,17 @@ app.post("/messages", function (request, response) {
   console.log(request.body);
   console.log(request.body.text);
   console.log(request.body.from);
-  // if (!NewMessage.from || !NewMessage.text){
-  //   return response.status(400).json({message:"Please fill out all areas"});
-  // }
+  if (!NewMessage.from || !NewMessage.text){
+    return response.status(400).json({message:"Please fill all required areas"});
+  }
   messages.push(NewMessage);
   response.json(messages);
+});
+
+app.get("/messages/search", function (request, response) {
+  const searchItems = request.query.text;
+  const foundItems = messages.filter((item) => item.text.toLowerCase().includes(searchItems.toLowerCase()));
+  response.json(foundItems);
 });
 
 app.get("/messages/:id", function (request, response) {

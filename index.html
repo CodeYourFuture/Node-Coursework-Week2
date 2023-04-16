@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+      
   <head>
+    
     <title>Welcome to CYF Chat</title>
+    <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
+    <div id="message-board">
     <h1>
-      CYF Chat
+      The ChatterBox Corner!
     </h1>
+    <p>Where talkatives can express themselves without reserve...!</p>
     <h2>
-      Send a message
+      Type and Send A Message!
     </h2>
     <form action="/messages" method="post" id="form">
-      <p>
+      <h4>
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
+        Mesg: <input style="height:100px; width: 350px; font-size:10pt;" type="text" name="text" placeholder="Enter your message..." />
         <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
+        </h4>
+
+        <div id="type-message">
+      <button type="submit">Send</button>
+      <button><a href="/messages">See all messages</a></button>
+      </div>
     </form>
 
-    <button><a href="/messages">See all messages</a></button>
+    </div>
+
+    </body>
+    
+    </html>
+
+
 
     <!-- <script> 
     const form = document.querySelector("#form");
@@ -31,5 +44,4 @@
         });
       };</script> -->
 
-  </body>
-</html>
+ 
