@@ -14,6 +14,7 @@ let messages = [
     id: 0,
     from: "Bart",
     text: "Welcome to CYF chat system!",
+
   },
   {
     id: 1,
@@ -38,6 +39,18 @@ app.get("/messages/latest", (req, res) => {
   res.send(filterMessages);
 });
 
+//level 3 [1]Read only messages whose text contains a given substring:
+app.get("/messages/search", (req, res) => {
+  const { text } = req.query;
+  console.log(req.query);
+
+  const filterMessages = messages.filter((message) => {
+    console.log(message, text);
+    return message.text.toLowerCase().includes(text.toLowerCase());
+  }); 
+  res.send(filterMessages);
+});
+
 
 //[3] read one message specified by id
 app.get("/messages/:messageId", (req, res) => {
@@ -47,6 +60,7 @@ app.get("/messages/:messageId", (req, res) => {
   });
   res.json(foundMessage);
 });
+
 //[1] create a new message,post and validate(level 1, 2)
 app.post("/messages", function (req, res) {
   const newMessage = req.body;
@@ -54,8 +68,12 @@ app.post("/messages", function (req, res) {
     return res.status(400).json({ message: "please do it again" });
   } else {
     newMessage.id = messages.length;
+
+// level[4] add a new property called "timeSent" with the current date and time
+newMessage.timeSent = new Date();
+console.log(newMessage)
     messages.push(newMessage);
-    return res.json(messages);
+    res.json(messages);
   }
 });
 
@@ -67,17 +85,17 @@ app.delete("/messages/:messageId", function (req, res) {
   });
   res.json({ message: `message${messageId} deleted`, messages });
 });
-//level 3 [1]Read only messages whose text contains a given substring:
-app.get("/messages/search", (req, res) => {
-  const { term } = req.query;
-  console.log(term);
 
-  const filterMessages = messages.filter((message) => {
-    message.text.toLowerCase().includes(term.toLowerCase());
-  });
-  console.log(filterMessages);
-  res.send(filterMessages);
-});
+//Level 5 - add message update functionality
+app.put("/messages/:id", (req, res)=>{
+  const id = req.params.id;
+  const updates = req.body;
+  const message = messages.find((message) => message.id === id);
+  if (!message) return res.status(404).json({ message: "Message not found" });
+  message.text = updates.text || message.text;
+  message.from = updates.from || message.from;
+  res.status(200).json(message);
+})
 
 //app.listen(process.env.PORT);
 app.listen(3001, () => {
