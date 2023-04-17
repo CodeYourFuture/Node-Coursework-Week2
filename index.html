@@ -11,24 +11,36 @@
     <h1>
       The ChatterBox Corner!
     </h1>
-    <p>Where talkatives can express themselves without reserve...!</p>
-    <h2>
-      Type and Send A Message!
-    </h2>
+    <p style="font-family: fantasy;">Where talkatives can express themselves without reserve...!</p>
+    
+    <button id="show-form-button"><h3>Click To Send A Message!</h3> </button>
+
+    <div id="form-container" style="display:none; font-family: fantasy;">
     <form action="/messages" method="post" id="form">
+
+      <div id="designer">
       <h4>
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Mesg: <input style="height:100px; width: 350px; font-size:10pt;" type="text" name="text" placeholder="Enter your message..." />
-        <br />
+        Mesg: <input style="height:80px; width: 200px; font-size:10pt;" type="text" name="text" placeholder="Enter your message..." /> <br />
         </h4>
 
-        <div id="type-message">
-      <button type="submit">Send</button>
-      <button><a href="/messages">See all messages</a></button>
+        <div id="message-buttons">
+      <button id="send-btn" type="submit"><h5>Send Your Msg</h5></button>
+        </div>
+
+      <button id="all-message-btn" ><a href="/message.json"><h5>See All Messages</h5></a></button>
       </div>
     </form>
 
     </div>
+<script> 
+const showFormButton = document.getElementById('show-form-button');
+const formContainer = document.getElementById('form-container');
+
+showFormButton.addEventListener('click', () => {
+formContainer.style.display = 'block';
+});
+</script>
 
     </body>
     
