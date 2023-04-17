@@ -36,7 +36,9 @@ app.get("/messages", function (request, response) {
 
 app.post("/messages", function (request, response) {
   const currentDate = new Date();
-  const timeStamp = currentDate.toLocaleString("en-UK", { hour12: false });
+  const date = currentDate.toLocaleDateString();
+  const time = currentDate.toLocaleTimeString("en-UK", { hour12: false });
+  const timeStamp = date + " @" + time;
 
   const NewMessage = {
     id: welcomeMessage.length,
@@ -45,9 +47,7 @@ app.post("/messages", function (request, response) {
     timeSent: timeStamp
   };
 
-  // console.log(request.body);
-  // console.log(request.body.text);
-  // console.log(request.body.from);
+  
   if (!NewMessage.from || !NewMessage.text) {
     return response
       .status(400)
