@@ -33,6 +33,12 @@
   "id": 5,
   "from": "Hector",
   "text": "Happy to be here guys!"
+},
+
+{
+  "id": 6,
+  "from": "Chatty ChatterBox",
+  "text": "Hello there ChatterBoxers..!" 
 }
 
 ]
