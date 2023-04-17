@@ -47,7 +47,7 @@ app.post("/messages", function (request, response) {
     timeSent: timeStamp
   };
 
-  
+
   if (!NewMessage.from || !NewMessage.text) {
     return response
       .status(400)
@@ -80,6 +80,22 @@ app.get("/messages/:id", function (request, response) {
     ? response.json(oneMessage)
     : response.json({ message: "message not found" });
 });
+
+app.put("/messages/:id", function (request, response) {
+  const messageId = request.params.id;
+  const updatedMessage = welcomeMessage.find(
+    (eachMessage) => eachMessage.id === parseInt(messageId)
+  );
+  if (updatedMessage) {
+    updatedMessage.from = request.body.from || updatedMessage.from;
+    updatedMessage.text = request.body.text || updatedMessage.text;
+    response.json(updatedMessage);
+  } else {
+    response.status(404).json({ message: "message not found" });
+  }
+});
+
+
 
 app.delete("/messages/:id", function (request, response) {
   const messageId = request.params.id;
