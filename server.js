@@ -35,14 +35,19 @@ app.get("/messages", function (request, response) {
 });
 
 app.post("/messages", function (request, response) {
+  const currentDate = new Date();
+  const timeStamp = currentDate.toLocaleString("en-UK", { hour12: false });
+
   const NewMessage = {
     id: welcomeMessage.length,
     from: request.body.from,
     text: request.body.text,
+    timeSent: timeStamp
   };
-  console.log(request.body);
-  console.log(request.body.text);
-  console.log(request.body.from);
+
+  // console.log(request.body);
+  // console.log(request.body.text);
+  // console.log(request.body.from);
   if (!NewMessage.from || !NewMessage.text) {
     return response
       .status(400)
@@ -60,24 +65,11 @@ app.get("/messages/search", function (request, response) {
   response.json(foundItems);
 });
 
-
 app.get("/messages/latest", function (request, response) {
   const tenLatestMessages = [...welcomeMessage.slice(-10)];
-  response.json(tenLatestMessages);
+  console.log(tenLatestMessages);
+  response.send(tenLatestMessages);
 });
-
-// app.get("/messages/latest", function (request, response) {
-//   try {
-//     const tenLatestMessages = [...welcomeMessage.slice(-10)];
-//     response.json(tenLatestMessages);
-//   } catch (error) {
-//     console.error(error);
-//     response.status(500).send("Error getting messages");
-//   }
-// });
-
-
-
 
 app.get("/messages/:id", function (request, response) {
   const messageId = request.params.id;
