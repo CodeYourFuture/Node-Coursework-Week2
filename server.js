@@ -91,7 +91,7 @@ app.put("/messages/:id", function (request, response) {
     updatedMessage.text = request.body.text || updatedMessage.text;
     response.json(updatedMessage);
   } else {
-    response.status(404).json({ message: "message not found" });
+    response.json({ message: "message not found" });
   }
 });
 
