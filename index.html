@@ -1,26 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+      
   <head>
+    
     <title>Welcome to CYF Chat</title>
+    <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
   <body>
+    <div id="message-board">
     <h1>
-      CYF Chat
+      The ChatterBox Corner!
     </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
-      <p>
+    <p style="font-family: fantasy;">Where talkatives can express themselves without reserve...!</p>
+    
+    <button id="show-form-button"><h3>Click To Send A Message!</h3> </button>
+
+    <div id="form-container" style="display:none; font-family: fantasy;">
+    <form action="/messages" method="post" id="form">
+
+      <div id="designer">
+      <h4>
         Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
+        Mesg: <input style="height:80px; width: 200px; font-size:10pt;" type="text" name="text" placeholder="Enter your message..." /> <br />
+        </h4>
+
+        <div id="message-buttons">
+      <button id="send-btn" type="submit"><h5>Send Your Msg</h5></button>
+        </div>
+
+      <button id="all-message-btn" ><a href="/message.json"><h5>See All Messages</h5></a></button>
+      </div>
     </form>
 
-    <a href="/messages">See all messages</a>
-  </body>
-</html>
+    </div>
+<script> 
+const showFormButton = document.getElementById('show-form-button');
+const formContainer = document.getElementById('form-container');
+
+showFormButton.addEventListener('click', () => {
+formContainer.style.display = 'block';
+});
+</script>
+
+    </body>
+    
+    </html>
+
+
+
+    <!-- <script> 
+    const form = document.querySelector("#form");
+      if (form) {
+        form.addEventListener("submit", function(event) {
+          send(event, this);
+        });
+      };</script> -->
+
+ 
