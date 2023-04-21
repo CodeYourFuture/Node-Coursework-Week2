@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const port = 3001;
+const bodyParser = require("body-parser");
 
 const app = express();
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 
 const welcomeMessage = {
@@ -19,15 +21,15 @@ const messages = [welcomeMessage];
 
 //Create a message + simple validation
 app.post("/messages", function (request, response) {
-  if (!request.body.from || !request.body.text) {
-    return response
-      .status(400)
-      .send("From and text are required fields.");
+  console.log({ body: request.body });
+  const { from, text } = request.body;
+  if (!from || !text) {
+    return response.status(400).send("From and text are required fields.");
   }
   const newMessage = {
     id: messages.length,
-    from: req.body.from,
-    text: req.body.text,
+    from: from,
+    text: text,
     timeSent: new Date(),
   };
   messages.push(newMessage);
@@ -74,11 +76,12 @@ app.get("/messages/search", function (request, response) {
 
 // Read only the 10 recent messages
 
-app.get("/messages/latest", function(request, response){
-  response.json({messages: messages.slice(- 10)})
+app.get("/messages/latest", function (request, response) {
+  response.json({ messages: messages.slice(-10) });
 });
 
-// app.get("/", function (request, response) {
-//   response.sendFile(__dirname + "/index.html");
-// });
-app.listen(port);
+app.get("/", function (request, response) {
+  response.sendFile(__dirname + "/index.html");
+});
+
+ app.listen(port);
