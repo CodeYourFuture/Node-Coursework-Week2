@@ -81,10 +81,10 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
-// const listener = app.listen(process.env.PORT, function () {
-//   console.log("Your app is listening on port " + listener.address().port);
-// });
-app.listen(3000);
+const listener = app.listen(process.env.PORT, function () {
+  console.log("Your app is listening on port " + listener.address().port);
+});
+// app.listen(8080);
 
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
@@ -98,7 +98,9 @@ app.post("/messages", (request, response) => {
     newMessage.text.length > 0
   ) {
     newMessage.timeSent = new Date();
+    console.log(messages);
     messages.push(newMessage);
+    console.log(messages);
     response.status(201).send(messages);
   } else {
     response
@@ -140,7 +142,14 @@ app.get("/messages/:id", (request, response) => {
 //4.Delete a message, by ID
 app.delete("/messages/:id", (request, response) => {
   const requestId = Number(request.params.id);
+  if (requestId === NaN) {
+    response.send(400);
+    return;
+  }
+  console.log(requestId);
   const deletedMessage = messages.find((message) => message.id === requestId);
+  console.log(deletedMessage);
+  console.log(messages.indexOf(deletedMessage));
   messages.splice(messages.indexOf(deletedMessage), 1);
   response.send(messages);
 });
