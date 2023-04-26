@@ -98,9 +98,7 @@ app.post("/messages", (request, response) => {
     newMessage.text.length > 0
   ) {
     newMessage.timeSent = new Date();
-    console.log(messages);
     messages.push(newMessage);
-    console.log(messages);
     response.status(201).send(messages);
   } else {
     response
@@ -146,10 +144,7 @@ app.delete("/messages/:id", (request, response) => {
     response.send(400);
     return;
   }
-  console.log(requestId);
   const deletedMessage = messages.find((message) => message.id === requestId);
-  console.log(deletedMessage);
-  console.log(messages.indexOf(deletedMessage));
   messages.splice(messages.indexOf(deletedMessage), 1);
   response.send(messages);
 });
