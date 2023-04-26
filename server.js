@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { response } = require("express");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 app.use(express.json());
@@ -88,7 +89,7 @@ const listener = app.listen(process.env.PORT, function () {
 
 // 1.Create a new messages
 app.post("/messages", (request, response) => {
-  let id = messages.length;
+  let id = uuidv4();
   const { from, text } = request.body;
   const newMessage = { id, from, text };
   if (
