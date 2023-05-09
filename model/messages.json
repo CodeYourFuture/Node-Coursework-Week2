@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "from": "John",
+    "text": "Hello there!",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 2,
+    "from": "Alice",
+    "text": "How are you doing?",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 3,
+    "from": "Bob",
+    "text": "I'm doing great, thanks for asking!",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 4,
+    "from": "Eve",
+    "text": "What are you up to today?",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 5,
+    "from": "Mary",
+    "text": "Just relaxing at home. How about you?",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 6,
+    "from": "Sam",
+    "text": "I have a lot of work to do, unfortunately.",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 7,
+    "from": "Sara",
+    "text": "Are you going to the party tomorrow?",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 8,
+    "from": "Mike",
+    "text": "Yeah, I'm looking forward to it!",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 9,
+    "from": "Jane",
+    "text": "Me too! What are you going to wear?",
+    "timeSent": "4/27/2023"
+  },
+  {
+    "id": 10,
+    "from": "Peter",
+    "text": "I haven't decided yet. What about you?",
+    "timeSent": "4/27/2023"
+  }
+]
