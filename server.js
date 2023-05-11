@@ -83,7 +83,7 @@ app.get("/messages/:id", function (request, response) {
 
 // DELETE MESSAGES BY ID
 app.delete("/messages/:id", function (request, response) {
-  const foundMessage = messages.find(
+  const foundMessage = messages.indexOf(
     (eachMessage) => eachMessage.id === parseInt(request.params.id)
   );
 
@@ -104,7 +104,7 @@ app.delete("/messages/:id", function (request, response) {
 
 // UPDATE MESSAGES
 app.put("/messages/:id", function (request, response) {
-  const foundMessage = messages.find(
+  const foundMessage = messages.findIndex(
     (eachMessage) => eachMessage.id === parseInt(request.params.id)
   );
 
@@ -113,8 +113,10 @@ app.put("/messages/:id", function (request, response) {
 
     messages.forEach((eachMessage) => {
       if (eachMessage.id === parseInt(request.params.id)) {
-        eachMessage.from = updateInfo.from ? updateInfo.from : eachMessage.from;
-        eachMessage.text = updateInfo.text ? updateInfo.text : eachMessage.text;
+        eachMessage.from =
+          updateInfo.from === undefined ? updateInfo.from : eachMessage.from;
+        eachMessage.text =
+          updateInfo.text === undefined ? updateInfo.text : eachMessage.text;
 
         response.json({ msg: "Message updated", eachMessage });
       } else {
