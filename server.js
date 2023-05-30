@@ -6,6 +6,7 @@ const path = require("path");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 const welcomeMessage = {
@@ -21,12 +22,13 @@ const messages = [welcomeMessage];
 
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
-  response.send("You are now live");
+  // response.send("You are now live");
 });
 
 //CREATE message and POST it
 app.post("/messages", (req, res) => {
   let newMessage = req.body;
+  console.log(newMessage);
 
   if (!newMessage.from || !newMessage.text) {
     res
@@ -97,9 +99,7 @@ app.put("/messages/:id", (req, res) => {
   };
 
   if (indexOfMessageToUpdate === -1) {
-    res
-      .status(404)
-      .json({ success: false, error: "ID not found" });
+    res.status(404).json({ success: false, error: "ID not found" });
   } else if (indexOfMessageToUpdate === 0) {
     res
       .status(404)
@@ -108,7 +108,9 @@ app.put("/messages/:id", (req, res) => {
     messages.splice(indexOfMessageToUpdate, 1, updatedMessage);
   }
 
-  res.status(200).json({ success: true, message: "Message updated", updatedMessage });
+  res
+    .status(200)
+    .json({ success: true, message: "Message updated", updatedMessage });
 });
 
 //DELETE message specified by ID
