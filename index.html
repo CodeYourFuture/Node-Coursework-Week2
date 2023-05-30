@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Welcome to CYF Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Quicksand:wght@300&family=Titan+One&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    <h1>
-      CYF Chat
-    </h1>
-    <h2>
-      Send a message
-    </h2>
-    <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">
-        Send
-      </button>
-    </form>
 
-    <a href="/messages">See all messages</a>
+  <body>
+
+    <header>
+      <h1>
+        ZT Chat
+      </h1>
+      <h3>CYF Chat project</h3>
+    </header>
+
+    <main class="main-container">
+      <div>
+        <h2>
+          Send a message
+        </h2>
+        <form action="/messages" method="post">
+          <p>
+            Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+            Message: <input type="text" name="text" placeholder="The message..." id="message-input" />
+            <br />
+          </p>
+          <button type="submit">
+            Send
+          </button>
+        </form>
+        
+        <a href="/messages">See all messages</a>
+      </div>
+    </main>
+
+    <footer>By Zahraa Tayyar</footer>
   </body>
+
 </html>
