@@ -22,8 +22,6 @@
 
 // // app.listen(process.env.PORT);
 
-
-
 // // const express = require("express");
 // // const cors = require("cors");
 // // const app = express();
@@ -86,7 +84,6 @@
 // // app.listen(PORT, function () {
 // //   console.log("Your app is listening on port " + PORT + "......");
 // // });
-
 
 // const express = require("express");
 // const cors = require("cors");
@@ -154,9 +151,6 @@
 //    console.log("Your app is listening on port " + PORT + "......");
 //  });
 
-
-
-
 const express = require("express");
 const cors = require("cors");
 
@@ -189,7 +183,7 @@ function validateMessage(req, res, next) {
 app.post("/messages", validateMessage, function (req, res) {
   const newMessage = req.body;
   newMessage.id = messages.length;
-   newMessage.timeSent = new Date();
+  newMessage.timeSent = new Date();
   messages.push(newMessage);
   res.json(newMessage);
 });
@@ -224,7 +218,6 @@ app.get("/messages/latest", function (req, res) {
   res.json(latestMessages);
 });
 
-
 // Update a message by ID
 app.put("/messages/:id", validateMessage, function (req, res) {
   const id = parseInt(req.params.id);
@@ -234,12 +227,14 @@ app.put("/messages/:id", validateMessage, function (req, res) {
   }
 
   const updatedMessage = req.body;
-  messages[index] = { ...messages[index], ...updatedMessage, id, timeSent: messages[index].timeSent };
+  messages[index] = {
+    ...messages[index],
+    ...updatedMessage,
+    id,
+    timeSent: messages[index].timeSent,
+  };
   res.json(messages[index]);
 });
-
-
-
 
 // Delete a message by ID
 app.delete("/messages/:id", function (req, res) {
@@ -252,8 +247,7 @@ app.delete("/messages/:id", function (req, res) {
   res.json({ message: "Message deleted successfully." });
 });
 
-
 const PORT = 18080;
- app.listen(PORT, function () {
- console.log("Your app is listening on port " + PORT + "......");
- });
+app.listen(PORT, function () {
+  console.log("Your app is listening on port " + PORT + "......");
+});
