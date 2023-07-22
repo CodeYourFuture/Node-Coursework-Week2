@@ -41,7 +41,7 @@ app.get("/messages", function (req, res) {
   res.json(messages);
 });
 
-// Read one message specified by an ID
+// Read one message by an ID
 app.get("/messages/:id", function (req, res) {
   const id = parseInt(req.params.id);
   const message = messages.find((msg) => msg.id === id);
@@ -60,11 +60,7 @@ app.get("/messages/search", function (req, res) {
   res.json(filteredMessages);
 });
 
-// Read the most recent 10 messages
-// app.get("/messages/latest", function (req, res) {
-//   const latestMessages = messages.slice(Math.max(messages.length - 10, 0));
-//   res.json(latestMessages);
-// });
+
 
 app.get("/messages/latest", function (req, res) {
   // Sort messages by timeSent in descending order (newest first)
