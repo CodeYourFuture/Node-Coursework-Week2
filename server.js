@@ -13,6 +13,12 @@ const welcomeMessage = {
   text: "Welcome to CYF chat system!",
 };
 
+// const welcomeMessage1 = {
+//   id: 1,
+//   from: "Bart",
+//   text: "Welcome to CYF chat system!",
+// };
+
 
 
 //This array is our "data store".
@@ -24,21 +30,49 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+//all messages
 app.get("/messages", (request, response) => {
   response.send({ messages })
 })
 
-app.get("/messages/id", (request, response) => {
-  let singleMessage = request.query.messageID
+//send a message
+app.post("/messages", (request, response) => {
+  let newMessage = request.body
+  if (newMessage.id === "" || newMessage.from === "" || newMessage.text === "") {
+    console.log(console.log(console.error()))
+    throw new Error("400")
+  } else {
+    messages.push(newMessage)
+    response.send("Posted")
+  }
+
+})
+
+
+
+// get message  from search
+app.get("/messages/search", (request, response) => {
+  let searchWord = request.query.text
+  response.send(getMessFromSearch(messages, searchWord))
+})
+
+// get 10 latest
+app.get("/messages/latest", (request, response) => {
+  response.send(getLatestMessages(messages))
+})
+
+//get one message by ID
+app.get("/messages/:id", (request, response) => {
+  let singleMessage = request.params.id
   response.send(getMessageByID(messages, singleMessage))
 })
 
 
 
-app.post("/messages", (request, response) => {
-  let newMessage = request.body
-  messages.push(newMessage)
-
+//delete message by ID
+app.delete("/messages/:id", (request, response) => {
+  let id = request.params.id
+  response.send(deleteMessageByID(messages, id))
 })
 
 app.listen(process.env.PORT, () => {
@@ -48,8 +82,30 @@ app.listen(process.env.PORT, () => {
 // functions
 
 const getMessageByID = (messages, id) => {
-  return messages.filter((message) => {
-    return message.id == id
+  return messages.map((message) => {
+    if (message.id == id) {
+      return message
+    }
   })
+}
+
+const deleteMessageByID = (messages, id) => {
+  let objWithIdIndex = messages.findIndex((message) => message.id == id);
+
+  if (objWithIdIndex > -1) {
+    messages.splice(objWithIdIndex, 1);
+  }
+  return messages;
+}
+
+const getMessFromSearch = (messages, word) => {
+  return messages.filter(message =>
+    message.text.toLowerCase().includes(word.toLowerCase())
+  )
+}
+
+const getLatestMessages = (messages) => {
+  return messages.slice(Math.max(messages.length - 10, 0))
+
 }
 
