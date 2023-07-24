@@ -99,13 +99,13 @@ This is a big topic for further study. We won't try to cover it in this challeng
 For this level your API _must_ also allow a client to:
 
 - [X] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
-- [ ] Read only the most recent 10 messages: `/messages/latest`
+- [X] Read only the most recent 10 messages: `/messages/latest`
 
 ## Level 4 - Optional - add a timestamp, `timeSent`
 
 For this level, the server must:
 
-- [ ] store a timestamp in each message object, in a field called `timeSent`.
+- [x] store a timestamp in each message object, in a field called `timeSent`.
 - [ ] This should be set to the current time when the server first receives the message. This should be a DateTime object, which can be created with `new Date()`. It will NOT be submitted by the client.
 
 ## Level 5 - Optional - add message _update_ functionality

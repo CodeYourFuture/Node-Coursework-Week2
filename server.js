@@ -30,10 +30,19 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
 
+
+
 //all messages
 app.get("/messages", (request, response) => {
   response.send({ messages })
 })
+
+const dateObject = new Date();
+const hours = dateObject.getHours();
+const minutes = dateObject.getMinutes();
+const seconds = dateObject.getSeconds();
+
+
 
 //send a message
 app.post("/messages", (request, response) => {
@@ -42,8 +51,9 @@ app.post("/messages", (request, response) => {
     console.log(console.log(console.error()))
     throw new Error("400")
   } else {
+    newMessage.timeSent = `${hours}:${minutes}:${seconds}`
     messages.push(newMessage)
-    response.send("Posted")
+    response.send(messages)
   }
 
 })
