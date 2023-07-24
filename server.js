@@ -34,7 +34,7 @@ app.get("/", function (request, response) {
 
 //all messages
 app.get("/messages", (request, response) => {
-  response.send({ messages })
+  response.send(messages)
 })
 
 const dateObject = new Date();
