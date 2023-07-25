@@ -38,21 +38,19 @@ const FormToSend = ({ allData, setAllData }) => {
     }
 
     return (
-        <div>
+        <div className="form-holder">
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="text">Text Message</label>
-                    <input name="text" id="text" value={text} onChange={(e) => setText(e.target.value)} />
+                <div className="text-message">
+                    <input name="text" id="text" placeholder="Text Message" value={text} onChange={(e) => setText(e.target.value)} />
                 </div>
-                <div>
-                    <label htmlFor="from">From</label>
-                    <input name="from" id="from" value={from} onChange={(e) => setFrom(e.target.value)} />
+                <div className="from-message">
+                    <input name="from" id="from" placeholder="from" value={from} onChange={(e) => setFrom(e.target.value)} />
                 </div>
-                <div>
-                    <button type="submit">Send my message</button>
+                <div className="button">
+                    <button type="submit">SEND MESSAGE</button>
                 </div>
             </form>
-            <SinglaMessage allData={allData} setAllData={setAllData} from={from} text={text} />
+            <SinglaMessage allData={allData} from={from} text={text} />
         </div>
 
     )

@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="messages-holder">
+      <div className="messages-holder-main">
         <h1>Chat Server App</h1>
         <FormToSend allData={allData} setAllData={setAllData} />
       </div>
