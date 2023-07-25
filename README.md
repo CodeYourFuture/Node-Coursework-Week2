@@ -124,7 +124,7 @@ Note: only do this if you have done all other Node homework this week - includin
 
 Note: Do not use `create-react-app` if you want your React code to be code-reviewed! Instead, you should:
 
-- [ ] fork our starting repo. See "How should I start my React app", below.
+- [X] fork our starting repo. See "How should I start my React app", below.
 
 #### Your UI should at least:
 

@@ -1,10 +1,9 @@
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
-const SinglaMessage = () => {
-    const [allData, setAllData] = useState([])
+const SinglaMessage = ({ allData, setAllData, text, id, from }) => {
     const fetchingData = () => {
-        fetch("https://olha-danylevska-chat-server.onrender.com/messages/0")
+        fetch("https://olha-danylevska-chat-server.onrender.com/messages")
             .then(response => {
                 return response.json()
             })
@@ -16,7 +15,7 @@ const SinglaMessage = () => {
 
     useEffect(() => {
         fetchingData()
-    }, [])
+    }, [text, id, from])
 
     return (
         <div className="message-wrapper">
