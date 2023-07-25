@@ -51,10 +51,8 @@ app.post("/messages", (request, response) => {
     console.log(console.log(console.error()))
     throw new Error("400")
   } else {
-    newMessage.timeSent = `${hours}:${minutes}:${seconds}`
-    newMessage.id = messages.length
-    newMessage.text = request.body.text
-    newMessage.from = request.body.from
+    // newMessage.timeSent = `${hours}:${minutes}:${seconds}`
+    // newMessage.id = messages.length
     messages.push(newMessage)
     response.send(messages)
   }

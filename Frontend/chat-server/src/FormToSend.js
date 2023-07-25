@@ -25,11 +25,12 @@ const FormToSend = ({ allData, setAllData }) => {
 
         let res = await fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
             method: "POST",
-            headers: { 'content-type': 'aplication/json' },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newMessage)
         });
         let resJson = await res.json()
-        console.log({ resJson })
+        console.log(resJson)
+        fetchingData()
         // setAllData(resJson)
         // fetchingData()
 
