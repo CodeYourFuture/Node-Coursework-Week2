@@ -52,7 +52,7 @@ app.post("/messages", (request, response) => {
     throw new Error("400")
   } else {
     newMessage.timeSent = `${hours}:${minutes}:${seconds}`
-    newMessage.id = messages.length + 1
+    newMessage.id = messages.length
     messages.push(newMessage)
     response.send(messages)
   }

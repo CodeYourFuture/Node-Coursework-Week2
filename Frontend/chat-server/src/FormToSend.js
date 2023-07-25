@@ -20,7 +20,7 @@ const FormToSend = ({ allData, setAllData }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const newMessage = { id, text, from }
+        const newMessage = { text, from }
         fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
             method: "POST",
             headers: { "Content-Type": "aplication/json" },
@@ -28,14 +28,13 @@ const FormToSend = ({ allData, setAllData }) => {
         })
             .then(() => {
                 fetchingData()
-                console.log(allData)
+                console.log(newMessage)
             })
     }
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <input name="id" id="id" value={id} onChange={(e) => setId(e.target.value)}></input>
                     <label htmlFor="text">Text Message</label>
                     <input name="text" id="text" value={text} onChange={(e) => setText(e.target.value)} />
                 </div>
