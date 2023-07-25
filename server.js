@@ -47,7 +47,7 @@ const seconds = dateObject.getSeconds();
 //send a message
 app.post("/messages", (request, response) => {
   let newMessage = request.body
-  if (newMessage.id === "" || newMessage.from === "" || newMessage.text === "") {
+  if (newMessage.from === "" || newMessage.text === "") {
     console.log(console.log(console.error()))
     throw new Error("400")
   } else {

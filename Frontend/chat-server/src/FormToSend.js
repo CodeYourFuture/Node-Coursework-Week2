@@ -19,22 +19,20 @@ const FormToSend = ({ allData, setAllData }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        try {
-            let res = await fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
-                method: "POST",
-                headers: { "Content-Type": "aplication/json" },
-                body: JSON.stringify({
-                    from: from,
-                    text: text
-                })
-            });
-            let resJson = await res.json()
-            setAllData(resJson)
-
-        } catch (err) {
-            console.log(err);
+        const newMessage = {
+            from, text
         }
-        fetchingData()
+
+        let res = await fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
+            method: "POST",
+            headers: { 'content-type': 'aplication/json' },
+            body: JSON.stringify(newMessage)
+        });
+        let resJson = await res.json()
+        console.log({ resJson })
+        // setAllData(resJson)
+        // fetchingData()
+
     }
 
     return (
