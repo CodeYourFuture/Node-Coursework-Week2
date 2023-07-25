@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SinglaMessage from "./SingleMessage"
 
 
@@ -16,6 +16,9 @@ const FormToSend = ({ allData, setAllData }) => {
                 console.log({ allData })
             })
     }
+    useEffect(() => {
+        fetchingData()
+    }, [])
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -31,8 +34,6 @@ const FormToSend = ({ allData, setAllData }) => {
         let resJson = await res.json()
         console.log(resJson)
         fetchingData()
-        // setAllData(resJson)
-        // fetchingData()
 
     }
 

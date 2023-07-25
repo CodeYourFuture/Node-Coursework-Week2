@@ -58,7 +58,6 @@ app.post("/messages", (request, response) => {
     messages.push(newMessage)
     response.send(messages)
   }
-
 })
 
 
