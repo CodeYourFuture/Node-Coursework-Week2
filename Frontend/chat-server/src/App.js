@@ -10,7 +10,6 @@ function App() {
       <div className="messages-holder">
         <h1>Chat Server App</h1>
         <FormToSend allData={allData} setAllData={setAllData} />
-
       </div>
     </div>
   );

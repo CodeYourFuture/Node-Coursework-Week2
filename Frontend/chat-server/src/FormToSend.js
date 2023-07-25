@@ -4,7 +4,6 @@ import SinglaMessage from "./SingleMessage"
 
 const FormToSend = ({ allData, setAllData }) => {
     const [text, setText] = useState("")
-    const [id, setId] = useState("")
     const [from, setFrom] = useState("")
 
     const fetchingData = () => {
@@ -18,19 +17,26 @@ const FormToSend = ({ allData, setAllData }) => {
             })
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        const newMessage = { text, from }
-        fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
-            method: "POST",
-            headers: { "Content-Type": "aplication/json" },
-            body: JSON.stringify(newMessage)
-        })
-            .then(() => {
-                fetchingData()
-                console.log(newMessage)
-            })
+        try {
+            let res = await fetch("https://olha-danylevska-chat-server.onrender.com/messages", {
+                method: "POST",
+                headers: { "Content-Type": "aplication/json" },
+                body: JSON.stringify({
+                    from: from,
+                    text: text
+                })
+            });
+            let resJson = await res.json()
+            setAllData(resJson)
+
+        } catch (err) {
+            console.log(err);
+        }
+        fetchingData()
     }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -43,10 +49,10 @@ const FormToSend = ({ allData, setAllData }) => {
                     <input name="from" id="from" value={from} onChange={(e) => setFrom(e.target.value)} />
                 </div>
                 <div>
-                    <button >Send my message</button>
+                    <button type="submit">Send my message</button>
                 </div>
             </form>
-            <SinglaMessage allData={allData} setAllData={setAllData} from={from} id={id} text={text} />
+            <SinglaMessage allData={allData} setAllData={setAllData} from={from} text={text} />
         </div>
 
     )

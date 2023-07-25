@@ -1,21 +1,7 @@
 
-import { useEffect } from "react"
 
-const SinglaMessage = ({ allData, setAllData, text, id, from }) => {
-    const fetchingData = () => {
-        fetch("https://olha-danylevska-chat-server.onrender.com/messages")
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setAllData(data)
-                console.log({ allData })
-            })
-    }
 
-    useEffect(() => {
-        fetchingData()
-    }, [text, id, from])
+const SinglaMessage = ({ allData, setAllData }) => {
 
     return (
         <div className="message-wrapper">

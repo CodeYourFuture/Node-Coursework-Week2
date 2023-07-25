@@ -53,6 +53,8 @@ app.post("/messages", (request, response) => {
   } else {
     newMessage.timeSent = `${hours}:${minutes}:${seconds}`
     newMessage.id = messages.length
+    newMessage.text = request.body.text
+    newMessage.from = request.body.from
     messages.push(newMessage)
     response.send(messages)
   }
