@@ -7,9 +7,9 @@ const app = express();
 app.use(cors());
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 const welcomeMessage = {
   id: 0,
@@ -31,11 +31,11 @@ app.get("/", function (request, response) {
 app.post("/messages", function (request, response) {
   let newMessage = request.body;
   if (newMessage.from === "" || newMessage.text === "") {
-    throw new Error("400")
+    throw new Error("400");
   } else {
-  messages.push(newMessage);
-  response.json(newMessage);
-  console.log(newMessage);
+    messages.push(newMessage);
+    response.json(newMessage);
+    console.log(newMessage);
   }
 });
 
@@ -69,14 +69,10 @@ app.get("/messages/latest", (req, res) => {
 });
 
 app.get("/messages/search", (req, res) => {
- let result = messages.filter((msg) =>
+  let result = messages.filter((msg) =>
     msg.text.toLowerCase().includes(req.query.text)
   );
   res.send(result);
 });
-
-
-
-
 
 app.listen(process.env.PORT);
