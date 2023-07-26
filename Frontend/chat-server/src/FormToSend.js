@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
 import SinglaMessage from "./SingleMessage"
 
@@ -18,9 +19,9 @@ const FormToSend = ({ allData, setAllData }) => {
     }
     useEffect(() => {
         fetchingData()
-    }, [])
+    }, []);
 
-    const handleSubmit = async (event) => {
+    async function handleSubmit(event) {
         event.preventDefault()
         const newMessage = {
             from, text
@@ -30,7 +31,7 @@ const FormToSend = ({ allData, setAllData }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newMessage)
-        });
+        })
         let resJson = await res.json()
         console.log(resJson)
         fetchingData()
