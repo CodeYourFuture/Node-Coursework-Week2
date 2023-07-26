@@ -57,7 +57,7 @@
   width: 30rem;
   max-height: 20rem;
   min-height: 5rem;
-  background-color: rgb(194, 205, 186);
+  background-color: rgb(194, 205, 186, 70%);
   border-radius: 0.4rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border: #ffffff solid 1px;
@@ -70,7 +70,7 @@
 
 .tex-holder {
   width: 28rem;
-  background-color: rgb(212, 219, 208);
+  background-color: rgb(212, 219, 208, 50%);
   margin-top: 1.2rem;
   min-height: 4rem;
   border-radius: 0.2rem;
@@ -79,31 +79,36 @@
 }
 
 .tex-holder p {
-  margin: 1rem;
+  margin-left: 1rem;
 }
+
+
 
 .from-holder {
   display: flex;
   flex-direction: row;
-  text-align: right;
+  text-align: center;
+  justify-content: center;
   gap: 0.5rem;
   align-self: flex-end;
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
+  margin-right: 1rem;
   height: 2rem;
+  text-align: left;
+  margin-top: 0.5rem;
 }
 
-.from-wrapper {
-  background-color: #282c34;
-  max-width: 10rem;
-  min-width: 3rem;
-  border-radius: 0.2rem;
-  margin: 0.4rem 0.5rem 0 0.5rem;
-  text-align: left;
+
+
+.from {
+  margin-top: 0rem;
   color: rgb(212, 219, 208);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #282c34;
+  height: 1.8rem;
+  border-radius: 0.2rem;
+  padding-top: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
 }
 
 .lable-from {
@@ -135,6 +140,11 @@ form {
   margin-bottom: 1rem;
 }
 
+form:hover {
+  border: rgb(170, 170, 170, 80%) solid 2px;
+  background-color: rgb(170, 170, 170, 20%);
+}
+
 .text-message {
   width: 30rem;
   align-self: flex-start;
@@ -148,6 +158,22 @@ form {
   background-color: #e8e8e8;
 }
 
+.text-message input:focus {
+  background-color: rgb(247, 243, 217);
+  border: #868686 solid 2px;
+  outline: none;
+  text-align: center;
+}
+
+.text-message input:active {
+  background-color: rgb(247, 243, 217);
+  border: #868686 solid 2px;
+  outline: none;
+  text-align: center;
+}
+
+
+
 .from-message {
   width: 30rem;
   align-self: flex-start;
@@ -159,6 +185,13 @@ form {
   border-radius: 0.3rem;
   border: none;
   background-color: #e8e8e8;
+}
+
+.from-message input:focus {
+  background-color: rgb(247, 243, 217);
+  border: #868686 solid 2px;
+  outline: none;
+  text-align: center;
 }
 
 .button {
@@ -206,4 +239,27 @@ h2 {
   position: absolute;
   color: #aaa;
   left: 12px;
+}
+
+.delete {
+  align-self: flex-end;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  border: none;
+  background-color: #953220;
+  height: 1.7rem;
+  border-radius: 0.2rem;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.latest-button {
+  background-color: rgb(255, 255, 255, 20%);
+  height: 2.5rem;
+  border: 1px solid white;
+  border-radius: 2rem;
+  padding: 0 1rem 0 1rem;
+  color: #e8e8e8;
+  font-size: 14px;
+  margin-bottom: 1rem;
 }
