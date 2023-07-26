@@ -1,3 +1,108 @@
+<!-- working on send/add messages, see all messages and delete messages and give error
+ error message if not both name and message is filled in-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to CYF Chat</title>
+  </head>
+
+  <body>
+    <h1>CYF Chat</h1>
+    <h2>Send a message</h2>
+    <form action="/messages" method="post">
+      <p>
+        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+        Message: <input type="text" name="text" placeholder="The message..." />
+        <br />
+      </p>
+      <button type="submit">Send</button>
+    </form>
+    <br />
+    <a href="/messages">See all messages</a>
+
+    <form>
+      <p>
+        Delete Message:
+        <input
+          type="number"
+          id="deleteId"
+          name="id"
+          placeholder="Delete message by ID..."
+        />
+      </p>
+      <button type="button" onclick="deleteMessage()">Submit</button>
+    </form>
+
+    <script>
+      function deleteMessage() {
+        const idToDelete = document.getElementById("deleteId").value;
+        if (!idToDelete || isNaN(idToDelete)) {
+          alert("Please enter a valid ID to delete.");
+          return;
+        }
+
+        const url = `/messages/delete/${idToDelete}`;
+        fetch(url, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Handle the response data here if needed
+            console.log("Message deleted successfully:", data);
+            // Refresh the page to see the updated messages list
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error("Error deleting message:", error);
+          });
+      }
+    </script>
+  </body>
+</html>
+
+<!--  code is working to show you added message-->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to CYF Chat</title>
+  </head>
+
+  <body>
+    <h1>CYF Chat</h1>
+    <h2>Send a message</h2>
+    <form action="/messages" method="post">
+      <p>
+        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+        Message: <input type="text" name="text" placeholder="The message..." />
+        <br />
+      </p>
+      <button type="submit">Send</button>
+    </form>
+    <br />
+    <a href="/messages/showAll" action="/messages/showAll" method="get"
+      >See all messages</a
+    >
+
+    <form action="/messages/:id" method="delete">
+      <p>
+        Delete Message:
+        <input
+          type="number"
+          name="number"
+          placeholder="Delete message by ID,,,"
+        />
+      </p>
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html> -->
+
 <!-- <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,24 +123,3 @@
     <a href="/messages">See all messages</a>
   </body>
 </html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Welcome to CYF Chat</title>
-  </head>
-  <body>
-    <h1>CYF Chat</h1>
-    <h2>Send a message</h2>
-    <form action="/messages" method="post">
-      <p>
-        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
-        Message: <input type="text" name="text" placeholder="The message..." />
-        <br />
-      </p>
-      <button type="submit">Send</button>
-    </form>
-
-    <a href="/messages">See all messages</a>
-  </body>
-</html>
