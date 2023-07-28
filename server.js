@@ -37,10 +37,7 @@ app.get("/messages", (request, response) => {
   response.send(messages)
 })
 
-const dateObject = new Date();
-const hours = dateObject.getHours();
-const minutes = dateObject.getMinutes();
-const seconds = dateObject.getSeconds();
+
 
 
 
@@ -51,6 +48,10 @@ app.post("/messages", (request, response) => {
     console.log(console.log(console.error()))
     throw new Error("400")
   } else {
+    const dateObject = new Date();
+    const hours = dateObject.getHours();
+    const minutes = dateObject.getMinutes();
+    const seconds = dateObject.getSeconds();
     newMessage.timeSent = `${hours}:${minutes}:${seconds}`
     newMessage.id = messages.length
     newMessage.from = request.body.from
