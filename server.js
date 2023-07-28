@@ -26,6 +26,8 @@ const welcomeMessage = {
 //Note: messages will be lost when Glitch restarts our server.
 const messages = [welcomeMessage];
 
+
+
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
@@ -39,7 +41,7 @@ app.get("/messages", (request, response) => {
 
 
 
-
+let countID = 0
 
 //send a message
 app.post("/messages", (request, response) => {
@@ -53,7 +55,9 @@ app.post("/messages", (request, response) => {
     const minutes = dateObject.getMinutes();
     const seconds = dateObject.getSeconds();
     newMessage.timeSent = `${hours}:${minutes}:${seconds}`
-    newMessage.id = messages.length
+    countID = countID + 1
+
+    newMessage.id = countID
     newMessage.from = request.body.from
     newMessage.text = request.body.text
     messages.push(newMessage)
