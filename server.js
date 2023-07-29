@@ -28,3 +28,20 @@ app.get("/messages", function (request, response) {
     message: "ok",
   });
 });
+
+// post/ create new message..
+
+app.post("/messages", function (req, res) {
+  let newMessages = req.body;
+  messages.push({
+    id: messages.length,
+    from: newMessages.from,
+    text: newMessages.text
+    // ...newMessages, // this works as same as above {from: newMessages.from,text: newMessages.text}
+  });
+  console.log(newMessages)
+  res.json({
+    data: messages,
+    message: "new message added",
+  });
+});
