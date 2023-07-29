@@ -9,11 +9,15 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+  timeSent: new Date()
 };
+
+
 
 //This array is our "data store".
 //We will start with one message in the array.
 //Note: messages will be lost when Glitch restarts our server.
+
 let messages = [welcomeMessage];
 
 app.get("/", function (request, response) {
@@ -60,6 +64,7 @@ app.get("/messages/latest", function (request, response) {
 // post/ create new message..
 
 app.post("/messages", function (request, res) {
+  
   let newMessages = request.body;
   if (newMessages.from === "" || newMessages.text === "") {
     return res.status(400).send("please type in your message!!!");
@@ -69,6 +74,8 @@ app.post("/messages", function (request, res) {
     id: messages.length,
     from: newMessages.from,
     text: newMessages.text,
+    timeSent: new Date()
+
     // ...newMessages, // this works as same as above {from: newMessages.from,text: newMessages.text
   });
 
