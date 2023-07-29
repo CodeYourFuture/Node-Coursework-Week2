@@ -40,12 +40,12 @@ If you want to share your server with other people the easiest way to do this is
 
 At this first level, your API must allow a client to:
 
-- [ ] Create a new message
-- [ ] Read all messages
-- [ ] Read one message specified by an ID
-- [ ] Delete a message, by ID
+- [x ] Create a new message
+- [x ] Read all messages
+- [x ] Read one message specified by an ID
+- [x ] Delete a message, by ID
 
-* [ ] All message content should be passed as JSON.
+* [x ] All message content should be passed as JSON.
 
 * [ ] Your routes should match the patterns established in class (RESTful). See the later spoiler section "Correct Routes" if you need the answer.
 
@@ -83,8 +83,8 @@ What to do now:
 
 For this level, your server must:
 
-- [ ] _reject_ requests to create messages if the message objects have an empty or missing `text` or `from` property.
-  - [ ] In this case your server should return a status code of `400`.
+- [x ] _reject_ requests to create messages if the message objects have an empty or missing `text` or `from` property.
+- [x ] In this case your server should return a status code of `400`.
 
 (Advanced note: people don't actually agree on the best status code for this situation.)
 
@@ -98,23 +98,23 @@ This is a big topic for further study. We won't try to cover it in this challeng
 
 For this level your API _must_ also allow a client to:
 
-- [ ] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
+- [x ] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
 - [ ] Read only the most recent 10 messages: `/messages/latest`
 
 ## Level 4 - Optional - add a timestamp, `timeSent`
 
 For this level, the server must:
 
-- [ ] store a timestamp in each message object, in a field called `timeSent`.
-- [ ] This should be set to the current time when the server first receives the message. This should be a DateTime object, which can be created with `new Date()`. It will NOT be submitted by the client.
+- [x ] store a timestamp in each message object, in a field called `timeSent`.
+- [x ] This should be set to the current time when the server first receives the message. This should be a DateTime object, which can be created with `new Date()`. It will NOT be submitted by the client.
 
 ## Level 5 - Optional - add message _update_ functionality
 
 If you want, you can also:
 
-- [ ] add support for the client to be able to _update_ a message's `text` or `from` property. We'll cover this in the next week of the module, but you can research it easily.
+- [x ] add support for the client to be able to _update_ a message's `text` or `from` property. We'll cover this in the next week of the module, but you can research it easily.
 
-- [ ] Your server should NOT update the `timeSent` timestamp property during an update, if the client passes it back to you.
+- [x ] Your server should NOT update the `timeSent` timestamp property during an update, if the client passes it back to you.
 
 ## Challenge: Advanced: Add a React app as a front-end
 
