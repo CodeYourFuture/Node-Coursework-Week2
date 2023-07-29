@@ -1,0 +1,51 @@
+
+:root {
+  text-align: center;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUba_6uDqXuun82JEz6jIj_MRHPJ3vOIH1QR-NejJUBZGbxksxgEJ__ZARZJ8bYmivNy4&usqp=CAU");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+img {
+  height: 5rem;
+  width: 5rem;
+  margin-bottom: 5rem;
+  
+}
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: blueviolet;
+}
+
+.message_list {
+  list-style: none;
+  text-align: center;
+  padding: 2rem;
+  background-color: azure;
+  border: 1px solid black;
+  width: 16rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  margin-bottom: 2px;
+}
+
+.name,
+.message {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: blueviolet;
+  font-weight: 700;
+  
+}
+ .namee,
+ .messagee {
+  padding: 0.5rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  
+ }
+button {
+  background-color: orange;
+  padding: 0.5rem;
+}
