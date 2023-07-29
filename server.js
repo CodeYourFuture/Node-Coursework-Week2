@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const port = 3000;
 const app = express();
 
 app.use(cors());
@@ -10,6 +10,7 @@ const welcomeMessage = {
   id: 0,
   from: "Bart",
   text: "Welcome to CYF chat system!",
+ 
 };
 
 // This array is our "data store".
@@ -21,33 +22,36 @@ const messages = [
     id: 1,
     from: "BAki",
     text: "CAn you see me?",
+    
   },
 ];
 
 app.get("/", function (request, response) {
   response.sendFile(__dirname + "/index.html");
 });
-
 app.get("/messages", (request, response) => {
   response.send({ messages });
 });
 
 // Send a message
-app.post("/messages", (request, response) => {
-  let newMessage = request.body;
-  if (
-    newMessage.id === "" ||
-    newMessage.from === "" ||
-    newMessage.text === ""
-  ) {
-    console.error("Invalid message:", newMessage);
-    response.status(400).send("Bad Request");
-  } else {
-    messages.push(newMessage);
-    response.send("Message posted successfully");
-  }
-});
+app.post("/messages", (req, res) => {
+  const newMessage = {
+    id: messages.length,
+    from: req.body.from,
+    text: req.body.text,
+    timeSent: new Date(),
+  };
 
+  if (!newMessage.from || !newMessage.text) {
+    return res.status(400).json({
+      status: "fail",
+      message: "the message objs have an empty or missing property",
+    });
+  }
+
+  messages.push(newMessage);
+  res.status(201).send({ newMessage });
+});
 // Get messages containing the search word
 app.get("/messages/search", (request, response) => {
   let searchWord = request.query.text;
@@ -71,9 +75,9 @@ app.delete("/messages/:id", (request, response) => {
   response.send(deleteMessageByID(messages, messageId));
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Listening on PORT ${process.env.PORT}...`);
-});
+// app.listen(process.env.PORT, () => {
+//   console.log(`Listening on PORT ${process.env.PORT}...`);
+// });
 
 // Helper function to get a message by ID
 const getMessageByID = (messages, id) => {
@@ -92,16 +96,18 @@ const deleteMessageByID = (messages, id) => {
 
 // Helper function to get messages containing the search word
 const getMessagesFromSearch = (messages, word) => {
-  return messages.filter((message) =>
-    message.text.toLowerCase().includes(word.toLowerCase())
+  const lowerCaseWord = word.toLowerCase();
+  return messages.filter(({ text }) =>
+    text.toLowerCase().includes(lowerCaseWord)
   );
 };
+
 
 // Helper function to get the 10 latest messages
 const getLatestMessages = (messages) => {
   return messages.slice(Math.max(messages.length - 10, 0));
 };
 
-app.listen(3000, ()=>{
-  console.log("3000")
+app.listen(port, ()=> {
+  console.log('Listening')
 })
