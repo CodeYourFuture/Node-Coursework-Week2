@@ -45,3 +45,31 @@ app.post("/messages", function (req, res) {
     message: "new message added",
   });
 });
+
+// find / update message by id
+
+app.put("/messages/:id", function (request, response) {
+  const id = Number (request.params.id);
+  const updatedMessage = request.body
+  const message = messages.find((message) => message.id === id);
+  if(!message) {
+    return response.status(404).json({
+      data: null,
+      message: "there is no message for this id."
+    })
+  } 
+ messages = messages.map((message) => {
+   if (message.id === id) {
+     return {
+      id: id,
+      from: updatedMessage.from,
+      text: updatedMessage.text
+      };
+   }
+   return message;
+ });
+  response.status(200).json({
+    data: messages,
+    message: "message was updated"
+  })
+});
