@@ -73,3 +73,31 @@ app.put("/messages/:id", function (request, response) {
     message: "message was updated"
   })
 });
+
+
+// delete message by id
+
+app.delete("/messages/:id", function (req, res){
+  const id = Number(req.params.id);
+  const message = messages.find(message => message.id === id)
+  if (!message){
+    return res.status(404).json({
+      data: null,
+      messsage: "theres is no message for given id."
+    })
+  }
+  const index = messages.indexOf(message) 
+  messages.splice(index, 1);
+  res.status(200).json({
+   data: messages,
+   message: "item removed"
+
+  })
+  
+})
+
+
+// port listening 
+app.listen(3000, () => {
+  console.log("i'm listening on port 3000");
+});
