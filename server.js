@@ -22,7 +22,7 @@ function getConvertedDataFromJSON() {
   return dataAsObj;
 }
 
-function writeUpdateDatatoJsonFile() {
+function writeUpdateDatatoJsonFile(data) {
   const jsonFile = "./data.json";
   const dataAsJson = JSON.stringify(data);
   fs.writeFileSync(jsonFile, dataAsJson);
