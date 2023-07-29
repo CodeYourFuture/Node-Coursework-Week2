@@ -33,12 +33,16 @@ app.get("/messages", function (request, response) {
 
 app.post("/messages", function (req, res) {
   let newMessages = req.body;
-  messages.push({
+  if(newMessages.from === "" || newMessages.text === "" ){
+   return res.status(400).send("please type in your message!!!")
+  } else {
+  }messages.push({
     id: messages.length,
     from: newMessages.from,
-    text: newMessages.text
-    // ...newMessages, // this works as same as above {from: newMessages.from,text: newMessages.text}
+    text: newMessages.text,
+    // ...newMessages, // this works as same as above {from: newMessages.from,text: newMessages.text
   });
+
   console.log(newMessages)
   res.json({
     data: messages,
