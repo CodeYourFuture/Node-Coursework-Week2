@@ -40,10 +40,10 @@ If you want to share your server with other people the easiest way to do this is
 
 At this first level, your API must allow a client to:
 
-- [ ] Create a new message
+- [ ] Create a new message - POST Methood
 - [ ] Read all messages
-- [ ] Read one message specified by an ID
-- [ ] Delete a message, by ID
+- [ ] Read one message specified by an ID - Get Method
+- [ ] Delete a message, by ID - delete
 
 * [ ] All message content should be passed as JSON.
 
