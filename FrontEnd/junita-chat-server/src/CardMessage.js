@@ -1,3 +1,4 @@
+import Delete from "./Delete";
 import React, { useEffect, useState } from "react";
 
 import MessageBox from "./Message";
@@ -32,7 +33,9 @@ function CardMessages() {
             return (
               <li className="message_list" key={message.id}>
                 {message.from} -{message.text}
+                { message.id !== 0 &&  <Delete msgId={message.id} /> }
               </li>
+              
             );
           })}
         </ul>

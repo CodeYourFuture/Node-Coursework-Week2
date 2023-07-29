@@ -56,11 +56,14 @@ app.get("/messages/:id", function (request, response) {
 
 app.delete("/messages/:id", function (request, response) {
   const idToFind = Number(request.params.id);
-  const message = messages.find((message) => message.id === idToFind);
-  console.log(message);
-  response.json(message);
+  const findIndexId = messages.findIndex((message) => message.id === idToFind);
+  if (findIndexId === -1) {
+    response.status(404).json({ message: "message not found" });
+    return;
+  }
+  messages.splice(findIndexId, 1);
+  response.sendStatus(204);
 });
-
 //latest messages
 
 app.get("/messages/latest", (req, res) => {
@@ -75,4 +78,4 @@ app.get("/messages/search", (req, res) => {
   res.send(result);
 });
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 3000);
