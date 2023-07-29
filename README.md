@@ -22,7 +22,7 @@ Please ask your mentors for access to this repository.
 
 ## Pre-reqs
 
-- [ ] You should have completed at least Level 1 of the Quote Server challenge before attempting this challenge.
+- [ ] You should have completed at least Level 1 of the Quote Server challenge before attempting this challenge
 
 ## Want to run your code on the internet?
 
