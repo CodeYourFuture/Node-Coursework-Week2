@@ -24,18 +24,6 @@ Please ask your mentors for access to this repository.
 
 - [ ] You should have completed at least Level 1 of the Quote Server challenge before attempting this challenge.
 
-## Want to run your code on the internet?
-
-If you want to share your server with other people the easiest way to do this is to use Glitch
-
-- [ ] Make sure you're logged in to https://glitch.com/
-- [ ] Remix https://glitch.com/~cyf-chat-start
-- [ ] Name your new server `yourname-chat-server`
-- [ ] Make sure you're logged in so that it saves
-- [ ] Check that it is working by making a request to `/`
-- [ ] Take time to read the comments
-- [ ] Copy the code you've written to Glitch
-
 ## Level 1 Challenge - make the chat server
 
 At this first level, your API must allow a client to:
@@ -169,9 +157,9 @@ Here's an example of how your react app might look.
 
 You'll have to install and enable CORS on your server in order to allow your JSON to be loaded from a different server than your React app has been loaded from.
 
-(Your react app has probably been loaded from the `netlify.com` domain and your server is at `glitch.me`).
+(Your react app has probably been loaded from the `netlify.com` domain and your server is at `localhost` or `glitch.me`).
 
-On your express project on glitch, edit your `package.json` to add a dependency for the latest version of cors (e.g. `"cors": "^2.8.5"`)
+Edit your `package.json` to add a dependency for the latest version of cors (e.g. `"cors": "^2.8.5"`). If you are doing this locally make sure to run `npm install` afterwards.
 
 Then in your `server.js` add...
 
@@ -192,3 +180,15 @@ and in CORS in Express [here](https://expressjs.com/en/resources/middleware/cors
 | GET    | `/messages/17` | get one message by id  |
 | POST   | `/messages`    | create a new message   |
 | DELETE | `/messages/17` | delete a message by id |
+
+## Want to run your code on the internet?
+
+If you want to share your server with other people the easiest way to do this is to use Glitch
+
+- [ ] Make sure you're logged in to https://glitch.com/
+- [ ] Remix https://glitch.com/~cyf-chat-start
+- [ ] Name your new server `yourname-chat-server`
+- [ ] Make sure you're logged in so that it saves
+- [ ] Check that it is working by making a request to `/`
+- [ ] Take time to read the comments
+- [ ] Copy the code you've written to Glitch
