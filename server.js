@@ -46,8 +46,8 @@ app.post("/messages", (req, res) => {
   console.log(req.body);
 
   // Check if 'from' or 'text' properties are empty or missing
-  if (!from || !text) {
-    return res
+  if (!from && !text) {
+    res
       .status(400)
       .json({ error: "Both 'from' and 'text' properties are required." });
   }
