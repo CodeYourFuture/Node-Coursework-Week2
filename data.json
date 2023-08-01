@@ -1,9 +1,9 @@
 [
   {
-    "id": "huhj",
-    "createAt": "654654654",
-    "updatedAt": "65464645",
-    "from": "ihhi",
-    "text": "huhjuhju"
+    "id": 1,
+    "createdAt": "2023-03-01T12:00:00.000Z",
+    "updatedAt": "2023-03-02T14:00:00.000Z",
+    "from": "John Doe",
+    "text": "Hello World"
   }
 ]

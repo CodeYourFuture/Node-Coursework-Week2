@@ -15,11 +15,15 @@ app.use(express.urlencoded({ extended: true }));
 
 //helper functions
 //get a convertet ti JSON data
-function getConvertedDataFromJSON() {
-  const bitedData = fs.readFileSync("./data.json");
-  const dataAsObj = JSON.parse(bitedData);
+async function getConvertedDataFromJSON() {
+  try {
+    const bitedData = await fs.readFile("./data.json");
+    const dataAsObj = await JSON.parse(bitedData);
 
-  return dataAsObj;
+    return dataAsObj;
+  } catch (error) {
+    console.log("ERROR in getConvertedDataFromJSON", error);
+  }
 }
 
 function writeUpdateDatatoJsonFile(data) {
