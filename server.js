@@ -46,11 +46,11 @@ app.post("/messages", (req, res) => {
   console.log(req.body);
 
   // Check if 'from' or 'text' properties are empty or missing
-  if (!from || !text) {
-    return res
-      .status(400)
-      .json({ error: "Both 'from' and 'text' properties are required." });
-  }
+  // if (!from || !text) {
+  //   return res
+  //     .status(400)
+  //     .json({ error: "Both 'from' and 'text' properties are required." });
+  // }
 
   const dataAsObj = getConvertedDataFromJSON();
 
