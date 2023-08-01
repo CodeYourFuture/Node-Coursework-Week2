@@ -15,15 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 
 //helper functions
 //get a convertet ti JSON data
-async function getConvertedDataFromJSON() {
-  try {
-    const bitedData = await fs.readFile("./data.json");
-    const dataAsObj = await JSON.parse(bitedData);
+function getConvertedDataFromJSON() {
+  const bitedData = fs.readFileSync("./data.json");
+  const dataAsObj = JSON.parse(bitedData);
 
-    return dataAsObj;
-  } catch (error) {
-    console.log("ERROR in getConvertedDataFromJSON", error);
-  }
+  return dataAsObj;
 }
 
 function writeUpdateDatatoJsonFile(data) {
@@ -50,11 +46,11 @@ app.post("/messages", (req, res) => {
   console.log(req.body);
 
   // Check if 'from' or 'text' properties are empty or missing
-  // if (!from || !text) {
-  //   return res
-  //     .status(400)
-  //     .json({ error: "Both 'from' and 'text' properties are required." });
-  // }
+  if (!from || !text) {
+    return res
+      .status(400)
+      .json({ error: "Both 'from' and 'text' properties are required." });
+  }
 
   const dataAsObj = getConvertedDataFromJSON();
 
