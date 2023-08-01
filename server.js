@@ -43,6 +43,7 @@ app.get("/messages", (req, res) => {
 //post a new obj to data.json
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
+  console.log(req.body);
 
   // Check if 'from' or 'text' properties are empty or missing
   if (!from || !text) {
