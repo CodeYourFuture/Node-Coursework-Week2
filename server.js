@@ -41,6 +41,15 @@ app.get("/messages", function (req, res) {
   res.json(messages);
 });
 
+// Read messages whose text contains a given substring
+app.get("/messages/search", function (req, res) {
+  const searchText = req.query.text;
+  const filteredMessages = messages.filter((msg) =>
+    msg.text.toLowerCase().includes(searchText.toLowerCase())
+  );
+  res.json(filteredMessages);
+});
+
 // Read one message by an ID
 app.get("/messages/:id", function (req, res) {
   const id = parseInt(req.params.id);
@@ -51,14 +60,7 @@ app.get("/messages/:id", function (req, res) {
   res.json(message);
 });
 
-// Read messages whose text contains a given substring
-app.get("/messages/search", function (req, res) {
-  const searchText = req.query.text;
-  const filteredMessages = messages.filter((msg) =>
-    msg.text.toLowerCase().includes(searchText.toLowerCase())
-  );
-  res.json(filteredMessages);
-});
+
 
 
 
