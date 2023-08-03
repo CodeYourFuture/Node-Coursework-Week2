@@ -1,4 +1,5 @@
-const PORT = 3001;
+const port = 3001;
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -13,37 +14,69 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//helper functions
-//get a convertet ti JSON data
-function getConvertedDataFromJSON() {
-  const bitedData = fs.readFileSync("./data.json");
-  const dataAsObj = JSON.parse(bitedData);
+// helper functions
 
+// get a convertet it JSON data
+function getConvertedDataFromJSON() {
+  const bytedData = fs.readFileSync("./data.json");
+  const dataAsObj = JSON.parse(bytedData);
   return dataAsObj;
 }
 
-function writeUpdateDatatoJsonFile(data) {
+//
+function writeUpdateDataToJsonFile(data) {
   const jsonFile = "./data.json";
   const dataAsJson = JSON.stringify(data);
   fs.writeFileSync(jsonFile, dataAsJson);
 }
 
-//get a index.html page
+// get index.html page
 app.get("/", function (req, res) {
-  console.log("Server is up");
+  return res.status(200).send("index.html");
+});
+
+// get all data
+app.get("/messages", (req, res) => {
   return res.status(200).send(getConvertedDataFromJSON());
 });
 
-//get all data
-app.get("/messages", (req, res) => {
-  console.log();
-  res.status(200).send(getConvertedDataFromJSON());
+// get obj whose text contains a given substring: `/messages/search?text=express`
+app.get("/messages/search", (req, res) => {
+  const searchWord = req.query.input;
+  const dataAsJson = getConvertedDataFromJSON();
+
+  const matchedWithInput = dataAsJson.filter((element) =>
+    element.text.toLowerCase().includes(searchWord)
+  );
+
+  if (!matchedWithInput) {
+    return res
+      .status(404)
+      .send(`We can't find a message which contains: ${searchWord}`);
+  }
+
+  return res.status(200).send(matchedWithInput);
 });
 
-//post a new obj to data.json
+// get a specific obj by ID
+app.get("/messages/:id", (req, res) => {
+  const requestedID = parseInt(req.params.id);
+  const dataAsObj = getConvertedDataFromJSON();
+
+  const dataByID = dataAsObj.find((element) => element.id === requestedID);
+
+  if (!dataByID) {
+    return res
+      .status(404)
+      .send(`Message with ID: ${requestedID} was not found`);
+  }
+
+  return res.status(200).send(dataByID);
+});
+
+// post a new obj to data.json
 app.post("/messages", (req, res) => {
   const { from, text } = req.body;
-  console.log(req.body);
 
   // Check if 'from' or 'text' properties are empty or missing
   if (!from && !text) {
@@ -63,72 +96,45 @@ app.post("/messages", (req, res) => {
     // ...req.body
   });
 
-  writeUpdateDatatoJsonFile(dataAsObj);
-  return res.status(201).redirect("/");
+  writeUpdateDataToJsonFile(dataAsObj);
+
+  return res.status(201).send(dataAsObj);
 });
 
-//change spesific obj by ID
+// change spesific obj by ID
 app.patch("/messages/:id", (req, res) => {
   const requestedID = parseInt(req.params.id);
   const newData = req.body;
-  const dataAsJson = getConvertedDataFromJSON();
+  const datAsObj = getConvertedDataFromJSON();
 
-  Object.assign(dataAsJson[requestedID], newData);
-  dataAsJson[requestedID].updatedAt = new Date();
-  writeUpdateDatatoJsonFile(dataAsJson);
+  Object.assign(datAsObj[requestedID], newData);
+  datAsObj[requestedID].updatedAt = new Date();
+  writeUpdateDataToJsonFile(datAsObj);
 
-  return res.status.redirect("/");
+  return res.status().send(datAsObj);
 });
 
-//delete spesific obj by ID
+// delete spesific obj by ID
 app.delete("/messages/:id", (req, res) => {
   const requestedID = parseInt(req.params.id);
   const dataAsObj = getConvertedDataFromJSON();
-  const indexOfObj = dataAsJson.findIndex((obj) => obj.id === requestedID);
+  const indexOfObj = dataAsObj.findIndex((obj) => obj.id === requestedID);
+  console.log(indexOfObj);
 
   if (indexOfObj >= 0) {
+    const deletedMessage = dataAsObj[indexOfObj];
     dataAsObj.splice(indexOfObj, 1);
-    writeUpdateDatatoJsonFile(dataAsObj);
-
-    return res.status(201).redirect("/");
+    writeUpdateDataToJsonFile(dataAsObj);
+    return res.status(201).send(deletedMessage);
   }
+
   if (indexOfObj < 0) {
-    return res.status(404).redirect("/");
-  }
-});
-
-//get a specific obj by ID
-app.get("/messages/:id", (req, res) => {
-  const requestedID = parseInt(req.params.id);
-  const dataAsObj = getConvertedDataFromJSON();
-
-  const dataByID = dataAsObj.find((element) => element.id === requestedID);
-
-  if (!dataByID) {
-    res.status(404).send(`Message with ID: ${requestedID} was not found`);
-  }
-  writeUpdateDatatoJsonFile(dataAsObj);
-  res.status(200).redirect("/");
-});
-
-//get obj whose text contains a given substring: `/messages/search?text=express`
-app.get("/messages/search", (req, res) => {
-  const searchWord = req.query.input;
-  const dataAsJson = getConvertedDataFromJSON();
-
-  const matchedWithInput = dataAsJson.filter((element) =>
-    element.text.toLowerCase().includes(searchWord)
-  );
-  if (!matchedWithInput) {
     return res
       .status(404)
-      .send(`We can't find a message which contains: ${searchWord}`);
+      .json({ error: `Message with id ${requestedID} does not exist` });
   }
-  return res.status(200).send(matchedWithInput);
 });
 
-// app.get("messages/lates", (req, res) => {
-//   for(let i = 10; i < )
-// })
-
-app.listen(process.env.PORT);
+app.listen(port, () => {
+  console.log(`Server listening on Port ${port}`);
+});
